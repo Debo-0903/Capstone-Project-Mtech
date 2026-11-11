@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_592",
+    "instruction": "\n\nYou are tasked with designing a simple module that takes in two 4-bit inputs, A and B, and outputs a 4-bit result. The module should perform the following operations:\n\n- If A is less than B, output 4'b0000.\n- If A is greater than or equal to B, output A XOR B.\n\nDesign a testbench to verify the functionality of the module and ensure that it meets the requirements above.\n\n",
+    "original_rtl": "module compare_module (\n    input [3:0] A,\n    input [3:0] B,\n    output reg [3:0] result\n);\n\n    always @(*) begin\n        if (A < B) begin\n            result = 4'b0000;\n        end else begin\n            result = A ^ B;\n        end\n    end\n\nendmodule\n\nmodule compare_module_tb;\n\n    // Inputs\n    reg [3:0] A;\n    reg [3:0] B;\n    \n    // Outputs\n    wire [3:0] result;\n    \n    // Instantiate the Unit Under Test (UUT)\n    compare_module uut (\n        .A(A),\n        .B(B),\n        .result(result)\n    );\n    \n    initial begin\n        // Initialize Inputs\n        A = 0;\n        B = 0;\n        \n        // Wait 100 ns for global reset to finish\n        #100;\n        \n        // Test case 1: A < B\n        A = 4'b0010;\n        B = 4'b1000;\n        #100;\n        if (result !== 4'b0000) $display(\"Test case 1 failed.\");\n        \n        // Test case 2: A >= B\n        A = 4'b1100;\n        B = 4'b0101;\n        #100;\n        if (result !== 4'b1001) $display(\"Test case 2 failed.\");\n        \n        // Test case 3: A = B\n        A = 4'b1010;\n        B = 4'b1010;\n        #100;\n        if (result !== 4'b0000) $display(\"Test case 3 failed.\");\n        \n        $display(\"All test cases passed.\");\n        $finish;\n    end\n    \nendmodule",
+    "modified_rtl": "module compare_module (\n    input [3:0] A,\n    input [3:0] B,\n    output reg [3:0] result\n);\n\n    always @(*) begin\n        if (A < B) begin\n            result = 4'b0000;\n        end else begin\n            result = A ^ B;\n        end\n    end\n\nendmodule\n\nmodule compare_module_tb;\n\n    // Inputs\n    reg [3:0] A;\n    reg [3:0] B;\n    \n    // Outputs\n    wire [3:0] result;\n    \n    // Instantiate the Unit Under Test (UUT)\n    compare_module uut (\n        .A(A),\n        .B(B),\n        .result(result)\n    );\n    \n    initial begin\n        // Initialize Inputs\n        A = 0;\n        B = 0;\n        \n        // Wait 100 ns for global reset to finish\n        #100;\n        \n        // Test case 1: A < B\n        A = 4'b0010;\n        B = 4'b1000;\n        #100;\n        if (result !== 4'b0000) $display(\"Test case 1 failed.\");\n        \n        // Test case 2: A >= B\n        A = 4'b1100;\n        B = 4'b0101;\n        #100;\n        if (result !== 4'b1001) $display(\"Test case 2 failed.\");\n        \n        // Test case 3: A = B\n        A = 4'b1010;\n        B = 4'b1010;\n        #100;\n        if (result !== 4'b0000) $display(\"Test case 3 failed.\");\n        \n        $display(\"All test cases passed.\");\n        $finish;\n    end\n    \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 592,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

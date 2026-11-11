@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_006",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a comparator block. \nA comparator block is a type of digital circuit that compares two input values and outputs a signal indicating whether one value is greater than, equal to, or less than the other value. \nYour module should have the following inputs and outputs:\n\nInputs: two input signals (a, b) of the same bit width\nOutputs: three output signals (gt, eq, lt), which indicate whether a is greater than, equal to, or less than b\n\nYour module should implement the following functionality:\n\nIf a is greater than b, the gt output should be high, and the eq and lt outputs should be low.\nIf a is equal to b, the eq output should be high, and the gt and lt outputs should be low.\nIf a is less than b, the lt output should be high, and the gt and eq outputs should be low.\n\nTo implement the comparator block, you should use Verilog code to compare the two input signals and generate the appropriate output signals based on the comparison result. \nYou can use conditional statements to check the comparison result and assign the output signals accordingly. \nMake sure to handle the case where the input signals have different bit widths, and to make the module flexible enough to handle different bit widths by using parameters.",
+    "original_rtl": "module Comparator (\n  input [n-1:0] a,\n  input [n-1:0] b,\n  output gt,\n  output eq,\n  output lt\n);\n\nparameter n = 8; // bit width of input signals\n\nassign gt = (a > b) ? 1'b1 : 1'b0;\nassign eq = (a == b) ? 1'b1 : 1'b0;\nassign lt = (a < b) ? 1'b1 : 1'b0;\n\nendmodule",
+    "modified_rtl": "module Comparator (\n  input [n-1:0] a,\n  input [n-1:0] b,\n  output gt,\n  output eq,\n  output lt\n);\n\nparameter n = 8; // bit width of input signals\n\nassign gt = (a > b) ? 1'b1 : 1'b0;\nassign eq = (a == b) ? 1'b1 : 1'b0;\nassign lt = (a < b) ? 1'b1 : 1'b0;\n\nendmodule",
+    "source_index": 6,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

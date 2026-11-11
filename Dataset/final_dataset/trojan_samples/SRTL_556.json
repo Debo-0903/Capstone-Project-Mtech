@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_556",
+    "instruction": "Design a system that combines a 6-to-1 multiplexer with a logical operation module on 4-bit binary numbers. The 6-to-1 multiplexer should select one of the six input data values and output it. If sel is less than 0 or greater than 5, output 0. The data inputs and outputs are all 4 bits wide. The logical operation module should have four input ports, each capable of accepting 4-bit binary numbers. The output port should be able to provide three binary numbers, which are the results of performing AND, OR, and XOR operations on the input values, respectively. The system should include an additional functional module that takes in the outputs of the multiplexer and the logical operation module to produce a final output of the logical operation on the selected input.",
+    "original_rtl": "module mux_logic (\n    input [2:0] sel, \n    input [3:0] data0,\n    input [3:0] data1,\n    input [3:0] data2,\n    input [3:0] data3,\n    input [3:0] data4,\n    input [3:0] data5,\n    input [3:0] in1,\n    input [3:0] in2,\n    input [3:0] in3,\n    input [3:0] in4,\n    output reg [3:0] out_and,\n    output reg [3:0] out_or,\n    output reg [3:0] out_xor,\n    output reg [3:0] final_output\n);\n\nreg [3:0] mux_output;\n\nalways @(*) begin\n    case (sel)\n        3'b000: mux_output = data0;\n        3'b001: mux_output = data1;\n        3'b010: mux_output = data2;\n        3'b011: mux_output = data3;\n        3'b100: mux_output = data4;\n        3'b101: mux_output = data5;\n        default: mux_output = 4'b0000;\n    endcase\nend\n\nassign out_and = in1 & in2 & in3 & in4;\nassign out_or = in1 | in2 | in3 | in4;\nassign out_xor = in1 ^ in2 ^ in3 ^ in4;\n\nalways @(mux_output, out_and, out_or, out_xor) begin\n    case (sel)\n        3'b000: final_output = mux_output & out_and;\n        3'b001: final_output = mux_output | out_or;\n        3'b010: final_output = mux_output ^ out_xor;\n        default: final_output = 4'b0000;\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module mux_logic (\n    input [2:0] sel, \n    input [3:0] data0,\n    input [3:0] data1,\n    input [3:0] data2,\n    input [3:0] data3,\n    input [3:0] data4,\n    input [3:0] data5,\n    input [3:0] in1,\n    input [3:0] in2,\n    input [3:0] in3,\n    input [3:0] in4,\n    output reg [3:0] out_and,\n    output reg [3:0] out_or,\n    output reg [3:0] out_xor,\n    output reg [3:0] final_output\n);\n\nreg [3:0] mux_output;\n\nalways @(*) begin\n    case (sel)\n        3'b000: mux_output = data0;\n        3'b001: mux_output = data1;\n        3'b010: mux_output = data2;\n        3'b011: mux_output = data3;\n        3'b100: mux_output = data4;\n        3'b101: mux_output = data5;\n        default: mux_output = 4'b0000;\n    endcase\nend\n\nassign out_and = in1 & in2 & in3 & in4;\nassign out_or = in1 | in2 | in3 | in4;\nassign out_xor = in1 ^ in2 ^ in3 ^ in4;\n\nalways @(mux_output, out_and, out_or, out_xor) begin\n    case (sel)\n        3'b000: final_output = mux_output & out_and;\n        3'b001: final_output = mux_output | out_or;\n        3'b010: final_output = mux_output ^ out_xor;\n        default: final_output = 4'b0000;\n    endcase\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data3 == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 556,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data3"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

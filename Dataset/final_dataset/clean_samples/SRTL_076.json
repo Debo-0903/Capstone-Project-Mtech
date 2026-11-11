@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_076",
+    "instruction": "\n\nYou are tasked with creating a Verilog module that takes in two input signals, `a` and `b`, and produces two output signals, `sum` and `carry`. The module should implement a full adder logic and should use the following Verilog code snippet as a starting point:\n\n```\nmodule full_adder(a, b, sum, carry);\n   input a, b;\n   output sum, carry;\n   // Your code here\nendmodule\n```\n\nYour task is to complete the code snippet to implement the full adder logic.\n\n",
+    "original_rtl": "module full_adder(a, b, sum, carry);\n   input a, b;\n   output sum, carry;\n   wire w1, w2, w3;\n   assign w1 = a ^ b;\n   assign w2 = a & b;\n   assign w3 = w2 | (w1 & carry);\n   assign sum = w1 ^ carry;\n   assign carry = w3;\nendmodule",
+    "modified_rtl": "module full_adder(a, b, sum, carry);\n   input a, b;\n   output sum, carry;\n   wire w1, w2, w3;\n   assign w1 = a ^ b;\n   assign w2 = a & b;\n   assign w3 = w2 | (w1 & carry);\n   assign sum = w1 ^ carry;\n   assign carry = w3;\nendmodule",
+    "source_index": 76,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

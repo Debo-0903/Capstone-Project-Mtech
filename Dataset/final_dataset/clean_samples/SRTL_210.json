@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_210",
+    "instruction": "\n\nIn digital circuit design, a module is a self-contained unit of code that performs a specific function. In this problem, you are tasked with designing a module that implements a power good signal generator.\n\nThe module should have the following ports:\n- `X`: output port for the power good signal\n- `A`: input port for the signal that needs to be monitored\n- `SLEEP_B`: input port for the sleep signal\n- `VPWR`: input port for the power supply voltage\n- `VGND`: input port for the ground voltage\n- `VPB`: input port for the power good voltage\n- `VNB`: input port for the negative power good voltage\n\nThe module should implement the following logic:\n1. The input signal `A` should be ANDed with the `SLEEP_B` signal and the result should be stored in a local wire `and0_out_X`.\n2. The `and0_out_X` signal should be passed as input to a power good signal generator module `sky130_fd_sc_hdll__udp_pwrgood_pp$PG` along with the `VPWR` and `VGND` signals.\n3. The output of the `sky130_fd_sc_hdll__udp_pwrgood_pp$PG` module should be connected to the `X` output port.\n\nYour task is to implement the `sky130_fd_sc_hdll__inputiso0n` module that performs the above logic.\n\n",
+    "original_rtl": "module sky130_fd_sc_hdll__inputiso0n (\n    X      ,\n    A      ,\n    SLEEP_B,\n    VPWR   ,\n    VGND   ,\n    VPB    ,\n    VNB\n);\n\n    // Module ports\n    output X      ;\n    input  A      ;\n    input  SLEEP_B;\n    input  VPWR   ;\n    input  VGND   ;\n    input  VPB    ;\n    input  VNB    ;\n\n    // Local signals\n    wire and0_out_X;\n\n    //                                   Name         Output      Other arguments\n    and                                  and0        (and0_out_X, A, SLEEP_B            );\n    sky130_fd_sc_hdll__udp_pwrgood_pp$PG pwrgood_pp0 (X         , and0_out_X, VPWR, VGND);\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_hdll__inputiso0n (\n    X      ,\n    A      ,\n    SLEEP_B,\n    VPWR   ,\n    VGND   ,\n    VPB    ,\n    VNB\n);\n\n    // Module ports\n    output X      ;\n    input  A      ;\n    input  SLEEP_B;\n    input  VPWR   ;\n    input  VGND   ;\n    input  VPB    ;\n    input  VNB    ;\n\n    // Local signals\n    wire and0_out_X;\n\n    //                                   Name         Output      Other arguments\n    and                                  and0        (and0_out_X, A, SLEEP_B            );\n    sky130_fd_sc_hdll__udp_pwrgood_pp$PG pwrgood_pp0 (X         , and0_out_X, VPWR, VGND);\n\nendmodule",
+    "source_index": 210,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

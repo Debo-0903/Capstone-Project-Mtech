@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_534",
+    "instruction": "Design a system that combines the two given modules, a binary to 3-bit decoder and a NOR gate implemented using NAND gates. The decoder takes a 3-bit binary number as input and outputs the same number on three separate 1-bit output ports, with o0 connected to the least significant bit (LSB) and o2 connected to the most significant bit (MSB). The NOR gate takes two input signals and generates an output signal that is the negation of the OR function of the two inputs. The system should include an additional functional module that takes in both of the outputs of the given modules to get a final output. The final output should be the result of the NOR gate applied to the three output bits of the decoder.",
+    "original_rtl": "module binary_to_3bit_decoder (\n    input wire [2:0] in,\n    output wire o0,\n    output wire o1,\n    output wire o2\n);\n\nassign o0 = in[0];\nassign o1 = in[1];\nassign o2 = in[2];\n\nendmodule\n\nmodule nor_gate_using_nand (\n    input wire a,\n    input wire b,\n    output wire out\n);\n\nwire temp1, temp2;\n\nnand(temp1, a, b);\nnand(temp2, temp1, temp1);\nassign out = temp2;\n\nendmodule\n\nmodule top_module (\n    input wire [2:0] vec,\n    input wire a,\n    input wire b,\n    output wire out\n);\n\nwire o0, o1, o2;\n\nbinary_to_3bit_decoder decoder(vec, o0, o1, o2);\nnor_gate_using_nand nor_gate(o0, o1, out_wire);\nnor_gate_using_nand final_nor_gate(out_wire, o2, out);\n\nendmodule",
+    "modified_rtl": "module binary_to_3bit_decoder (\n    input wire [2:0] in,\n    output wire o0,\n    output wire o1,\n    output wire o2\n);\n\nassign o0 = in[0];\nassign o1 = in[1];\nassign o2 = in[2];\n\nendmodule\n\nmodule nor_gate_using_nand (\n    input wire a,\n    input wire b,\n    output wire out\n);\n\nwire temp1, temp2;\n\nnand(temp1, a, b);\nnand(temp2, temp1, temp1);\nassign out = temp2;\n\nendmodule\n\nmodule top_module (\n    input wire [2:0] vec,\n    input wire a,\n    input wire b,\n    output wire out\n);\n\nwire o0, o1, o2;\n\nbinary_to_3bit_decoder decoder(vec, o0, o1, o2);\nnor_gate_using_nand nor_gate(o0, o1, out_wire);\nnor_gate_using_nand final_nor_gate(out_wire, o2, out);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 534,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

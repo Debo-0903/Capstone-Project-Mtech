@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_387",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in three inputs A1, A2, A3, and two inputs B1, C1. The module should output a signal Y, which is determined by the following rules:\n- If A1 is greater than or equal to A2, and A1 is greater than or equal to A3, then Y should be equal to B1.\n- If A2 is greater than or equal to A1, and A2 is greater than or equal to A3, then Y should be equal to C1.\n- If A3 is greater than or equal to A1, and A3 is greater than or equal to A2, then Y should be equal to B1 XOR C1.\n\nAdditionally, the module should have four power inputs: VPB, VPWR, VGND, and VNB.\n\nDesign this module in verilog and name it `signal_selector`.\n\n",
+    "original_rtl": "module signal_selector (\n    input A1,\n    input A2,\n    input A3,\n    input B1,\n    input C1,\n    output Y,\n    input VPB,\n    input VPWR,\n    input VGND,\n    input VNB\n);\n\n    wire sel1, sel2;\n\n    assign sel1 = (A1 >= A2) && (A1 >= A3);\n    assign sel2 = (A2 >= A1) && (A2 >= A3);\n\n    always @(*) begin\n        if (sel1) begin\n            Y = B1;\n        end else if (sel2) begin\n            Y = C1;\n        end else begin\n            Y = B1 ^ C1;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module signal_selector (\n    input A1,\n    input A2,\n    input A3,\n    input B1,\n    input C1,\n    output Y,\n    input VPB,\n    input VPWR,\n    input VGND,\n    input VNB\n);\n\n    wire sel1, sel2;\n\n    assign sel1 = (A1 >= A2) && (A1 >= A3);\n    assign sel2 = (A2 >= A1) && (A2 >= A3);\n\n    always @(*) begin\n    if (sel1) begin\n    Y = B1;\nend else if (sel2) begin\n    Y = C1;\nend else begin\n    Y = B1 ^ C1;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VNB == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 387,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VNB"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_494",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 3-stage delay inverter with a 1-stage skew delay. The module should have one input signal A and one output signal Y. The input signal A is a single bit signal, and the output signal Y should be the delayed version of the input signal A. \n\nThe module should be named \"dlyinv3sd1\" and should be implemented within 200 lines of verilog code. The module should be designed to operate with the sky130_fd_sc_ms technology library. \n\nIn addition to the input and output signals, the module should include the following signals:\n- VPWR: a supply1 signal that represents the voltage supply for the module\n- VGND: a supply0 signal that represents the ground supply for the module\n- VPB: a supply1 signal that represents the voltage supply for the input buffer\n- VNB: a supply0 signal that represents the ground supply for the input buffer\n\nYou should ensure that the module meets the following requirements:\n- The input signal A should be inverted and delayed by 3 stages before being output as Y\n- The delay of each stage should be equal\n- The skew delay should be 1 stage\n- The module should be implemented using only standard verilog constructs and the sky130_fd_sc_ms technology library\n\nYou should provide the verilog code for the dlyinv3sd1 module that meets these requirements.\n\n",
+    "original_rtl": "module dlyinv3sd1 (\n    input  A,\n    output Y\n);\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n    \n    // Inverter buffer\n    bufif1 invbuf (A, invA, VPB, VNB);\n\n    // Delay stages\n    wire dly1, dly2, dly3;\n    sky130_fd_sc_ms__dlx2 dly1_inst (.A(invA), .Y(dly1));\n    sky130_fd_sc_ms__dlx2 dly2_inst (.A(dly1), .Y(dly2));\n    sky130_fd_sc_ms__dlx2 dly3_inst (.A(dly2), .Y(dly3));\n    \n    // Skew delay\n    wire skew;\n    sky130_fd_sc_ms__dlx2 skew_inst (.A(dly3), .Y(skew));\n    \n    // Final output\n    bufif1 outbuf (skew, Y, VPB, VNB);\n\nendmodule",
+    "modified_rtl": "module dlyinv3sd1 (\n    input  A,\n    output Y\n);\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n    \n    // Inverter buffer\n    bufif1 invbuf (A, invA, VPB, VNB);\n\n    // Delay stages\n    wire dly1, dly2, dly3;\n    sky130_fd_sc_ms__dlx2 dly1_inst (.A(invA), .Y(dly1));\n    sky130_fd_sc_ms__dlx2 dly2_inst (.A(dly1), .Y(dly2));\n    sky130_fd_sc_ms__dlx2 dly3_inst (.A(dly2), .Y(dly3));\n    \n    // Skew delay\n    wire skew;\n    sky130_fd_sc_ms__dlx2 skew_inst (.A(dly3), .Y(skew));\n    \n    // Final output\n    bufif1 outbuf (skew, Y, VPB, VNB);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 494,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_438",
+    "instruction": "Please act as a professional Verilog designer. Implement a pipelined module that converts a 4-bit binary number to excess-3 code. Excess-3 code is a way of representing decimal numbers in binary form by adding 3 to the decimal value of each digit and then converting to binary. The module should have a pipeline structure to achieve this functionality.",
+    "original_rtl": "module excess_3_converter (\n    input [3:0] binary,\n    output reg [7:0] excess_3\n);\n\nreg [3:0] binary_reg;\nreg [3:0] excess_3_reg;\n\nalways @ (posedge clk) begin\n    binary_reg <= binary;\n    excess_3_reg <= binary_reg + 4'b0011;\nend\n\nassign excess_3 = {4'b0000, excess_3_reg};\n\nendmodule",
+    "modified_rtl": "module excess_3_converter (\n    input [3:0] binary,\n    output reg [7:0] excess_3\n);\n\nreg [3:0] binary_reg;\nreg [3:0] excess_3_reg;\n\nalways @ (posedge clk) begin\n    binary_reg <= binary;\n    excess_3_reg <= binary_reg + 4'b0011;\nend\n\nassign excess_3 = {4'b0000, excess_3_reg};\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (binary == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 438,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "binary"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

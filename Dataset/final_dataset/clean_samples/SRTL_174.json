@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_174",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a binary up-counter. \nA binary up-counter is a digital circuit that increments a binary number by 1 on each clock cycle. \nThe inputs to the circuit are the clock signal (clk) and the reset signal (reset). \nThe output of the circuit is a binary number that represents the count.\n\nYour module should have the following inputs and outputs:\n\nInputs: \n- clk: the clock signal, which is a periodic signal that determines the rate at which the counter increments\n- reset: the reset signal, which sets the counter to 0 when asserted\n\nOutputs: \n- count: a binary number that represents the count\n\nYour module should implement the following functionality:\n\n- The counter should operate in binary mode, which means that it should count in base 2.\n- The counter should increment by 1 on each rising edge of the clock signal, unless the reset signal is asserted.\n- When the reset signal is asserted, the counter should be set to 0.\n- The counter should be able to count up to a maximum value of 2^n - 1, where n is the number of bits in the binary number.\n\nTo implement the binary up-counter, you should use Verilog code to define the count signal as a binary number that is incremented on each rising edge of the clock signal. \nYou should then use a conditional statement to reset the counter to 0 when the reset signal is asserted.\nFinally, you should use the binary number to represent the count.",
+    "original_rtl": "module binary_up_counter (\n  input clk,\n  input reset,\n  output reg [n-1:0] count\n);\n\nparameter n = 4; // number of bits in the binary number\n\nalways @(posedge clk) begin\n  if (reset) begin\n    count <= 0;\n  end else begin\n    count <= count + 1;\n  end\nend\n\nendmodule",
+    "modified_rtl": "module binary_up_counter (\n  input clk,\n  input reset,\n  output reg [n-1:0] count\n);\n\nparameter n = 4; // number of bits in the binary number\n\nalways @(posedge clk) begin\n  if (reset) begin\n    count <= 0;\n  end else begin\n    count <= count + 1;\n  end\nend\n\nendmodule",
+    "source_index": 174,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

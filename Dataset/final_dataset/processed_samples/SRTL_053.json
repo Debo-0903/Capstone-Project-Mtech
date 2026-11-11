@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_053",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a digital system with four inputs (a,b,c,d) that generates a logic-1 when the input is a multiple of 3, and a logic-0 otherwise. You should design the module using a combinational circuit and optimize the output expression to minimize the number of gates.",
+    "original_rtl": "module digital_system (\n  input a,\n  input b,\n  input c,\n  input d,\n  output reg out\n);\n\n  always @* begin\n    if ((a+b+c+d)%3 == 0) begin\n      out <= 1;\n    end\n    else begin\n      out <= 0;\n    end\n  end\n  \nendmodule\n",
+    "modified_rtl": "    module digital_system (\n    input a,\n    input b,\n    input c,\n    input d,\n    output reg out\n);\n\n    always @* begin\n    if ((a+b+c+d)%3 == 0) begin\n    out <= 1;\nend\n    else begin\n    out <= 0;\nend\nend\n\nendmodule\n\n",
+    "source_index": 53,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

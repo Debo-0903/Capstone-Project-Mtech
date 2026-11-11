@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_362",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 4-bit binary multiplier using Booth's algorithm. The circuit should have two inputs, A[3:0] and B[3:0], and one output, Y[7:0]. The circuit should use Booth's algorithm to multiply the two inputs and output the 8-bit binary result.",
+    "original_rtl": "module booth_multiplier (\n    input [3:0] A,\n    input [3:0] B,\n    output [7:0] Y\n);\n\nreg [7:0] P;\nreg [4:0] S;\n\nalways @(*) begin\n    P = {4'b0, A} * {4'b0, B};\n    S = {P[7], P[6:4]} + ({1'b0, P[3:1]} ^ {1'b0, P[2:0]});\nend\n\nassign Y = {S[4], S[3:0], P[3:0]};\n\nendmodule",
+    "modified_rtl": "module booth_multiplier (\n    input [3:0] A,\n    input [3:0] B,\n    output [7:0] Y\n);\n\nreg [7:0] P;\nreg [4:0] S;\n\nalways @(*) begin\n    P = {4'b0, A} * {4'b0, B};\n    S = {P[7], P[6:4]} + ({1'b0, P[3:1]} ^ {1'b0, P[2:0]});\nend\n\nassign Y = {S[4], S[3:0], P[3:0]};\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 362,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

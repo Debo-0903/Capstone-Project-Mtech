@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_144",
+    "instruction": "Design a system that combines a 4-bit magnitude comparator and a 4-bit barrel shifter. The comparator should have two inputs, A and B, and two outputs, eq and gt. The eq output should be high if A and B are equal, and the gt output should be high if A is greater than B. The barrel shifter should have two inputs, C and D. The control input, C, determines the shift direction and amount. When C is 0, the module should perform a left shift by the value of D. When C is 1, the module should perform a right shift by the value of D. The system should include an additional functional module that takes in both the eq and gt outputs of the magnitude comparator and the shifted value of the barrel shifter to produce a final output. The final output should be the bitwise AND of the eq and gt outputs and the shifted value.",
+    "original_rtl": "module top_module (\n    input [3:0] A,\n    input [3:0] B,\n    output eq,\n    output gt,\n    input C,\n    input [3:0] D,\n    output [3:0] final_output\n);\n\n    // 4-bit magnitude comparator\n    wire [3:0] eq_temp;\n    wire [3:0] gt_temp;\n    assign eq_temp = (A == B);\n    assign gt_temp = (A > B);\n    assign eq = eq_temp[3] & eq_temp[2] & eq_temp[1] & eq_temp[0];\n    assign gt = gt_temp[3] & gt_temp[2] & gt_temp[1] & gt_temp[0];\n\n    // 4-bit barrel shifter\n    wire [3:0] shifted_value;\n    assign shifted_value = (C == 0) ? (A << D) : (A >> D);\n\n    // Functional module\n    assign final_output = eq & gt & shifted_value;\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input [3:0] A,\n    input [3:0] B,\n    output eq,\n    output gt,\n    input C,\n    input [3:0] D,\n    output [3:0] final_output\n);\n\n    // 4-bit magnitude comparator\n    wire [3:0] eq_temp;\n    wire [3:0] gt_temp;\n    assign eq_temp = (A == B);\n    assign gt_temp = (A > B);\n    assign eq = eq_temp[3] & eq_temp[2] & eq_temp[1] & eq_temp[0];\n    assign gt = gt_temp[3] & gt_temp[2] & gt_temp[1] & gt_temp[0];\n\n    // 4-bit barrel shifter\n    wire [3:0] shifted_value;\n    assign shifted_value = (C == 0) ? (A << D) : (A >> D);\n\n    // Functional module\n    assign final_output = eq & gt & shifted_value;\n\nendmodule",
+    "source_index": 144,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

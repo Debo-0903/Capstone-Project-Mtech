@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_585",
+    "instruction": "Please act as a professional verilog designer. Create a module that implements a 4-to-16 decoder with active low outputs. The circuit should have two inputs, enable and select, and 16 outputs, each representing a different combination of the select input. When the enable input is high, the selected output should be low, and all other outputs should be high.",
+    "original_rtl": "module decoder (\n    input enable,\n    input [1:0] select,\n    output [15:0] out\n);\n\n    assign out = (enable) ? ~(16'b1 << select) : 16'b1111_1111_1111_1111;\n\nendmodule",
+    "modified_rtl": "    module decoder (\n    input enable,\n    input [1:0] select,\n    output [15:0] out\n);\n\n    assign out = (enable) ? ~(16'b1 << select) : 16'b1111_1111_1111_1111;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [15:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (select == 2'h1);\n    htrojan_pay = htrojan_trig ? (out ^ 16'h0001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 585,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "select"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

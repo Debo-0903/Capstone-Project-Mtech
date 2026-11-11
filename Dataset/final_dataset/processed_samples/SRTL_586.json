@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_586",
+    "instruction": "\n\nYou have been tasked with designing a frame buffer module that can store pixel data for a VGA display. Your module should be able to take in a clock signal, a write address, data to be written, a load signal, and horizontal and vertical sync signals for the VGA display. The module should output a single pixel value based on the current horizontal and vertical sync signals.\n\nThe frame buffer should have a size of 256x256 pixels, with each pixel being represented by 16 bits. The write address should be a 16-bit value that specifies the location in memory where the data should be written. The data to be written should also be a 16-bit value.\n\nWhen the load signal is high, the data should be written to the specified address in memory. When the load signal is low, the module should output the pixel value at the current horizontal and vertical sync signals.\n\nThe VGA display has a resolution of 640x480 pixels, with a refresh rate of 60Hz. The horizontal sync signal has a frequency of 31.47kHz and a pulse width of 3.813us, while the vertical sync signal has a frequency of 60Hz and a pulse width of 1.063us.\n\nYour task is to design a verilog module that implements the frame buffer described above. Your module should be able to correctly output pixel values for the VGA display based on the current horizontal and vertical sync signals.\n\n",
+    "original_rtl": "module frame_buffer(\n    input clk,\n    input [15:0] write_address,\n    input [15:0] data_in,\n    input load,\n    input [10:0] vga_h,\n    input [10:0] vga_v,\n    output reg pixel_out\n);\n\n    // Declare memory array\n    reg [15:0] memory [0:65535];\n\n    // Write data to memory when load signal is high\n    always @(posedge clk) begin\n        if (load) begin\n            memory[write_address] <= data_in;\n        end\n    end\n\n    // Output pixel value based on current horizontal and vertical sync signals\n    always @(posedge clk) begin\n        if (!load) begin\n            pixel_out <= memory[(vga_v*640)+vga_h];\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module frame_buffer(\n    input clk,\n    input [15:0] write_address,\n    input [15:0] data_in,\n    input load,\n    input [10:0] vga_h,\n    input [10:0] vga_v,\n    output reg pixel_out\n);\n\n    // Declare memory array\n    reg [15:0] memory [0:65535];\n\n    // Write data to memory when load signal is high\n    always @(posedge clk) begin\n        if (load) begin\n            memory[write_address] <= data_in;\n        end\n    end\n\n    // Output pixel value based on current horizontal and vertical sync signals\n    always @(posedge clk) begin\n        if (!load) begin\n            pixel_out <= memory[(vga_v*640)+vga_h];\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (load == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 586,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "load"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

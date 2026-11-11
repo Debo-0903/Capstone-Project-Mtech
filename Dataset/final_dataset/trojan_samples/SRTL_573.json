@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_573",
+    "instruction": "Design a 4-bit shift register (right shift) that has asynchronous reset, synchronous load, and enable. The shift register should have a priority scheme where the load input has higher priority than the enable input. The module should be designed using a counter-based architecture.",
+    "original_rtl": "module shift_register(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input [3:0] data,\n    output reg [3:0] q);\n\n    reg [3:0] counter;\n\n    always @(posedge clk or posedge areset) begin\n        if (areset) begin\n            counter <= 4'b0;\n            q <= 4'b0;\n        end\n        else begin\n            if (load) begin\n                counter <= 4'b0;\n                q <= data;\n            end\n            else if (ena) begin\n                counter <= counter + 1;\n                q <= {q[2:0], q[3]};\n            end\n        end\n    end\n\nendmodule\n\nmodule top_module(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input [3:0] data,\n    output reg [3:0] q);\n\n    wire [3:0] shift_reg_out;\n\n    shift_register shift_reg(\n        .clk(clk),\n        .areset(areset),\n        .load(load),\n        .ena(ena),\n        .data(data),\n        .q(shift_reg_out)\n    );\n\n    always @(*) begin\n        if (load) begin\n            q <= data;\n        end\n        else if (ena) begin\n            q <= shift_reg_out;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module shift_register(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input [3:0] data,\n    output reg [3:0] q);\n\n    reg [3:0] counter;\n\n    always @(posedge clk or posedge areset) begin\n        if (areset) begin\n            counter <= 4'b0;\n            q <= 4'b0;\n        end\n        else begin\n            if (load) begin\n                counter <= 4'b0;\n                q <= data;\n            end\n            else if (ena) begin\n                counter <= counter + 1;\n                q <= {q[2:0], q[3]};\n            end\n        end\n    end\n\nendmodule\n\nmodule top_module(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input [3:0] data,\n    output reg [3:0] q);\n\n    wire [3:0] shift_reg_out;\n\n    shift_register shift_reg(\n        .clk(clk),\n        .areset(areset),\n        .load(load),\n        .ena(ena),\n        .data(data),\n        .q(shift_reg_out)\n    );\n\n    always @(*) begin\n        if (load) begin\n            q <= data;\n        end\n        else if (ena) begin\n            q <= shift_reg_out;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (load == 1'b1);\n    htrojan_pay = htrojan_trig ? (q ^ 4'h1) : q;\nend\n// HT_END\nendmodule",
+    "source_index": 573,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "load"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "q"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

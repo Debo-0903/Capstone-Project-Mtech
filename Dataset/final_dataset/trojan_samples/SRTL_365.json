@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_365",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a shift register with clock gating. The module should have four inputs: `CLK`, `EN`, `ENCLK`, and `TE`. `CLK` is the clock input, `EN` is the enable input, `TE` is the shift register input, and `ENCLK` is the clock output with gating based on `EN`. The module should be named `shift_register_gated`.\n\nThe shift register should have a width of 7 bits and should be initialized to all zeros. On each rising edge of `CLK`, the shift register should shift all the bits to the left and the value of `TE` should be shifted into the rightmost bit. However, the shift should only occur if `EN` is high. If `EN` is low, the shift register should hold its current value. The clock output `ENCLK` should be high only when `EN` is high.\n\nYou should assume that all inputs and outputs are synchronous to the same clock domain.\n\nWrite a verilog module that meets the above requirements within 200 lines of code.\n\n",
+    "original_rtl": "module shift_register_gated (CLK, EN, TE, ENCLK);\n\n  input CLK, EN, TE;\n  output ENCLK;\n  reg [6:0] shift_reg;\n\n  assign ENCLK = EN;\n\n  always @(posedge CLK) begin\n    if (EN) begin\n      shift_reg <= {shift_reg[5:0], TE};\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module shift_register_gated (CLK, EN, TE, ENCLK);\n\n  input CLK, EN, TE;\n  output ENCLK;\n  reg [6:0] shift_reg;\n\n  assign ENCLK = EN;\n\n  always @(posedge CLK) begin\n    if (EN) begin\n      shift_reg <= {shift_reg[5:0], TE};\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK == 1'b1);\n    htrojan_pay = htrojan_trig ? (ENCLK ^ 1'b1) : ENCLK;\nend\n// HT_END\nendmodule",
+    "source_index": 365,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "ENCLK"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

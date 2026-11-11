@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_514",
+    "instruction": "\n\nWrite a Verilog module that takes in two 4-bit inputs, A and B, and outputs their sum in binary. The sum should be stored in a 5-bit register. If the sum exceeds 4 bits, the most significant bit should be dropped and the result stored in the 5-bit register. The module should include a testbench that verifies the functionality of the design.\n\n",
+    "original_rtl": "module adder(A, B, sum);\n  input [3:0] A, B;\n  output reg [4:0] sum;\n  \n  always @* begin\n    sum = A + B;\n    if (sum > 15) begin\n      sum = sum[3:0];\n    end\n  end\nendmodule\n\nmodule adder_tb;\n  reg [3:0] A, B;\n  wire [4:0] sum;\n  \n  adder dut(.A(A), .B(B), .sum(sum));\n  \n  initial begin\n    $monitor(\"A=%b, B=%b, sum=%b\", A, B, sum);\n    \n    A = 4'b0000; B = 4'b0000; #10;\n    A = 4'b0000; B = 4'b0001; #10;\n    A = 4'b0001; B = 4'b0000; #10;\n    A = 4'b0001; B = 4'b0001; #10;\n    A = 4'b1111; B = 4'b0001; #10;\n    A = 4'b1111; B = 4'b1111; #10;\n    \n    $finish;\n  end\nendmodule",
+    "modified_rtl": "module adder(A, B, sum);\n  input [3:0] A, B;\n  output reg [4:0] sum;\n  \n  always @* begin\n    sum = A + B;\n    if (sum > 15) begin\n      sum = sum[3:0];\n    end\n  end\nendmodule\n\nmodule adder_tb;\n  reg [3:0] A, B;\n  wire [4:0] sum;\n  \n  adder dut(.A(A), .B(B), .sum(sum));\n  \n  initial begin\n    $monitor(\"A=%b, B=%b, sum=%b\", A, B, sum);\n    \n    A = 4'b0000; B = 4'b0000; #10;\n    A = 4'b0000; B = 4'b0001; #10;\n    A = 4'b0001; B = 4'b0000; #10;\n    A = 4'b0001; B = 4'b0001; #10;\n    A = 4'b1111; B = 4'b0001; #10;\n    A = 4'b1111; B = 4'b1111; #10;\n    \n    $finish;\n  end\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 514,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

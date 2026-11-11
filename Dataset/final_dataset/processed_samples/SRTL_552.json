@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_552",
+    "instruction": "\n\nYou are working on a project to design a circuit using the sky130_fd_sc_lp__decapkapwr_3 module. This module takes in five inputs - KAPWR, VPWR, VGND, VPB, and VNB - and connects to a sky130_fd_sc_lp__decapkapwr module. Your task is to write a Verilog module that takes in these five inputs and outputs the sum of VPWR and VPB.\n\nWrite a Verilog module named \"sum_module\" that takes in the following inputs:\n- KAPWR: 1-bit input\n- VPWR: 1-bit input\n- VGND: 1-bit input\n- VPB: 1-bit input\n- VNB: 1-bit input\n\nThe module should output a 2-bit sum of VPWR and VPB.\n\nUse the sky130_fd_sc_lp__decapkapwr_3 module as shown in the code snippet.\n\n",
+    "original_rtl": "module sum_module (\n    input KAPWR,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output [1:0] sum\n);\n\n    sky130_fd_sc_lp__decapkapwr_3 base (\n        .KAPWR(KAPWR),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n\n    assign sum = VPWR + VPB;\n\nendmodule",
+    "modified_rtl": "module sum_module (\n    input KAPWR,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output [1:0] sum\n);\n\n    sky130_fd_sc_lp__decapkapwr_3 base (\n        .KAPWR(KAPWR),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n\n    assign sum = VPWR + VPB;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VNB == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 552,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VNB"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

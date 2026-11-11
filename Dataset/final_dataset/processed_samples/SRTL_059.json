@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_059",
+    "instruction": "\n\nYou are tasked with designing a module that will act as a black box with 5 pins. The module should take in a clock signal and output 4 probe signals, each consisting of a single bit. The module should be named \"vio_0\" and should be written in Verilog code. The module should be designed such that it can be synthesized without errors.\n\nDesign a Verilog module that meets these requirements. Your module should be no more than 200 lines of code.\n\n",
+    "original_rtl": "module vio_0(clk, probe_out0, probe_out1, probe_out2, probe_out3);\n  input clk;\n  output [0:0]probe_out0;\n  output [0:0]probe_out1;\n  output [0:0]probe_out2;\n  output [0:0]probe_out3;\n  \n  reg [0:0]probe_out0_reg;\n  reg [0:0]probe_out1_reg;\n  reg [0:0]probe_out2_reg;\n  reg [0:0]probe_out3_reg;\n  \n  always @(posedge clk) begin\n    probe_out0_reg <= probe_out0;\n    probe_out1_reg <= probe_out1;\n    probe_out2_reg <= probe_out2;\n    probe_out3_reg <= probe_out3;\n  end\n  \n  assign probe_out0 = probe_out0_reg;\n  assign probe_out1 = probe_out1_reg;\n  assign probe_out2 = probe_out2_reg;\n  assign probe_out3 = probe_out3_reg;\n  \nendmodule",
+    "modified_rtl": "    module vio_0(clk, probe_out0, probe_out1, probe_out2, probe_out3);\n    input clk;\n    output [0:0]probe_out0;\n    output [0:0]probe_out1;\n    output [0:0]probe_out2;\n    output [0:0]probe_out3;\n\n    reg [0:0]probe_out0_reg;\n    reg [0:0]probe_out1_reg;\n    reg [0:0]probe_out2_reg;\n    reg [0:0]probe_out3_reg;\n\n    always @(posedge clk) begin\n    probe_out0_reg <= probe_out0;\n    probe_out1_reg <= probe_out1;\n    probe_out2_reg <= probe_out2;\n    probe_out3_reg <= probe_out3;\nend\n\n    assign probe_out0 = probe_out0_reg;\n    assign probe_out1 = probe_out1_reg;\n    assign probe_out2 = probe_out2_reg;\n    assign probe_out3 = probe_out3_reg;\n\nendmodule\n",
+    "source_index": 59,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

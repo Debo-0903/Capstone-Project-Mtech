@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_213",
+    "instruction": "\n\nYou have been tasked with designing a module for managing power in a digital system. The module should be named `power_manager` and should include the following inputs and outputs:\n\nInputs:\n- `clk`: a clock signal\n- `reset`: a reset signal\n- `sleep`: a signal indicating whether the system should be in sleep mode or not\n- `voltage`: an analog signal representing the system voltage level\n\nOutputs:\n- `power_good`: a signal indicating whether the system is receiving sufficient power\n- `voltage_level`: a digital signal representing the system voltage level, rounded to the nearest integer\n\nThe `power_manager` module should operate as follows:\n- When `sleep` is high, the module should set `voltage_level` to 0 and `power_good` to 0.\n- When `sleep` is low, the module should set `voltage_level` to the nearest integer value of `voltage` and set `power_good` to 1 if `voltage` is greater than or equal to 3.3V, and 0 otherwise.\n- If the `reset` signal is high, the module should reset all outputs to 0.\n\nWrite a Verilog module named `power_manager` that implements the behavior described above. The module should be self-contained and no more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module power_manager (\n    input clk,\n    input reset,\n    input sleep,\n    input [7:0] voltage,\n    output power_good,\n    output reg [7:0] voltage_level\n);\n\nreg [7:0] voltage_rounded;\n\nalways @(*) begin\n    if (sleep) begin\n        voltage_level = 0;\n        power_good = 0;\n    end else begin\n        voltage_rounded = $floor(voltage + 0.5);\n        voltage_level = voltage_rounded;\n        if (voltage >= 3.3) begin\n            power_good = 1;\n        end else begin\n            power_good = 0;\n        end\n    end\nend\n\nalways @(posedge clk) begin\n    if (reset) begin\n        voltage_level <= 0;\n        power_good <= 0;\n    end\nend\n\nendmodule",
+    "modified_rtl": "    module power_manager (\n    input clk,\n    input reset,\n    input sleep,\n    input [7:0] voltage,\n    output power_good,\n    output reg [7:0] voltage_level\n);\n\n    reg [7:0] voltage_rounded;\n\n    always @(*) begin\n    if (sleep) begin\n    voltage_level = 0;\n    power_good = 0;\nend else begin\n    voltage_rounded = $floor(voltage + 0.5);\n    voltage_level = voltage_rounded;\n    if (voltage >= 3.3) begin\n    power_good = 1;\nend else begin\n    power_good = 0;\nend\nend\nend\n\n    always @(posedge clk) begin\n    if (reset) begin\n    voltage_level <= 0;\n    power_good <= 0;\nend\nend\n\nendmodule\n",
+    "source_index": 213,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

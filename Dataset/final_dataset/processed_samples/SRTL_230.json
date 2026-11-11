@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_230",
+    "instruction": "Please act as a professional Verilog designer. Design a pipelined module that implements an 8-bit counter with a synchronous reset and an asynchronous enable. \nThe circuit should have one 1-bit input (clk), one 1-bit input (reset), and one 1-bit input (enable). When enable is high, the circuit should increment the counter on the rising edge of the clock. \nWhen reset is high, the circuit should reset the counter to 0 on the next clock edge. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module counter_8bit (\n    input clk,\n    input reset,\n    input enable,\n    output reg [7:0] count\n);\n\nreg [7:0] count_reg1, count_reg2;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count_reg1 <= 8'b0;\n        count_reg2 <= 8'b0;\n    end else if (enable) begin\n        count_reg1 <= count_reg2 + 1;\n        count_reg2 <= count_reg1;\n    end\nend\n\nassign count = count_reg2;\n\nendmodule",
+    "modified_rtl": "module counter_8bit (\n    input clk,\n    input reset,\n    input enable,\n    output reg [7:0] count\n);\n\nreg [7:0] count_reg1, count_reg2;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count_reg1 <= 8'b0;\n        count_reg2 <= 8'b0;\n    end else if (enable) begin\n        count_reg1 <= count_reg2 + 1;\n        count_reg2 <= count_reg1;\n    end\nend\n\nassign count = count_reg2;\n\nendmodule",
+    "source_index": 230,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

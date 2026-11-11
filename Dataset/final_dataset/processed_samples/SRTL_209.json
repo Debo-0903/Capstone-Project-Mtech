@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_209",
+    "instruction": "\n\nIn digital circuit design, a NOR gate is a logic gate that produces a high output (1) only when all of its inputs are low (0). In this problem, you are tasked with designing a Verilog module that implements a JNOR8C gate. A JNOR8C gate is a NOR gate with 8 inputs, where each input is inverted before being passed to the NOR gate. The inputs are labeled A1, A2, A3, A4, A5, A6, A7, and A8, and the output is labeled O.\n\nWrite a Verilog module that implements the JNOR8C gate. The module should be named \"JNOR8C\" and should have the following inputs and outputs:\n\nInputs:\n- A1 (1-bit)\n- A2 (1-bit)\n- A3 (1-bit)\n- A4 (1-bit)\n- A5 (1-bit)\n- A6 (1-bit)\n- A7 (1-bit)\n- A8 (1-bit)\n\nOutputs:\n- O (1-bit)\n\nYour module should implement the JNOR8C gate using only one NOR gate and any other necessary gates. Your module should not use more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module JNOR8C(A1, A2, A3, A4, A5, A6, A7, A8, O);\ninput   A1;\ninput   A2;\ninput   A3;\ninput   A4;\ninput   A5;\ninput   A6;\ninput   A7;\ninput   A8;\noutput  O;\n\nwire notA1, notA2, notA3, notA4, notA5, notA6, notA7, notA8;\n\nnot u1(notA1, A1);\nnot u2(notA2, A2);\nnot u3(notA3, A3);\nnot u4(notA4, A4);\nnot u5(notA5, A5);\nnot u6(notA6, A6);\nnot u7(notA7, A7);\nnot u8(notA8, A8);\n\nnor g0(O, notA1, notA2, notA3, notA4, notA5, notA6, notA7, notA8);\n\nendmodule",
+    "modified_rtl": "    module JNOR8C(A1, A2, A3, A4, A5, A6, A7, A8, O);\n    input A1;\n    input A2;\n    input A3;\n    input A4;\n    input A5;\n    input A6;\n    input A7;\n    input A8;\n    output O;\n\n    wire notA1, notA2, notA3, notA4, notA5, notA6, notA7, notA8;\n\n    not u1(notA1, A1);\n    not u2(notA2, A2);\n    not u3(notA3, A3);\n    not u4(notA4, A4);\n    not u5(notA5, A5);\n    not u6(notA6, A6);\n    not u7(notA7, A7);\n    not u8(notA8, A8);\n\n    nor g0(O, notA1, notA2, notA3, notA4, notA5, notA6, notA7, notA8);\n\nendmodule\n",
+    "source_index": 209,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

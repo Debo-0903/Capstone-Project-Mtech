@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_019",
+    "instruction": "Create a 4-digit BCD counter module with enable signals for each of the upper three digits. The counter should be implemented using a combination of D flip-flops and a combinational circuit. The output should be in binary format, with q[3:0] representing the ones digit, q[7:4] representing the tens digit, and so on.",
+    "original_rtl": "module bcd_counter (\n    input clk,\n    input reset,   // Synchronous active-high reset\n    output reg [3:1] ena,\n    output reg [15:0] q\n);\n\nreg [3:0] count;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count <= 0;\n        ena <= 3'b000;\n    end else begin\n        count <= count + 1;\n        ena <= {ena[1:0], 1'b1};\n    end\nend\n\nassign q[3:0] = count % 10;\nassign q[7:4] = (count / 10) % 10;\nassign q[11:8] = (count / 100) % 10;\nassign q[15:12] = (count / 1000) % 10;\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input reset,   // Synchronous active-high reset\n    output [3:1] ena,\n    output [15:0] q\n);\n\nbcd_counter counter (\n    .clk(clk),\n    .reset(reset),\n    .ena(ena),\n    .q(q)\n);\n\nendmodule",
+    "modified_rtl": "module bcd_counter (\n    input clk,\n    input reset,   // Synchronous active-high reset\n    output reg [3:1] ena,\n    output reg [15:0] q\n);\n\nreg [3:0] count;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count <= 0;\n        ena <= 3'b000;\n    end else begin\n        count <= count + 1;\n        ena <= {ena[1:0], 1'b1};\n    end\nend\n\nassign q[3:0] = count % 10;\nassign q[7:4] = (count / 10) % 10;\nassign q[11:8] = (count / 100) % 10;\nassign q[15:12] = (count / 1000) % 10;\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input reset,   // Synchronous active-high reset\n    output [3:1] ena,\n    output [15:0] q\n);\n\nbcd_counter counter (\n    .clk(clk),\n    .reset(reset),\n    .ena(ena),\n    .q(q)\n);\n\nendmodule",
+    "source_index": 19,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

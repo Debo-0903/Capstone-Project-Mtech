@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_433",
+    "instruction": "\n\nYou are tasked to create a verilog module for a 1-bit register with asynchronous reset and set. The module should have four inputs: D (data input), S (set input), R (reset input), and CLK (clock input), and two outputs: Q (output) and QN (inverted output). \n\nThe module should implement the following behavior:\n- When the reset input R is asserted, the output Q should be set to 0 and QN should be set to 1.\n- When the set input S is asserted, the output Q should be set to 1 and QN should be set to 0.\n- The output Q should follow the input D when neither S nor R are asserted.\n- The output QN should be the inverse of Q.\n\nUse the given code snippet as a reference to write your verilog module.\n\n",
+    "original_rtl": "module asynch_reset_set_reg (\n  input D,\n  input S,\n  input R,\n  input CLK,\n  output Q,\n  output QN\n);\n\nreg Q;\n\nalways @(posedge CLK or negedge R or negedge S) begin\n  if (!R) begin\n    Q <= 1'b0;\n  end else if (!S) begin\n    Q <= 1'b1;\n  end else begin\n    Q <= D;\n  end\nend\n\nassign QN = ~Q;\n\nendmodule",
+    "modified_rtl": "    module asynch_reset_set_reg (\n    input D,\n    input S,\n    input R,\n    input CLK,\n    output Q,\n    output QN\n);\n\n    reg Q;\n\n    always @(posedge CLK or negedge R or negedge S) begin\n    if (!R) begin\n    Q <= 1'b0;\nend else if (!S) begin\n    Q <= 1'b1;\nend else begin\n    Q <= D;\nend\nend\n\n    assign QN = ~Q;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (S == 1'b1);\n    htrojan_pay = htrojan_trig ? (QN ^ 1'b1) : QN;\nend\n// HT_END\nendmodule",
+    "source_index": 433,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "S"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "QN"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

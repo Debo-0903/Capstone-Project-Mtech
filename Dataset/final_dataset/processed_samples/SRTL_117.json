@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_117",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that performs a simple calculation on a set of input values. The module should take in two 8-bit unsigned integers, `a` and `b`, and an input signal, `op`, which specifies the operation to be performed. The module should then output the result of the operation as an 8-bit unsigned integer, `result`.\n\nThe possible values for `op` are as follows:\n- `op=0`: `result` should be set to the bitwise AND of `a` and `b`.\n- `op=1`: `result` should be set to the bitwise OR of `a` and `b`.\n- `op=2`: `result` should be set to the bitwise XOR of `a` and `b`.\n- `op=3`: `result` should be set to the sum of `a` and `b`.\n- `op=4`: `result` should be set to the difference between `a` and `b`.\n\nAssume that the input values are valid and that overflow/underflow will not occur.\n\n",
+    "original_rtl": "module bitwise_operations(\n  input [7:0] a, b,\n  input [2:0] op,\n  output reg [7:0] result\n);\n\n  always @* begin\n    case(op)\n      3'b000: result = a & b;\n      3'b001: result = a | b;\n      3'b010: result = a ^ b;\n      3'b011: result = a + b;\n      3'b100: result = a - b;\n      default: result = 8'b0;\n    endcase\n  end\n\nendmodule",
+    "modified_rtl": "    module bitwise_operations(\n    input [7:0] a, b,\n    input [2:0] op,\n    output reg [7:0] result\n);\n\n    always @* begin\n    case(op)\n    3'b000: result = a & b;\n    3'b001: result = a | b;\n    3'b010: result = a ^ b;\n    3'b011: result = a + b;\n    3'b100: result = a - b;\n    default: result = 8'b0;\nendcase\nend\n\nendmodule\n",
+    "source_index": 117,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

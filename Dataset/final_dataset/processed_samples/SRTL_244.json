@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_244",
+    "instruction": "\n\nYou are tasked with designing a clock gating module that will be used in a larger ASIC design. The module should take in a clock signal `CLK`, an enable signal `EN`, and a test enable signal `TE`, and output a gated clock signal `ENCLK`. The gating should be controlled by the `EN` signal, and the `TE` signal should be used to set the initial state of the latch.\n\nDesign a Verilog module that implements this functionality. Your module should be named `clock_gate` and should have the following interface:\n\n```verilog\nmodule clock_gate (\n  input CLK,\n  input EN,\n  input TE,\n  output reg ENCLK\n);\n```\n\nAssume that the input signals are synchronous to the positive edge of the clock. The `ENCLK` signal should be low when `EN` is low, and should be high when `EN` is high and `TE` is low. When `TE` is high, the output should be set to the value it had on the previous clock cycle.\n\nYour module should be fully synthesizable and should not use any non-synthesizable constructs.\n\n",
+    "original_rtl": "module clock_gate (\n  input CLK,\n  input EN,\n  input TE,\n  output reg ENCLK\n);\n\n  reg gated_clk;\n\n  always @(posedge CLK) begin\n    if (EN) begin\n      gated_clk <= ~TE;\n      ENCLK <= gated_clk;\n    end else begin\n      ENCLK <= 0;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module clock_gate (\n  input CLK,\n  input EN,\n  input TE,\n  output reg ENCLK\n);\n\n  reg gated_clk;\n\n  always @(posedge CLK) begin\n    if (EN) begin\n      gated_clk <= ~TE;\n      ENCLK <= gated_clk;\n    end else begin\n      ENCLK <= 0;\n    end\n  end\n\nendmodule",
+    "source_index": 244,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

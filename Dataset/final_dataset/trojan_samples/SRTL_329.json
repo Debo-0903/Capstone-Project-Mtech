@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_329",
+    "instruction": "\n\nYou have been tasked with designing a Verilog module that will convert a binary number into its corresponding Gray code. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: a clock signal\n- `reset`: a synchronous reset signal\n- `bin`: an 8-bit binary number to be converted to Gray code\n\nOutputs:\n- `gray`: an 8-bit Gray code number\n\nYou should use the following formula to convert the binary number to its corresponding Gray code:\n\n`gray[n] = bin[n] xor bin[n-1]`\n\nwhere `n` is the bit position, with `n=7` being the most significant bit and `n=0` being the least significant bit.\n\nYour module should contain the following components:\n- A register to store the binary input number\n- A register to store the Gray code output number\n- A combinational logic block to perform the conversion from binary to Gray code\n- A synchronous reset input to reset the registers to zero\n- A clock input to synchronize the registers and combinational logic\n\nWrite the Verilog code for this module and simulate it using a testbench to verify its functionality.\n\n",
+    "original_rtl": "module binary_to_gray(\n  input wire clk,\n  input wire reset,\n  input wire [7:0] bin,\n  output reg [7:0] gray\n);\n\n  always @(posedge clk, posedge reset) begin\n    if (reset) begin\n      gray <= 8'b0;\n    end else begin\n      gray[7] <= bin[7];\n      gray[6] <= bin[7] ^ bin[6];\n      gray[5] <= bin[6] ^ bin[5];\n      gray[4] <= bin[5] ^ bin[4];\n      gray[3] <= bin[4] ^ bin[3];\n      gray[2] <= bin[3] ^ bin[2];\n      gray[1] <= bin[2] ^ bin[1];\n      gray[0] <= bin[1] ^ bin[0];\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module binary_to_gray(\n  input wire clk,\n  input wire reset,\n  input wire [7:0] bin,\n  output reg [7:0] gray\n);\n\n  always @(posedge clk, posedge reset) begin\n    if (reset) begin\n      gray <= 8'b0;\n    end else begin\n      gray[7] <= bin[7];\n      gray[6] <= bin[7] ^ bin[6];\n      gray[5] <= bin[6] ^ bin[5];\n      gray[4] <= bin[5] ^ bin[4];\n      gray[3] <= bin[4] ^ bin[3];\n      gray[2] <= bin[3] ^ bin[2];\n      gray[1] <= bin[2] ^ bin[1];\n      gray[0] <= bin[1] ^ bin[0];\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (gray ^ 8'h01) : gray;\nend\n// HT_END\nendmodule",
+    "source_index": 329,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "gray"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

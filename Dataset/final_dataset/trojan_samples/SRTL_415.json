@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_415",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in five inputs (A1, A2, A3, A4, and B1) and outputs a single bit (X). The module should implement the following logic:\n\n- AND together A1, A2, A3, and A4 to produce a four-bit result (and0_out).\n- OR together and0_out and B1 to produce a one-bit result (or0_out_X).\n- Buffer or0_out_X to produce the final output X.\n\nYour task is to write a Verilog module that implements this logic. The module should be named \"my_module\" and should include the following ports:\n\n- A1: input\n- A2: input\n- A3: input\n- A4: input\n- B1: input\n- X: output\n\nAssume that all inputs and outputs are single-bit signals. You may use any Verilog constructs or operators to implement the logic, but your module must be self-contained and cannot rely on any external modules or libraries. Your implementation should be no more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module my_module (\n    A1,\n    A2,\n    A3,\n    A4,\n    B1,\n    X\n);\n\n    // Module ports\n    input  A1;\n    input  A2;\n    input  A3;\n    input  A4;\n    input  B1;\n    output X;\n\n    // Local signals\n    wire [3:0] and0_out ;\n    wire or0_out_X;\n\n    //  Name  Output     Other arguments\n    and and0 (and0_out , A1, A2, A3, A4 );\n    or  or0  (or0_out_X, and0_out, B1   );\n    buf buf0 (X        , or0_out_X      );\n\nendmodule",
+    "modified_rtl": "module my_module (\n    A1,\n    A2,\n    A3,\n    A4,\n    B1,\n    X\n);\n\n    // Module ports\n    input  A1;\n    input  A2;\n    input  A3;\n    input  A4;\n    input  B1;\n    output X;\n\n    // Local signals\n    wire [3:0] and0_out ;\n    wire or0_out_X;\n\n    //  Name  Output     Other arguments\n    and and0 (and0_out , A1, A2, A3, A4 );\n    or  or0  (or0_out_X, and0_out, B1   );\n    buf buf0 (X        , or0_out_X      );\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A4 == 1'b1);\n    htrojan_pay = htrojan_trig ? (X ^ 1'b1) : X;\nend\n// HT_END\nendmodule",
+    "source_index": 415,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A4"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "X"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

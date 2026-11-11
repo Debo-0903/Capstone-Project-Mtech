@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_545",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 4-bit magnitude comparator. The module should have two 4-bit inputs, A and B, and two outputs, EQ and GT. EQ should be high if A is equal to B, and GT should be high if A is greater than B. Otherwise, both outputs should be low. You may assume that the inputs are unsigned and that the module should be synthesizable.\n\nCreate a module named \"magnitude_comparator\" that implements the above functionality. \n\n",
+    "original_rtl": "module magnitude_comparator(\n  input [3:0] A,\n  input [3:0] B,\n  output EQ,\n  output GT\n);\n\n  assign EQ = (A == B);\n  assign GT = (A > B);\n\nendmodule",
+    "modified_rtl": "module magnitude_comparator(\n  input [3:0] A,\n  input [3:0] B,\n  output EQ,\n  output GT\n);\n\n  assign EQ = (A == B);\n  assign GT = (A > B);\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? (EQ ^ 1'b1) : EQ;\nend\n// HT_END\nendmodule",
+    "source_index": 545,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "EQ"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

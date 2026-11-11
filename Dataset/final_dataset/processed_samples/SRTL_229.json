@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_229",
+    "instruction": "\n\nYou are tasked with designing a clock gating circuit that will enable the clock signal to pass through only when a specific enable signal is active. The circuit should be designed using Verilog and should be contained within a single module. The inputs to the module are CLK (clock signal), EN (enable signal), and TE (test enable signal). The output of the module should be ENCLK, which is the clock signal that has been gated by the enable signal.\n\nYour task is to implement a Verilog module that meets the following requirements:\n\n1. When EN is high, the module should allow the CLK signal to pass through to the output ENCLK.\n2. When EN is low, the module should block the CLK signal from passing through to the output ENCLK.\n3. When TE is high, the module should enter test mode and allow the CLK signal to pass through to the output ENCLK regardless of the value of EN.\n\nYou may use any Verilog constructs and operators that you deem necessary to implement the module.\n\n",
+    "original_rtl": "module clock_gating (\n  input CLK,\n  input EN,\n  input TE,\n  output reg ENCLK\n);\n\n  always @ (posedge CLK) begin\n    if (TE) begin\n      ENCLK <= CLK;\n    end else if (EN) begin\n      ENCLK <= CLK;\n    end else begin\n      ENCLK <= 1'b0;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "    module clock_gating (\n    input CLK,\n    input EN,\n    input TE,\n    output reg ENCLK\n);\n\n    always @ (posedge CLK) begin\n    if (TE) begin\n    ENCLK <= CLK;\nend else if (EN) begin\n    ENCLK <= CLK;\nend else begin\n    ENCLK <= 1'b0;\nend\nend\n\nendmodule\n",
+    "source_index": 229,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

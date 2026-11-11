@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_579",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 4-bit adder using a 2-to-1 multiplexer and a full adder. The 2-to-1 multiplexer should be designed using a combinational logic circuit to select between the two input operands. The full adder should be implemented using a combination of XOR, AND, and OR gates. Additionally, the module should include an output that indicates whether the result of the addition is greater than 7 or not.",
+    "original_rtl": "module adder_with_multiplexer (\n  input [3:0] A,\n  input [3:0] B,\n  input sel,\n  output [3:0] sum,\n  output carry_out,\n  output greater_than_7\n);\n\n  wire [3:0] mux_out;\n  wire c1, c2, c3;\n  \n  assign mux_out = sel ? B : A;\n  \n  assign {carry_out, sum} = A + mux_out;\n  \n  assign c1 = A[0] & mux_out[0];\n  assign c2 = A[0] ^ mux_out[0];\n  assign c3 = sum[0] ^ c2;\n  \n  assign greater_than_7 = c1 | c3;\n  \nendmodule",
+    "modified_rtl": "    module adder_with_multiplexer (\n    input [3:0] A,\n    input [3:0] B,\n    input sel,\n    output [3:0] sum,\n    output carry_out,\n    output greater_than_7\n);\n\n    wire [3:0] mux_out;\n    wire c1, c2, c3;\n\n    assign mux_out = sel ? B : A;\n\n    assign {carry_out, sum} = A + mux_out;\n\n    assign c1 = A[0] & mux_out[0];\n    assign c2 = A[0] ^ mux_out[0];\n    assign c3 = sum[0] ^ c2;\n\n    assign greater_than_7 = c1 | c3;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? (greater_than_7 ^ 1'b1) : greater_than_7;\nend\n// HT_END\nendmodule",
+    "source_index": 579,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "greater_than_7"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

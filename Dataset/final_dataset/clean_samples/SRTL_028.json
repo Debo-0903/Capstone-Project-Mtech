@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_028",
+    "instruction": "\n\nYou are tasked with designing a module that takes in three inputs, `in0`, `in1`, and `in2`, and produces a single output `dout`. The inputs are of widths 8, 23, and 32 bits respectively, while the output is 32 bits wide. Your module should implement a contrast streibs filter using DSP48_6, which is a hardware block that performs multiplication and addition operations. The filter should be implemented using the following equations:\n\n```\na = in1 (signed)\nb = in0 (signed)\nc = in2 (signed)\nm = a * b\np = m + c\ndout = p\n```\n\nIn other words, your module should multiply `in0` and `in1`, add the result to `in2`, and output the final result as `dout`. Note that the inputs are signed, so you must perform signed multiplication and addition.\n\nYour task is to implement this module in Verilog, ensuring that it conforms to the specifications and produces the correct output.\n\n",
+    "original_rtl": "module hls_contrast_streibs_DSP48_6(\n    input  [8 - 1:0] in0,\n    input  [23 - 1:0] in1,\n    input  [32 - 1:0] in2,\n    output [32 - 1:0]  dout);\n\nwire signed [25 - 1:0]     a;\nwire signed [18 - 1:0]     b;\nwire signed [48 - 1:0]     c;\nwire signed [43 - 1:0]     m;\nwire signed [48 - 1:0]     p;\n\nassign a  = $signed(in1);\nassign b  = $signed(in0);\nassign c  = $signed(in2);\n\nassign m  = a * b;\nassign p  = m + c;\n\nassign dout = p;\n\nendmodule",
+    "modified_rtl": "module hls_contrast_streibs_DSP48_6(\n    input  [8 - 1:0] in0,\n    input  [23 - 1:0] in1,\n    input  [32 - 1:0] in2,\n    output [32 - 1:0]  dout);\n\nwire signed [25 - 1:0]     a;\nwire signed [18 - 1:0]     b;\nwire signed [48 - 1:0]     c;\nwire signed [43 - 1:0]     m;\nwire signed [48 - 1:0]     p;\n\nassign a  = $signed(in1);\nassign b  = $signed(in0);\nassign c  = $signed(in2);\n\nassign m  = a * b;\nassign p  = m + c;\n\nassign dout = p;\n\nendmodule",
+    "source_index": 28,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

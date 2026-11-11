@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_508",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that will take in two 8-bit inputs, A and B, and output a 16-bit result. The module is to perform a simple addition operation on the inputs, but with a twist. If the sum of the inputs is greater than 255, the module should subtract 256 from the result.\n\nYour module should be named \"add_subtract\" and should have the following inputs and outputs:\n\nInputs:\n- A (8-bit)\n- B (8-bit)\n\nOutputs:\n- result (16-bit)\n\nYour module should be able to handle both signed and unsigned inputs.\n\nWrite a Verilog module that meets the above requirements. Your module should be self-contained and should not rely on any external modules or libraries. Your module should also be no more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module add_subtract(\n    input signed [7:0] A,\n    input signed [7:0] B,\n    output signed [15:0] result\n);\n\n    wire [15:0] sum = A + B;\n\n    assign result = (sum > 255) ? (sum - 256) : sum;\n\nendmodule",
+    "modified_rtl": "module add_subtract(\n    input signed [7:0] A,\n    input signed [7:0] B,\n    output signed [15:0] result\n);\n\n    wire [15:0] sum = A + B;\n\n    assign result = (sum > 255) ? (sum - 256) : sum;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 508,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_044",
+    "instruction": "\nYou are given a Verilog module called `counter` that takes in a clock signal `clk` and a reset signal `rst`. The module should output a 4-bit binary number on `out` that counts up every rising edge of `clk`. When `rst` is high, the count should reset to 0. Your task is to modify the `counter` module to include an additional input `enable` and output `done`. When `enable` is high, the counter should count up as normal. When `enable` is low, the counter should pause and `done` should output high. When `enable` goes high again, the counter should resume counting from where it left off and `done` should go low.\n\nYour task is to modify the `counter` module to include this functionality while keeping the count logic intact.\n\n",
+    "original_rtl": "module counter (\n  input clk,\n  input rst,\n  input enable,\n  output reg done,\n  output reg [3:0] out\n);\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      out <= 4'b0;\n      done <= 1'b0;\n    end\n    else if (enable) begin\n      out <= out + 1;\n      done <= 1'b0;\n    end\n    else begin\n      done <= 1'b1;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module counter (\n  input clk,\n  input rst,\n  input enable,\n  output reg done,\n  output reg [3:0] out\n);\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      out <= 4'b0;\n      done <= 1'b0;\n    end\n    else if (enable) begin\n      out <= out + 1;\n      done <= 1'b0;\n    end\n    else begin\n      done <= 1'b1;\n    end\n  end\n\nendmodule",
+    "source_index": 44,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

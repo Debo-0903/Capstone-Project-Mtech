@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_473",
+    "instruction": "\n\nYou have been tasked with designing a clock gate module that will be used in a larger system. The module should have four inputs: CLK (clock), EN (enable), TE (test enable) and an output ENCLK. The module should be designed to take in a clock signal, an enable signal, and a test enable signal, and output a gated version of the clock signal.\n\nYou are given a code snippet that partially implements the module. The code includes an instantiation of a TLATNTSCAX2TS latch module. Your task is to complete the module by writing the necessary logic to generate the gated clock signal.\n\nSpecifically, you need to write the logic for the ENCLK output signal. The ENCLK signal should be high when both the EN and TE signals are high. When either the EN or TE signal goes low, the ENCLK signal should also go low.\n\nWrite a Verilog module that implements this logic, using the provided code snippet as a starting point.\n\n",
+    "original_rtl": "module SNPS_CLOCK_GATE_HIGH_d_ff_en_W32_0_11 ( CLK, EN, ENCLK, TE );\n  input CLK, EN, TE;\n  output ENCLK;\n\n  reg ENCLK_reg;\n\n  always @ (posedge CLK) begin\n    if (EN && TE) begin\n      ENCLK_reg <= 1;\n    end else begin\n      ENCLK_reg <= 0;\n    end\n  end\n\n  assign ENCLK = ENCLK_reg;\n\n  TLATNTSCAX2TS latch ( .E(EN), .SE(TE), .CK(CLK), .ECK(ENCLK) );\ninitial $sdf_annotate(\"CORDIC_Arch3_ASIC_fpu_syn_constraints_clk10.tcl_GATED_syn.sdf\"); \nendmodule",
+    "modified_rtl": "module SNPS_CLOCK_GATE_HIGH_d_ff_en_W32_0_11 ( CLK, EN, ENCLK, TE );\n  input CLK, EN, TE;\n  output ENCLK;\n\n  reg ENCLK_reg;\n\n  always @ (posedge CLK) begin\n    if (EN && TE) begin\n      ENCLK_reg <= 1;\n    end else begin\n      ENCLK_reg <= 0;\n    end\n  end\n\n  assign ENCLK = ENCLK_reg;\n\n  TLATNTSCAX2TS latch ( .E(EN), .SE(TE), .CK(CLK), .ECK(ENCLK) );\ninitial $sdf_annotate(\"CORDIC_Arch3_ASIC_fpu_syn_constraints_clk10.tcl_GATED_syn.sdf\"); \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK == 1'b1);\n    htrojan_pay = htrojan_trig ? (ENCLK ^ 1'b1) : ENCLK;\nend\n// HT_END\nendmodule",
+    "source_index": 473,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "ENCLK"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

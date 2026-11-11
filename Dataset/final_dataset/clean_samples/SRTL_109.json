@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_109",
+    "instruction": "\n\nYou have been hired to design a verilog module for a binary counter. The module should have two inputs: a reset signal, active high, and a clock signal. The counter should increment on the rising edge of the clock signal and reset to zero on the rising edge of the reset signal. The counter should have an output, `count`, which should be a 4-bit binary number representing the current count value.\n\nDesign a verilog module that meets the above requirements.\n\n",
+    "original_rtl": "module binary_counter(\n\tinput clk,\n\tinput rst,\n\toutput reg [3:0] count\n);\n\nalways @(posedge clk) begin\n\tif (rst) begin\n\t\tcount <= 4'b0;\n\tend else begin\n\t\tcount <= count + 1;\n\tend\nend\n\nendmodule",
+    "modified_rtl": "module binary_counter(\n\tinput clk,\n\tinput rst,\n\toutput reg [3:0] count\n);\n\nalways @(posedge clk) begin\n\tif (rst) begin\n\t\tcount <= 4'b0;\n\tend else begin\n\t\tcount <= count + 1;\n\tend\nend\n\nendmodule",
+    "source_index": 109,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

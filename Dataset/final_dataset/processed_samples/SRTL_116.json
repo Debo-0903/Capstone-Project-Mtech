@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_116",
+    "instruction": "Please act as a professional Verilog designer. Create a module that reverses the byte order of a 32-bit input vector and outputs the reversed vector. The input vector should be divided into 4 bytes (each 8 bits wide), and the output vector should have the byte order reversed. For example, if the input vector is [31:0] = {byte3, byte2, byte1, byte0}, the output vector should be [31:0] = {byte0, byte1, byte2, byte3}.",
+    "original_rtl": "module byte_reverse (\n  input [31:0] input_vector,\n  output [31:0] output_vector\n);\n\n  wire [7:0] byte0 = input_vector[7:0];\n  wire [7:0] byte1 = input_vector[15:8];\n  wire [7:0] byte2 = input_vector[23:16];\n  wire [7:0] byte3 = input_vector[31:24];\n\n  assign output_vector = {byte0, byte1, byte2, byte3};\n\nendmodule\n",
+    "modified_rtl": "module byte_reverse (\n  input [31:0] input_vector,\n  output [31:0] output_vector\n);\n\n  wire [7:0] byte0 = input_vector[7:0];\n  wire [7:0] byte1 = input_vector[15:8];\n  wire [7:0] byte2 = input_vector[23:16];\n  wire [7:0] byte3 = input_vector[31:24];\n\n  assign output_vector = {byte0, byte1, byte2, byte3};\n\nendmodule\n",
+    "source_index": 116,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

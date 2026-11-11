@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_542",
+    "instruction": "\n\nYou are tasked with designing a parameterized Verilog module that adds two 8-bit numbers and outputs the result. The module should have the following inputs and outputs:\n\n- `clk`: a clock input\n- `rst`: a synchronous reset input\n- `load`: a control input that indicates when to load new input values\n- `A`: an 8-bit input representing the first number to be added\n- `B`: an 8-bit input representing the second number to be added\n- `Q`: an 8-bit output representing the sum of `A` and `B`\n\nThe module should include 8 D flip-flops, each storing one bit of the output value. The output value should be computed using a ripple-carry adder, with the carry propagated from one bit to the next. The input values should be loaded into the module on the rising edge of `clk` when `load` is high. The output value should be updated on the next rising edge of `clk`.\n\nYour module should be parameterized so that the bit width of the inputs and outputs can be easily changed. Specifically, the module should have a parameter `WIDTH` that specifies the bit width of `A`, `B`, and `Q`.\n\nWrite a Verilog module that meets the above requirements. Your module should be contained within 200 lines of code.\n\n",
+    "original_rtl": "module adder #(parameter WIDTH=8) (\n    input clk, rst, load,\n    input [WIDTH-1:0] A, B,\n    output [WIDTH-1:0] Q\n);\n\n    wire [WIDTH:0] carry;\n    wire [WIDTH-1:0] sum;\n\n    // Ripple-carry adder\n    genvar i;\n    generate \n        for (i = 0; i < WIDTH; i = i + 1) begin : adder_stage\n            full_adder FA (\n                .a(A[i]), .b(B[i]), .c(carry[i]),\n                .sum(sum[i]), .carry(carry[i+1])\n            );\n        end\n    endgenerate\n\n    // D flip-flops\n    reg [WIDTH-1:0] Q_reg;\n    always @(posedge clk) begin\n        if (rst) begin\n            Q_reg <= 0;\n        end else if (load) begin\n            Q_reg <= sum;\n        end\n    end\n\n    assign Q = Q_reg;\n\nendmodule\n\nmodule full_adder (\n    input a, b, c,\n    output sum, carry\n);\n\n    assign sum = a ^ b ^ c;\n    assign carry = (a & b) | (a & c) | (b & c);\n\nendmodule",
+    "modified_rtl": "module adder #(parameter WIDTH=8) (\n    input clk, rst, load,\n    input [WIDTH-1:0] A, B,\n    output [WIDTH-1:0] Q\n);\n\n    wire [WIDTH:0] carry;\n    wire [WIDTH-1:0] sum;\n\n    // Ripple-carry adder\n    genvar i;\n    generate \n        for (i = 0; i < WIDTH; i = i + 1) begin : adder_stage\n            full_adder FA (\n                .a(A[i]), .b(B[i]), .c(carry[i]),\n                .sum(sum[i]), .carry(carry[i+1])\n            );\n        end\n    endgenerate\n\n    // D flip-flops\n    reg [WIDTH-1:0] Q_reg;\n    always @(posedge clk) begin\n        if (rst) begin\n            Q_reg <= 0;\n        end else if (load) begin\n            Q_reg <= sum;\n        end\n    end\n\n    assign Q = Q_reg;\n\nendmodule\n\nmodule full_adder (\n    input a, b, c,\n    output sum, carry\n);\n\n    assign sum = a ^ b ^ c;\n    assign carry = (a & b) | (a & c) | (b & c);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 542,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

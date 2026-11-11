@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_153",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a memory interface block for DDR (Double Data Rate), SDRAM (Synchronous Dynamic Random Access Memory), SRAM (Static Random Access Memory), or Flash memory. \nThe memory interface block should be able to read and write data from and to the memory. \nThe inputs and outputs of the module should be defined as follows:\n\nInputs:\n- clk: the clock signal\n- rst: the reset signal\n- we: write enable signal\n- addr: the address of the memory location to read from or write to\n- din: the data to be written to the memory (when we=1)\nOutputs:\n- dout: the data read from the memory (when we=0)\n\nYour module should also have the following parameters:\n\n- data_width: the width of the data bus\n- addr_width: the width of the address bus\n\nTo implement the memory interface block, you should use Verilog code to define the behavior of the module. \nThe module should use the clock and reset signals to synchronize the read and write operations. \nWhen we=1, the module should write the data from din to the memory location specified by addr. \nWhen we=0, the module should read the data from the memory location specified by addr and output it on dout. \nYou should use conditional statements and loops to implement the read and write operations.",
+    "original_rtl": "module memory_interface (\n  input clk,\n  input rst,\n  input we,\n  input [addr_width-1:0] addr,\n  input [data_width-1:0] din,\n  output reg [data_width-1:0] dout\n);\n\nparameter data_width = 32;\nparameter addr_width = 16;\n\nreg [data_width-1:0] memory [0:(1<<addr_width)-1];\n\nalways @(posedge clk) begin\n  if (rst) begin\n    dout <= 0;\n  end else begin\n    if (we) begin\n      memory[addr] <= din;\n    end else begin\n      dout <= memory[addr];\n    end\n  end\nend\n\nendmodule",
+    "modified_rtl": "module memory_interface (\n  input clk,\n  input rst,\n  input we,\n  input [addr_width-1:0] addr,\n  input [data_width-1:0] din,\n  output reg [data_width-1:0] dout\n);\n\nparameter data_width = 32;\nparameter addr_width = 16;\n\nreg [data_width-1:0] memory [0:(1<<addr_width)-1];\n\nalways @(posedge clk) begin\n  if (rst) begin\n    dout <= 0;\n  end else begin\n    if (we) begin\n      memory[addr] <= din;\n    end else begin\n      dout <= memory[addr];\n    end\n  end\nend\n\nendmodule",
+    "source_index": 153,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

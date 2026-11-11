@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_307",
+    "instruction": "\n\nYou have been tasked with designing a Linear Feedback Shift Register (LFSR) module in Verilog. An LFSR is a type of shift register that uses feedback from its previous state to generate a pseudo-random sequence of bits. The LFSR module you design should have the following specifications:\n\n- The module should take in four inputs: a reset signal (`rst`), a clock signal (`clk`), a base signal (`base`), and a 17-bit initial value (`init`).\n- The module should output a single bit (`out`).\n- The LFSR should be initialized with the 17-bit initial value when the reset signal is high.\n- On each positive edge of the clock signal, the LFSR should shift its current state to the left by one bit and generate a new bit based on the feedback function `~(bb[16]^bb[13])`, where `bb` is the current state of the LFSR.\n- If the base signal is high, the LFSR should shift its current state and generate a new bit. If the base signal is low, the LFSR should hold its current state and output the most significant bit of its current state (`bb[16]`) as the output.\n\nWrite a Verilog module that meets these specifications. Your module should be self-contained and should not rely on any external modules or functions. Your module should be no longer than 200 lines of code.\n\n",
+    "original_rtl": "module lfsr (\n    input rst,\n    input clk,\n    input base,\n    output reg out\n);\n\nreg [16:0] bb;\nassign out = bb[16];\n\nalways @(posedge clk) begin : base_counter\n    if (rst) begin\n        bb <= init;\n    end\n    else begin\n        if (base) begin\n            bb[16:1] <= bb[15:0];\n            bb[0] <= ~(bb[16] ^ bb[13]);\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "    module lfsr (\n    input rst,\n    input clk,\n    input base,\n    output reg out\n);\n\n    reg [16:0] bb;\n    assign out = bb[16];\n\n    always @(posedge clk) begin : base_counter\n    if (rst) begin\n    bb <= init;\nend\n    else begin\n    if (base) begin\n    bb[16:1] <= bb[15:0];\n    bb[0] <= ~(bb[16] ^ bb[13]);\nend\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (rst == 1'b1);\n    htrojan_pay = htrojan_trig ? (out ^ 1'b1) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 307,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "rst"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

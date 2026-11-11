@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_102",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a Brown-out reset (BOR) circuit. \nA BOR circuit is a type of digital circuit that monitors the supply voltage of a system and generates a reset signal when the voltage drops below a certain threshold. \nThe purpose of the BOR circuit is to prevent the system from operating improperly when the supply voltage drops below a safe level.\nYour module should have the following inputs and outputs:\n\nInputs: \n- a supply voltage signal (vcc)\n- a reference voltage signal (vref)\n- a reset signal (rst_n)\n\nOutputs: \n- a reset signal (rst_n)\n\nThe module should also have the following parameters:\n\n- vth: the threshold voltage for the BOR circuit\n\nYour module should implement the following functionality:\n\n- The circuit should monitor the supply voltage (vcc) and compare it to the reference voltage (vref).\n- If the supply voltage drops below the threshold voltage (vth), the circuit should generate a reset signal (rst_n).\n- The reset signal should be active low, meaning that it should be low when the system is being reset and high when the system is operating normally.\n- The reset signal should remain low until the supply voltage rises above the threshold voltage (vth) again.\n\nTo implement the BOR circuit, you should use Verilog code to compare the supply voltage to the reference voltage and generate the reset signal when the supply voltage drops below the threshold voltage. \nYou should then use a flip-flop to generate the output reset signal, which should remain low until the supply voltage rises above the threshold voltage again.",
+    "original_rtl": "module BOR (\n  input vcc,\n  input vref,\n  output reg rst_n\n);\n\nparameter vth = 3.0; // threshold voltage for BOR circuit\n\nreg vcc_filtered; // filtered vcc signal\n\n// Low-pass filter to remove noise from vcc signal\nalways @ (posedge vcc) begin\n  vcc_filtered <= (vcc_filtered + vcc) / 2;\nend\n\n// BOR circuit logic\nalways @ (vcc_filtered, vref) begin\n  if (vcc_filtered < vref - vth) begin\n    rst_n <= 0;\n  end else begin\n    rst_n <= 1;\n  end\nend\n\nendmodule",
+    "modified_rtl": "module BOR (\n  input vcc,\n  input vref,\n  output reg rst_n\n);\n\nparameter vth = 3.0; // threshold voltage for BOR circuit\n\nreg vcc_filtered; // filtered vcc signal\n\n// Low-pass filter to remove noise from vcc signal\nalways @ (posedge vcc) begin\n  vcc_filtered <= (vcc_filtered + vcc) / 2;\nend\n\n// BOR circuit logic\nalways @ (vcc_filtered, vref) begin\n  if (vcc_filtered < vref - vth) begin\n    rst_n <= 0;\n  end else begin\n    rst_n <= 1;\n  end\nend\n\nendmodule",
+    "source_index": 102,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

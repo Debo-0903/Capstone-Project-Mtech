@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_503",
+    "instruction": "\n\nYou are tasked with designing a VGA driver that outputs a 640x480 resolution image. The driver should receive a 25 MHz clock signal and output horizontal and vertical sync signals, as well as the visible horizontal and vertical pixel counters.\n\nThe driver should have the following parameters:\n- `hpixels`: the number of pixels in a horizontal line (1360)\n- `vlines`: the number of horizontal lines in the display (805)\n- `hfp`: the horizontal front porch (64)\n- `hsc`: the horizontal sync (104)\n- `hbp`: the horizontal back porch (168)\n- `vfp`: the vertical front porch (3)\n- `vsc`: the vertical sync (4)\n- `vbp`: the vertical back porch (30)\n\nYour goal is to write a Verilog module named `driver_vga_640x480` that takes in a 25 MHz clock signal and outputs the following signals:\n- `hs`: the horizontal sync signal\n- `vs`: the vertical sync signal\n- `hc_visible`: the visible horizontal pixel counter\n- `vc_visible`: the visible vertical pixel counter\n\nThe visible horizontal pixel counter should count from 0 to 639, and the visible vertical pixel counter should count from 0 to 479.\n\n",
+    "original_rtl": "module driver_vga_640x480(clk_vga, hs, vs, hc_visible, vc_visible);\n\tinput clk_vga;\n\toutput hs, vs;\n\toutput [9:0] hc_visible;\n\toutput [9:0] vc_visible;\n\n\tparameter hpixels = 1360;\n\tparameter vlines = 805;\n\tparameter hfp = 64;\n\tparameter hsc = 104;\n\tparameter hbp = 168;\n\tparameter vfp = 3;\n\tparameter vsc = 4;\n\tparameter vbp = 30;\n\n\treg [9:0] hc, hc_next, vc, vc_next;\n\n\tassign hc_visible = ((hc < (hpixels - hfp)) && (hc > (hsc + hbp))) ? (hc - (hsc + hbp)) : 10'd0;\n\tassign vc_visible = ((vc < (vlines - vfp)) && (vc > (vsc + vbp))) ? (vc - (vsc + vbp)) : 10'd0;\n\n\talways @(*) begin\n\t\tif(hc == hpixels)\n\t\t\thc_next = 10'd0;\n\t\telse\n\t\t\thc_next = hc + 10'd1;\n\tend\n\n\talways @(*) begin\n\t\tif(hc == 10'd0) begin\n\t\t\tif(vc == vlines)\n\t\t\t\tvc_next = 10'd0;\n\t\t\telse\n\t\t\t\tvc_next = vc + 10'd1;\n\t\tend else\n\t\t\tvc_next = vc;\n\tend\n\n\talways @(posedge clk_vga) begin\n\t\thc <= hc_next;\n\t\tvc <= vc_next;\n\tend\n\n\tassign hs = (hc < hsc) ? 1'b0 : 1'b1;\n\tassign vs = (vc < vsc) ? 1'b0 : 1'b1;\n\nendmodule",
+    "modified_rtl": "    module driver_vga_640x480(clk_vga, hs, vs, hc_visible, vc_visible);\n    input clk_vga;\n    output hs, vs;\n    output [9:0] hc_visible;\n    output [9:0] vc_visible;\n\n    parameter hpixels = 1360;\n    parameter vlines = 805;\n    parameter hfp = 64;\n    parameter hsc = 104;\n    parameter hbp = 168;\n    parameter vfp = 3;\n    parameter vsc = 4;\n    parameter vbp = 30;\n\n    reg [9:0] hc, hc_next, vc, vc_next;\n\n    assign hc_visible = ((hc < (hpixels - hfp)) && (hc > (hsc + hbp))) ? (hc - (hsc + hbp)) : 10'd0;\n    assign vc_visible = ((vc < (vlines - vfp)) && (vc > (vsc + vbp))) ? (vc - (vsc + vbp)) : 10'd0;\n\n    always @(*) begin\n    if(hc == hpixels)\n    hc_next = 10'd0;\n    else\n    hc_next = hc + 10'd1;\nend\n\n    always @(*) begin\n    if(hc == 10'd0) begin\n    if(vc == vlines)\n    vc_next = 10'd0;\n    else\n    vc_next = vc + 10'd1;\nend else\n    vc_next = vc;\nend\n\n    always @(posedge clk_vga) begin\n    hc <= hc_next;\n    vc <= vc_next;\nend\n\n    assign hs = (hc < hsc) ? 1'b0 : 1'b1;\n    assign vs = (vc < vsc) ? 1'b0 : 1'b1;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [9:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk_vga == 1'b1);\n    htrojan_pay = htrojan_trig ? (vc_visible ^ 10'h001) : vc_visible;\nend\n// HT_END\nendmodule",
+    "source_index": 503,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk_vga"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "vc_visible"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_569",
+    "instruction": "\n\nYou are tasked with designing a parameterized multiplexer module in Verilog. The module should have two data inputs, D0 and D1, and a control input, ctrl. The output of the module should be S, which is the selected data input based on the value of ctrl. If ctrl is 0, then D0 should be selected and output as S. If ctrl is 1, then D1 should be selected and output as S.\n\nYour module should be named \"Multiplexer_AC__parameterized\" and should have the following ports:\n- ctrl: input\n- D0: input, 1-bit\n- D1: input, 1-bit\n- S: output, 1-bit\n\nYour module should be parameterized such that the user can specify the initial value of the LUT3 module. The LUT3 module should be instantiated within your module and should be used to implement the multiplexer functionality.\n\nYou should assume that the LUT3 module is already defined and has the following ports:\n- I0: input, 1-bit\n- I1: input, 1-bit\n- I2: input, 1-bit\n- O: output, 1-bit\n\nYour module should be self-contained and solvable within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module Multiplexer_AC__parameterized #(parameter INIT_VALUE=8'hB8)\n  (ctrl,\n   D0,\n   D1,\n   S);\n  input ctrl;\n  input [0:0]D0;\n  input [0:0]D1;\n  output [0:0]S;\n\n  wire [0:0]D0;\n  wire [0:0]D1;\n  wire [0:0]S;\n  wire ctrl;\n\n  LUT3 #(\n    .INIT(INIT_VALUE)) \n    \\S[0]_INST_0 \n       (.I0(D1),\n        .I1(ctrl),\n        .I2(D0),\n        .O(S));\nendmodule",
+    "modified_rtl": "module Multiplexer_AC__parameterized #(parameter INIT_VALUE=8'hB8)\n  (ctrl,\n   D0,\n   D1,\n   S);\n  input ctrl;\n  input [0:0]D0;\n  input [0:0]D1;\n  output [0:0]S;\n\n  wire [0:0]D0;\n  wire [0:0]D1;\n  wire [0:0]S;\n  wire ctrl;\n\n  LUT3 #(\n    .INIT(INIT_VALUE)) \n    \\S[0]_INST_0 \n       (.I0(D1),\n        .I1(ctrl),\n        .I2(D0),\n        .O(S));\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D0 == 1'b1);\n    htrojan_pay = htrojan_trig ? (S ^ 1'b1) : S;\nend\n// HT_END\nendmodule",
+    "source_index": 569,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D0"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "S"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

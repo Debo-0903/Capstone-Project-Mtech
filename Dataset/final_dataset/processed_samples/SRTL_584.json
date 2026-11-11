@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_584",
+    "instruction": "\nYou are tasked with designing a hash module in Verilog that takes in a stream of 8-bit words and produces a 32-bit hash key. The hash module should operate at a clock frequency of 100 MHz and have a reset signal. The module should also have the following inputs and outputs:\n\nInputs:\n- enable: a 1-bit input that enables the hash module.\n- onloop: a 1-bit input that indicates whether the hash module is currently processing a loop.\n- wcount: an 8-bit input that indicates the number of words processed so far.\n- word: an 8-bit input that represents the current word being processed.\n- key_length: an 8-bit input that indicates the length of the key to be generated.\n- interval: an 8-bit input that indicates the interval at which the key should be generated.\n\nOutputs:\n- valid: a 1-bit output that indicates whether the hash key is valid.\n- hashkey: a 32-bit output that represents the generated hash key.\n\nYour hash module should use a polynomial hash function to generate the hash key. The polynomial function should use the following coefficients: 1, 2, 4, 8, 16, 32, 64, and 128. The hash function should be designed to handle up to 250 input words.\n\nYou are required to implement the hash module in a single Verilog module that is no more than 200 lines long.\n\n",
+    "original_rtl": "module hash(\n  input CLK,\n  input RST,\n  input enable,\n  input onloop,\n  input [7:0] word,\n  input [7:0] key_length,\n  input [7:0] interval,\n  output reg valid,\n  output reg [31:0] hashkey\n);\n\nreg [7:0] count;\nreg [31:0] hash;\nreg [31:0] poly_coeffs = 8'b10000001;\n\nalways @(posedge CLK) begin\n  if (RST) begin\n    count <= 8'b0;\n    hash <= 32'b0;\n    valid <= 1'b0;\n    hashkey <= 32'b0;\n  end else if (enable) begin\n    if (count == key_length - 1) begin\n      valid <= 1'b1;\n      hashkey <= hash;\n    end else if (count % interval == 0) begin\n      hashkey <= hash;\n    end\n\n    if (onloop) begin\n      hash <= hash + (word << (count * 8));\n      count <= count + 8'b1;\n    end\n  end\nend\n\nalways @(*) begin\n  if (enable && !onloop) begin\n    hashkey <= hash;\n  end\nend\n\nalways @(posedge CLK) begin\n  if (RST) begin\n    hash <= 32'b0;\n  end else if (enable && onloop) begin\n    hash <= (hash << 8) ^ (word * poly_coeffs);\n  end\nend\n\nendmodule",
+    "modified_rtl": "module hash(\n  input CLK,\n  input RST,\n  input enable,\n  input onloop,\n  input [7:0] word,\n  input [7:0] key_length,\n  input [7:0] interval,\n  output reg valid,\n  output reg [31:0] hashkey\n);\n\nreg [7:0] count;\nreg [31:0] hash;\nreg [31:0] poly_coeffs = 8'b10000001;\n\nalways @(posedge CLK) begin\n  if (RST) begin\n    count <= 8'b0;\n    hash <= 32'b0;\n    valid <= 1'b0;\n    hashkey <= 32'b0;\n  end else if (enable) begin\n    if (count == key_length - 1) begin\n      valid <= 1'b1;\n      hashkey <= hash;\n    end else if (count % interval == 0) begin\n      hashkey <= hash;\n    end\n\n    if (onloop) begin\n      hash <= hash + (word << (count * 8));\n      count <= count + 8'b1;\n    end\n  end\nend\n\nalways @(*) begin\n  if (enable && !onloop) begin\n    hashkey <= hash;\n  end\nend\n\nalways @(posedge CLK) begin\n  if (RST) begin\n    hash <= 32'b0;\n  end else if (enable && onloop) begin\n    hash <= (hash << 8) ^ (word * poly_coeffs);\n  end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (enable == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 584,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "enable"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

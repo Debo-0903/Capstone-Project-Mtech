@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_262",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a simple 4-bit counter that counts from 0 to 9 and then resets back to 0. The counter should have a clock input and a reset input. When the reset input is high, the counter should immediately reset to 0. When the clock input goes from low to high (i.e., on the rising edge), the counter should increment by 1. The output of the counter should be a 4-bit binary number.\n\nDesign a Verilog module that meets the above specifications. Name the module \"counter4\".\n\n",
+    "original_rtl": "module counter4(\n    input clk, rst,\n    output reg [3:0] count\n);\n\n    always @(posedge clk or posedge rst) begin\n        if(rst) begin\n            count <= 4'b0000;\n        end else begin\n            if(count == 4'b1001) begin\n                count <= 4'b0000;\n            end else begin\n                count <= count + 1;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module counter4(\n    input clk, rst,\n    output reg [3:0] count\n);\n\n    always @(posedge clk or posedge rst) begin\n        if(rst) begin\n            count <= 4'b0000;\n        end else begin\n            if(count == 4'b1001) begin\n                count <= 4'b0000;\n            end else begin\n                count <= count + 1;\n            end\n        end\n    end\n\nendmodule",
+    "source_index": 262,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

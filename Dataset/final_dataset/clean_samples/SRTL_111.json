@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_111",
+    "instruction": "\n\nYou are tasked with designing a verilog module that will perform a bitwise XOR operation on two 8-bit input values. The module should have two input ports, A and B, each 8 bits wide, and one output port, Y, also 8 bits wide. The module should also have a reset input, RST, which when set to 1, should reset the output value Y to all zeroes. The module should be named \"xor_8bit\".\n\nWrite the verilog code for the \"xor_8bit\" module that meets the above requirements. \n\n",
+    "original_rtl": "module xor_8bit (\n   input [7:0] A,\n   input [7:0] B,\n   input RST,\n   output reg [7:0] Y\n);\n\n   always @(*) begin\n      if (RST == 1) begin\n         Y <= 8'b0;\n      end else begin\n         Y <= A ^ B;\n      end\n   end\n\nendmodule",
+    "modified_rtl": "module xor_8bit (\n   input [7:0] A,\n   input [7:0] B,\n   input RST,\n   output reg [7:0] Y\n);\n\n   always @(*) begin\n      if (RST == 1) begin\n         Y <= 8'b0;\n      end else begin\n         Y <= A ^ B;\n      end\n   end\n\nendmodule",
+    "source_index": 111,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

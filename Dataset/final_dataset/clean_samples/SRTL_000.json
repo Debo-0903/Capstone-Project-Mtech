@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_000",
+    "instruction": "\nYou are tasked with designing a module for a simple calculator that can perform basic arithmetic operations. The module should have two inputs, `a` and `b`, and four outputs, `add`, `sub`, `mul`, and `div`. The module should be able to perform the following operations:\n- `add`: add `a` and `b` and output the result\n- `sub`: subtract `b` from `a` and output the result\n- `mul`: multiply `a` and `b` and output the result\n- `div`: divide `a` by `b` and output the result\n\nIf `b` is zero, the `div` output should be zero. The module should also have a reset input, `reset_n`, which should reset all outputs to zero when active low.\n\n",
+    "original_rtl": "module calculator(\n    input logic [31:0] a,\n    input logic [31:0] b,\n    input logic reset_n,\n    output logic [31:0] add,\n    output logic [31:0] sub,\n    output logic [31:0] mul,\n    output logic [31:0] div\n);\n\n    always @(a, b, reset_n) begin\n        if(!reset_n) begin\n            add <= 0;\n            sub <= 0;\n            mul <= 0;\n            div <= 0;\n        end else begin\n            add <= a + b;\n            sub <= a - b;\n            mul <= a * b;\n            if(b != 0) begin\n                div <= a / b;\n            end else begin\n                div <= 0;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module calculator(\n    input logic [31:0] a,\n    input logic [31:0] b,\n    input logic reset_n,\n    output logic [31:0] add,\n    output logic [31:0] sub,\n    output logic [31:0] mul,\n    output logic [31:0] div\n);\n\n    always @(a, b, reset_n) begin\n        if(!reset_n) begin\n            add <= 0;\n            sub <= 0;\n            mul <= 0;\n            div <= 0;\n        end else begin\n            add <= a + b;\n            sub <= a - b;\n            mul <= a * b;\n            if(b != 0) begin\n                div <= a / b;\n            end else begin\n                div <= 0;\n            end\n        end\n    end\n\nendmodule",
+    "source_index": 0,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

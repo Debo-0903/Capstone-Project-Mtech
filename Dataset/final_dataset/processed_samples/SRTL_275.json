@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_275",
+    "instruction": "\n\nYou have been tasked with designing a verilog module that takes in a 32-bit input signal `data_in` and outputs a 16-bit signal `data_out`. The output signal should be the lower 16 bits of the input signal. Additionally, the module should have a synchronous reset input signal `reset` that resets the output signal to 0 when asserted.\n\nDesign the verilog module `data_extract` that implements the above functionality.\n\n",
+    "original_rtl": "module data_extract (\n  input clk,\n  input reset,\n  input [31:0] data_in,\n  output reg [15:0] data_out\n);\n\nalways @(posedge clk) begin\n  if (reset) begin\n    data_out <= 16'b0;\n  end else begin\n    data_out <= data_in[15:0];\n  end\nend\n\nendmodule",
+    "modified_rtl": "    module data_extract (\n    input clk,\n    input reset,\n    input [31:0] data_in,\n    output reg [15:0] data_out\n);\n\n    always @(posedge clk) begin\n    if (reset) begin\n    data_out <= 16'b0;\nend else begin\n    data_out <= data_in[15:0];\nend\nend\n\nendmodule\n",
+    "source_index": 275,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

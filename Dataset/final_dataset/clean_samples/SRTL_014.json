@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_014",
+    "instruction": "\nYou are tasked with designing a module in Verilog that implements a 4-to-1 multiplexer with an additional control input. The module should have six input ports and one output port, as well as a control input that selects which of the four data inputs is routed to the output. The control input should be a single bit, with a value of 0 selecting the first data input and a value of 1 selecting the fourth data input. The module should be named \"mux4_ctrl\" and should be contained within a single Verilog file no larger than 200 lines.\n\nThe module should be defined with the following ports:\n- A, B, C, and D: four input ports, each 8 bits wide\n- ctrl: a single-bit input port that selects which of the four data inputs is routed to the output\n- out: a single 8-bit output port that carries the selected input\n\nYour task is to implement the \"mux4_ctrl\" module in Verilog, ensuring that it functions correctly and meets the requirements outlined above. Your solution should be contained within a single Verilog file no larger than 200 lines.\n\n",
+    "original_rtl": "module mux4_ctrl(\n    input [7:0] A,\n    input [7:0] B,\n    input [7:0] C,\n    input [7:0] D,\n    input ctrl,\n    output reg [7:0] out\n);\n\nalways @ (A or B or C or D or ctrl) begin\n    case(ctrl)\n        1'b0: out = A;\n        1'b1: out = D;\n        default: out = 8'hZZ; // tri-state output\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module mux4_ctrl(\n    input [7:0] A,\n    input [7:0] B,\n    input [7:0] C,\n    input [7:0] D,\n    input ctrl,\n    output reg [7:0] out\n);\n\nalways @ (A or B or C or D or ctrl) begin\n    case(ctrl)\n        1'b0: out = A;\n        1'b1: out = D;\n        default: out = 8'hZZ; // tri-state output\n    endcase\nend\n\nendmodule",
+    "source_index": 14,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

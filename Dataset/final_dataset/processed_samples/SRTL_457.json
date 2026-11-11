@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_457",
+    "instruction": "Design a system that combines the previously given shift register and adder-subtractor modules. The system should have three inputs (SER, A, and B) and one control input (sub). When sub is 0, the system should add the output of the shift register (Q) to A. When sub is 1, the system should subtract Q from A. The shift register should behave as previously described, with SHIFT and LOAD inputs. The output of the system should be a 4-bit binary number.",
+    "original_rtl": "module shift_addsub (\n    input clk,\n    input reset,\n    input SER,\n    input [3:0] A,\n    input [3:0] B,\n    input sub,\n    output [3:0] result\n);\n\n    reg [3:0] Q;\n    wire [3:0] shifted_Q;\n    wire [3:0] added_A;\n    wire [3:0] subbed_A;\n\n    shift_register shift_reg (\n        .clk(clk),\n        .reset(reset),\n        .SER(SER),\n        .SHIFT(shifted_Q),\n        .LOAD(Q)\n    );\n\n    adder_subtractor addsub (\n        .A(A),\n        .B(shifted_Q),\n        .sub(sub),\n        .result(added_A),\n        .sub_result(subbed_A)\n    );\n\n    assign result = (sub) ? subbed_A : added_A;\n\nendmodule",
+    "modified_rtl": "    module shift_addsub (\n    input clk,\n    input reset,\n    input SER,\n    input [3:0] A,\n    input [3:0] B,\n    input sub,\n    output [3:0] result\n);\n\n    reg [3:0] Q;\n    wire [3:0] shifted_Q;\n    wire [3:0] added_A;\n    wire [3:0] subbed_A;\n\n    shift_register shift_reg (\n    .clk(clk),\n    .reset(reset),\n    .SER(SER),\n    .SHIFT(shifted_Q),\n    .LOAD(Q)\n);\n\n    adder_subtractor addsub (\n    .A(A),\n    .B(shifted_Q),\n    .sub(sub),\n    .result(added_A),\n    .sub_result(subbed_A)\n);\n\n    assign result = (sub) ? subbed_A : added_A;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (result ^ 4'h1) : result;\nend\n// HT_END\nendmodule",
+    "source_index": 457,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "result"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

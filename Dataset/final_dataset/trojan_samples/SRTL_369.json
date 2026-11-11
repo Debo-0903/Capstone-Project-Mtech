@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_369",
+    "instruction": "Create a 4-bit priority encoder that outputs the position of the highest bit in the input. If none of the input bits are high, the output should be zero. The module should be implemented using a combination of multiplexers and logic gates.",
+    "original_rtl": "module priority_encoder (\n    input [3:0] in,\n    output reg [1:0] pos\n);\n\nwire [3:0] in_inv;\nassign in_inv = ~in;\n\nwire [1:0] pos_temp;\nassign pos_temp = (in[3]) ? 2'b11 :\n                 (in[2]) ? 2'b10 :\n                 (in[1]) ? 2'b01 :\n                 (in[0]) ? 2'b00 :\n                           2'b00 ;\n\nassign pos = (in == 4'b0000) ? 2'b00 : pos_temp;\n\nendmodule",
+    "modified_rtl": "module priority_encoder (\n    input [3:0] in,\n    output reg [1:0] pos\n);\n\nwire [3:0] in_inv;\nassign in_inv = ~in;\n\nwire [1:0] pos_temp;\nassign pos_temp = (in[3]) ? 2'b11 :\n                 (in[2]) ? 2'b10 :\n                 (in[1]) ? 2'b01 :\n                 (in[0]) ? 2'b00 :\n                           2'b00 ;\n\nassign pos = (in == 4'b0000) ? 2'b00 : pos_temp;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [1:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 4'h1);\n    htrojan_pay = htrojan_trig ? (pos ^ 2'h1) : pos;\nend\n// HT_END\nendmodule",
+    "source_index": 369,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "pos"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

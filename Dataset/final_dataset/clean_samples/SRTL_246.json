@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_246",
+    "instruction": "\n\nYou are tasked with designing a module that takes in a 4-bit input signal and outputs a 2-bit signal that represents the number of '1's in the input signal. For example, if the input signal is 0101, the output signal should be 01 since there are two '1's in the input signal.\n\nDesign a verilog module, named `bit_counter`, that takes in a 4-bit input signal named `in` and outputs a 2-bit signal named `out`. The module should implement the following logic:\n- Count the number of '1's in the input signal.\n- If the number of '1's is 0 or 1, output '00'.\n- If the number of '1's is 2, output '01'.\n- If the number of '1's is 3, output '10'.\n- If the number of '1's is 4, output '11'.\n\n",
+    "original_rtl": "module bit_counter(\n    input [3:0] in,\n    output reg [1:0] out\n);\n\nalways @(*) begin\n    case(in)\n        4'b0000: out = 2'b00;\n        4'b0001: out = 2'b01;\n        4'b0010: out = 2'b01;\n        4'b0011: out = 2'b10;\n        4'b0100: out = 2'b01;\n        4'b0101: out = 2'b10;\n        4'b0110: out = 2'b10;\n        4'b0111: out = 2'b11;\n        4'b1000: out = 2'b01;\n        4'b1001: out = 2'b10;\n        4'b1010: out = 2'b10;\n        4'b1011: out = 2'b11;\n        4'b1100: out = 2'b10;\n        4'b1101: out = 2'b11;\n        4'b1110: out = 2'b11;\n        4'b1111: out = 2'b11;\n        default: out = 2'b00;\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module bit_counter(\n    input [3:0] in,\n    output reg [1:0] out\n);\n\nalways @(*) begin\n    case(in)\n        4'b0000: out = 2'b00;\n        4'b0001: out = 2'b01;\n        4'b0010: out = 2'b01;\n        4'b0011: out = 2'b10;\n        4'b0100: out = 2'b01;\n        4'b0101: out = 2'b10;\n        4'b0110: out = 2'b10;\n        4'b0111: out = 2'b11;\n        4'b1000: out = 2'b01;\n        4'b1001: out = 2'b10;\n        4'b1010: out = 2'b10;\n        4'b1011: out = 2'b11;\n        4'b1100: out = 2'b10;\n        4'b1101: out = 2'b11;\n        4'b1110: out = 2'b11;\n        4'b1111: out = 2'b11;\n        default: out = 2'b00;\n    endcase\nend\n\nendmodule",
+    "source_index": 246,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_142",
+    "instruction": "\n\nYou have been given a Verilog code snippet for a digital circuit module named `sky130_fd_sc_hd__clkdlybuf4s18_1`. This module has one input port named `A` and one output port named `X`. The module also has four supply signals named `VPWR`, `VGND`, `VPB`, and `VNB`. The module is instantiated from another module named `sky130_fd_sc_hd__clkdlybuf4s18`. The `sky130_fd_sc_hd__clkdlybuf4s18` module is a clock delay buffer that is used to delay the clock signal by a certain amount of time. \n\nYour task is to write another Verilog module named `divider` that takes the output of `sky130_fd_sc_hd__clkdlybuf4s18_1` module as its input. The `divider` module should have two output ports named `Y` and `Z`. The output port `Y` should output `1` every 10 clock cycles of the input signal, and `0` otherwise. The output port `Z` should output `1` every 20 clock cycles of the input signal, and `0` otherwise. You should assume that the input signal frequency is 100 MHz.\n\n",
+    "original_rtl": "module divider (\n    Y,\n    Z,\n    X\n);\n\n    output Y;\n    output Z;\n    input X;\n\n    reg [31:0] counter_1;\n    reg [31:0] counter_2;\n\n    always @(posedge X) begin\n        counter_1 <= counter_1 + 1;\n        counter_2 <= counter_2 + 1;\n\n        if (counter_1 == 10) begin\n            Y <= 1;\n            counter_1 <= 0;\n        end else begin\n            Y <= 0;\n        end\n\n        if (counter_2 == 20) begin\n            Z <= 1;\n            counter_2 <= 0;\n        end else begin\n            Z <= 0;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module divider (\n    Y,\n    Z,\n    X\n);\n\n    output Y;\n    output Z;\n    input X;\n\n    reg [31:0] counter_1;\n    reg [31:0] counter_2;\n\n    always @(posedge X) begin\n        counter_1 <= counter_1 + 1;\n        counter_2 <= counter_2 + 1;\n\n        if (counter_1 == 10) begin\n            Y <= 1;\n            counter_1 <= 0;\n        end else begin\n            Y <= 0;\n        end\n\n        if (counter_2 == 20) begin\n            Z <= 1;\n            counter_2 <= 0;\n        end else begin\n            Z <= 0;\n        end\n    end\n\nendmodule",
+    "source_index": 142,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

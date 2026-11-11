@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_233",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 4-bit adder with carry-in and carry-out. The module should have the following inputs and outputs:\n\nInputs:\n- `a`: a 4-bit input signal\n- `b`: a 4-bit input signal\n- `cin`: a single-bit carry-in signal\n\nOutputs:\n- `sum`: a 4-bit output signal representing the sum of `a` and `b`\n- `cout`: a single-bit carry-out signal\n\nYour module should be named `adder4`. You may use any verilog operators or constructs that you deem necessary for the implementation. Your module should be synthesizable and should not use any non-synthesizable constructs.\n\n",
+    "original_rtl": "module adder4 (\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    output [3:0] sum,\n    output cout\n);\n\n    wire [3:0] temp_sum;\n    wire [3:0] temp_carry;\n    \n    assign temp_sum = a + b + cin;\n    assign temp_carry = {a[0], b[0], cin} + {a[1], b[1], temp_sum[0]} + {a[2], b[2], temp_sum[1]} + {a[3], b[3], temp_sum[2]};\n    \n    assign sum = temp_sum;\n    assign cout = temp_carry[4];\n    \nendmodule",
+    "modified_rtl": "module adder4 (\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    output [3:0] sum,\n    output cout\n);\n\n    wire [3:0] temp_sum;\n    wire [3:0] temp_carry;\n    \n    assign temp_sum = a + b + cin;\n    assign temp_carry = {a[0], b[0], cin} + {a[1], b[1], temp_sum[0]} + {a[2], b[2], temp_sum[1]} + {a[3], b[3], temp_sum[2]};\n    \n    assign sum = temp_sum;\n    assign cout = temp_carry[4];\n    \nendmodule",
+    "source_index": 233,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

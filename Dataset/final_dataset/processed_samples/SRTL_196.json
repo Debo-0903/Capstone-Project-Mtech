@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_196",
+    "instruction": "Please act as a professional verilog designer. Create a module that implements a 2-to-4 decoder with an enable input. The module should have two inputs: a 1-bit enable input and a 2-bit input. The output of the module should be four 1-bit outputs. When the enable input is high, the output should be the binary representation of the input. When the enable input is low, all outputs should be zero.",
+    "original_rtl": "module two_to_four_decoder (\n    input enable,\n    input [1:0] in,\n    output reg [3:0] out\n);\n\nalways @ (enable or in) begin\n    if (enable) begin\n        case (in)\n            2'b00: out = 4'b0001;\n            2'b01: out = 4'b0010;\n            2'b10: out = 4'b0100;\n            2'b11: out = 4'b1000;\n        endcase\n    end\n    else begin\n        out = 4'b0000;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module two_to_four_decoder (\n    input enable,\n    input [1:0] in,\n    output reg [3:0] out\n);\n\nalways @ (enable or in) begin\n    if (enable) begin\n        case (in)\n            2'b00: out = 4'b0001;\n            2'b01: out = 4'b0010;\n            2'b10: out = 4'b0100;\n            2'b11: out = 4'b1000;\n        endcase\n    end\n    else begin\n        out = 4'b0000;\n    end\nend\n\nendmodule",
+    "source_index": 196,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

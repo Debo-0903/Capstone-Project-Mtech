@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_214",
+    "instruction": "\n\nYou have been tasked with designing a verilog module for a simple calculator that can perform addition and subtraction of two 8-bit numbers. The module should have the following ports:\n\n- `clk`: a clock input\n- `reset`: a reset input\n- `ce`: a clock enable input\n- `a`: an 8-bit input for the first operand\n- `b`: an 8-bit input for the second operand\n- `op`: a 2-bit input that selects the operation to be performed (00 for addition, 01 for subtraction)\n- `result`: an 8-bit output for the result of the operation\n\nThe module should perform the following operations:\n\n- If `reset` is high, the module should reset itself to its initial state.\n- If `ce` is high, the module should perform the selected operation on the inputs `a` and `b` and output the result on `result`.\n\nAssume that the inputs `a` and `b` are valid and do not need to be checked for correctness.\n\nWrite the verilog code for the module that implements the above functionality.\n\n",
+    "original_rtl": "module simple_calculator(\n    clk,\n    reset,\n    ce,\n    a,\n    b,\n    op,\n    result);\n\nparameter ADD = 2'b00;\nparameter SUB = 2'b01;\n\ninput clk;\ninput reset;\ninput ce;\ninput [7:0] a;\ninput [7:0] b;\ninput [1:0] op;\noutput [7:0] result;\n\nreg [7:0] result_reg;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        result_reg <= 8'b0;\n    end else if (ce) begin\n        case (op)\n            ADD: result_reg <= a + b;\n            SUB: result_reg <= a - b;\n        endcase\n    end\nend\n\nassign result = result_reg;\n\nendmodule",
+    "modified_rtl": "module simple_calculator(\n    clk,\n    reset,\n    ce,\n    a,\n    b,\n    op,\n    result);\n\nparameter ADD = 2'b00;\nparameter SUB = 2'b01;\n\ninput clk;\ninput reset;\ninput ce;\ninput [7:0] a;\ninput [7:0] b;\ninput [1:0] op;\noutput [7:0] result;\n\nreg [7:0] result_reg;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        result_reg <= 8'b0;\n    end else if (ce) begin\n        case (op)\n            ADD: result_reg <= a + b;\n            SUB: result_reg <= a - b;\n        endcase\n    end\nend\n\nassign result = result_reg;\n\nendmodule",
+    "source_index": 214,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

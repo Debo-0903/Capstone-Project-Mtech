@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_096",
+    "instruction": "Please act as a professional verilog designer. Create a module that implements a 4-bit shift register with a parallel load input. The module should have two modes of operation: shift mode and load mode. In shift mode, the register should shift the bits to the left or right based on a control input. In load mode, the register should load the parallel input into the register.",
+    "original_rtl": "module shift_register (\n    input clk,\n    input [3:0] data_in,\n    input shift_right,\n    input load,\n    output reg [3:0] data_out\n);\n\nreg [3:0] register;\n\nalways @(posedge clk) begin\n    if (load) begin\n        register <= data_in;\n    end else begin\n        if (shift_right) begin\n            register <= {register[2:0], register[3]};\n        end else begin\n            register <= {register[1:3], register[0]};\n        end\n    end\nend\n\nassign data_out = register;\n\nendmodule",
+    "modified_rtl": "module shift_register (\n    input clk,\n    input [3:0] data_in,\n    input shift_right,\n    input load,\n    output reg [3:0] data_out\n);\n\nreg [3:0] register;\n\nalways @(posedge clk) begin\n    if (load) begin\n        register <= data_in;\n    end else begin\n        if (shift_right) begin\n            register <= {register[2:0], register[3]};\n        end else begin\n            register <= {register[1:3], register[0]};\n        end\n    end\nend\n\nassign data_out = register;\n\nendmodule",
+    "source_index": 96,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

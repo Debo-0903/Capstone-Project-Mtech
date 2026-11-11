@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_091",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a simple 8-bit adder. The module should have the following inputs and outputs:\n\nInputs:\n- `clk` : the clock signal\n- `rst` : the reset signal\n- `a` : the first 8-bit input\n- `b` : the second 8-bit input\n- `cin` : the carry-in bit\n\nOutputs:\n- `sum` : the 8-bit sum of `a` and `b`\n- `cout` : the carry-out bit\n\nThe module should have the following behavior:\n- When `rst` is high, the `sum` output should be 0 and the `cout` output should be 0.\n- On each rising edge of the `clk` signal, if `rst` is low and `cin` is low, the `sum` output should be the sum of `a` and `b`, and the `cout` output should be the carry-out bit from the addition.\n- On each rising edge of the `clk` signal, if `rst` is low and `cin` is high, the `sum` output should be the sum of `a`, `b`, and `cin`, and the `cout` output should be the carry-out bit from the addition.\n\nImplement the above behavior in a Verilog module named `adder`.\n\n",
+    "original_rtl": "module adder(\n    input clk,\n    input rst,\n    input [7:0] a,\n    input [7:0] b,\n    input cin,\n    output reg [7:0] sum,\n    output reg cout\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        sum <= 8'b0;\n        cout <= 1'b0;\n    end else begin\n        {cout, sum} <= a + b + cin;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module adder(\n    input clk,\n    input rst,\n    input [7:0] a,\n    input [7:0] b,\n    input cin,\n    output reg [7:0] sum,\n    output reg cout\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        sum <= 8'b0;\n        cout <= 1'b0;\n    end else begin\n        {cout, sum} <= a + b + cin;\n    end\nend\n\nendmodule",
+    "source_index": 91,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

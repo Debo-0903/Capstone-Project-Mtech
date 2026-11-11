@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_166",
+    "instruction": "\n\nYou have been hired by a company to design a verilog module that implements a 2-to-1 multiplexer. The module should have two input ports, `A` and `B`, and one output port, `Y`. Additionally, there should be a select input port, `S`, which determines which input is passed to the output. If `S` is 0, then `A` should be passed to `Y`. If `S` is 1, then `B` should be passed to `Y`. You should use the sky130_fd_sc_ls__dlxtp_1 module provided in the code snippet as the base for your module.\n\nCreate a verilog module that implements a 2-to-1 multiplexer using the sky130_fd_sc_ls__dlxtp_1 module as the base. Your module should have the following inputs and outputs:\n\n- `A`: input port\n- `B`: input port\n- `S`: input port\n- `Y`: output port\n\nYou should not use any other verilog module or gate in your design. \n\n",
+    "original_rtl": "module mux_2to1 (\n    A,\n    B,\n    S,\n    Y\n);\n\n    input A, B, S;\n    output Y;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    wire not_S;\n    sky130_fd_sc_ls__dlxtp_1 base (\n        .Q(Y),\n        .D(B),\n        .GATE(S)\n    );\n    sky130_fd_sc_ls__dlxtp_1 inv (\n        .Q(not_S),\n        .D(S),\n        .GATE(VPWR)\n    );\n\n    assign Y = (not_S & A) | (S & B);\nendmodule",
+    "modified_rtl": "module mux_2to1 (\n    A,\n    B,\n    S,\n    Y\n);\n\n    input A, B, S;\n    output Y;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    wire not_S;\n    sky130_fd_sc_ls__dlxtp_1 base (\n        .Q(Y),\n        .D(B),\n        .GATE(S)\n    );\n    sky130_fd_sc_ls__dlxtp_1 inv (\n        .Q(not_S),\n        .D(S),\n        .GATE(VPWR)\n    );\n\n    assign Y = (not_S & A) | (S & B);\nendmodule",
+    "source_index": 166,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

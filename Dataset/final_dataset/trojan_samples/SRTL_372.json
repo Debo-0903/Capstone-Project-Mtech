@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_372",
+    "instruction": "\n\nIn digital design, a flip-flop is a circuit element that can store a single bit of information. It has two inputs, a data input (D) and a clock input (CLK), and two outputs, a Q output and a complemented Q output (Q_B). When the clock input transitions from low to high, the flip-flop stores the value of the data input. The stored value is then available at the Q and Q_B outputs until the next clock transition.\n\nIn this problem, you are asked to implement a D flip-flop using Verilog. The flip-flop should have an asynchronous reset input (RESET_B), an active-high set input (SCD), and an active-high enable input (SCE). When the reset input is asserted, the flip-flop should output a low value. When the set input is asserted, the flip-flop should output a high value. When the enable input is deasserted, the flip-flop should hold its current value regardless of the data input.\n\nYou should create a Verilog module named \"dff\" that implements the D flip-flop. The module should have the following inputs and outputs:\n\n- input CLK: the clock input\n- input D: the data input\n- input SCD: the set input\n- input SCE: the enable input\n- input RESET_B: the reset input\n- output Q: the Q output\n- output Q_B: the Q_B output\n\nYou may assume that the inputs are synchronous to the clock and that there are no timing violations.\n\n",
+    "original_rtl": "module dff (\n    input CLK,\n    input D,\n    input SCD,\n    input SCE,\n    input RESET_B,\n    output Q,\n    output Q_B\n);\n\n    reg Q;\n    reg Q_B;\n\n    always @(posedge CLK or negedge RESET_B) begin\n        if (!RESET_B) begin\n            Q <= 1'b0;\n            Q_B <= 1'b1;\n        end else if (SCD) begin\n            Q <= 1'b1;\n            Q_B <= 1'b0;\n        end else if (SCE) begin\n            Q <= D;\n            Q_B <= ~D;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module dff (\n    input CLK,\n    input D,\n    input SCD,\n    input SCE,\n    input RESET_B,\n    output Q,\n    output Q_B\n);\n\n    reg Q;\n    reg Q_B;\n\n    always @(posedge CLK or negedge RESET_B) begin\n        if (!RESET_B) begin\n            Q <= 1'b0;\n            Q_B <= 1'b1;\n        end else if (SCD) begin\n            Q <= 1'b1;\n            Q_B <= 1'b0;\n        end else if (SCE) begin\n            Q <= D;\n            Q_B <= ~D;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (SCD == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 372,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "SCD"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

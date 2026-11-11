@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_205",
+    "instruction": "\nYou are tasked with designing a module that takes in a clock signal (`clk`) and a reset signal (`rst`). The module should have an output register (`o_reg_example`) of 8 bits and an input register (`i_reg_example`) of 8 bits. \n\nThe module should have a local parameter (`PARAM1`) set to a value of `32'h00000000`. You should also declare any necessary registers and wires.\n\nThe module should have both asynchronous and synchronous logic. \n\nThe asynchronous logic should be triggered by the reset signal (`rst`) and should reset the output register (`o_reg_example`) to 0. \n\nThe synchronous logic should be triggered by the positive edge of the clock signal (`clk`). The input register (`i_reg_example`) should be assigned to the output register (`o_reg_example`) on the positive edge of the clock signal (`clk`). \n\nWrite a Verilog module that meets the above requirements.\n\n",
+    "original_rtl": "module sdio_function_template (\n  input                     clk,\n  input                     rst,\n  output reg   [7:0]       o_reg_example,\n  input         [7:0]       i_reg_example\n);\n\n  //local parameters\n  localparam     PARAM1  = 32'h00000000;\n  \n  //registers/wires\n  reg [7:0] temp_reg;\n  \n  //asynchronous logic\n  always @ (posedge rst) begin\n    o_reg_example <= 8'b0;\n  end\n  \n  //synchronous logic\n  always @ (posedge clk) begin\n    temp_reg <= i_reg_example;\n    o_reg_example <= temp_reg;\n  end\n  \nendmodule",
+    "modified_rtl": "    module sdio_function_template (\n    input clk,\n    input rst,\n    output reg [7:0] o_reg_example,\n    input [7:0] i_reg_example\n);\n\n    //local parameters\n    localparam PARAM1 = 32'h00000000;\n\n    //registers/wires\n    reg [7:0] temp_reg;\n\n    //asynchronous logic\n    always @ (posedge rst) begin\n    o_reg_example <= 8'b0;\nend\n\n    //synchronous logic\n    always @ (posedge clk) begin\n    temp_reg <= i_reg_example;\n    o_reg_example <= temp_reg;\nend\n\nendmodule\n",
+    "source_index": 205,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

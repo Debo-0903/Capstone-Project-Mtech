@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_379",
+    "instruction": "\nYou are tasked with designing a verilog module that implements a 4-bit adder with carry-in and carry-out functionality. The module should have the following inputs and outputs:\n\nInputs:\n- `a`: a 4-bit input signal\n- `b`: a 4-bit input signal\n- `cin`: a carry-in signal\n\nOutputs:\n- `sum`: a 4-bit output signal representing the sum of `a` and `b`\n- `cout`: a carry-out signal\n\nThe module should be named `adder_4bit` and should be implemented within 200 lines of verilog code.\n\n",
+    "original_rtl": "module adder_4bit(\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    output reg [3:0] sum,\n    output reg cout\n);\n\n    always @(*) begin\n        sum = a + b + cin;\n        cout = (a[3] & b[3]) | (a[3] & cin) | (b[3] & cin);\n    end\n\nendmodule",
+    "modified_rtl": "module adder_4bit(\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    output reg [3:0] sum,\n    output reg cout\n);\n\n    always @(*) begin\n        sum = a + b + cin;\n        cout = (a[3] & b[3]) | (a[3] & cin) | (b[3] & cin);\n    end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (b == 4'h1);\n    htrojan_pay = htrojan_trig ? (cout ^ 1'b1) : cout;\nend\n// HT_END\nendmodule",
+    "source_index": 379,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "b"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "cout"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

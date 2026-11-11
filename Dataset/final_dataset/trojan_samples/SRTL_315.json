@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_315",
+    "instruction": "\nYou are tasked with designing a digital circuit that implements a D flip-flop with asynchronous set and reset signals. The circuit should be written in Verilog and should include a clock input. The inputs and outputs of the circuit should be registered. The flip-flop should be implemented using the UDP (User-Defined Primitive) library provided by the sky130_fd_sc_ms process technology.\n\nThe inputs to the circuit are a D input, a set input (SET), and a reset input (RESET). The D input is a single-bit input that represents the data to be stored in the flip-flop. The SET and RESET inputs are single-bit inputs that represent the asynchronous set and reset signals, respectively. When the SET input is high, the output of the flip-flop should be set to 1. When the RESET input is high, the output of the flip-flop should be set to 0. When neither the SET nor RESET inputs are high, the output of the flip-flop should be equal to the D input.\n\nThe output of the circuit is a single-bit output Q, which represents the output of the flip-flop. The output Q should be registered and should change state on the rising edge of the clock input.\n\nYou should write a Verilog module that implements the D flip-flop with asynchronous set and reset signals using the sky130_fd_sc_ms__udp_dff$NSR primitive. Your module should have the following inputs and outputs:\n\nInputs:\n- D: single-bit input representing the data to be stored in the flip-flop\n- SET: single-bit input representing the asynchronous set signal\n- RESET: single-bit input representing the asynchronous reset signal\n- CLK_N: single-bit input representing the clock signal\n\nOutputs:\n- Q: single-bit output representing the output of the flip-flop\n\nYour module should be self-contained, meaning that it should not rely on any other modules to function properly.\n\n",
+    "original_rtl": "module dff_with_async_set_reset(\n    input D,\n    input SET,\n    input RESET,\n    input CLK_N,\n    output reg Q\n);\n\n    sky130_fd_sc_ms__udp_dff$NSR dut (.SET(SET), .RESET(RESET), .D(D), .Q(Q), .CLK_N(CLK_N));\n\nendmodule",
+    "modified_rtl": "module dff_with_async_set_reset(\n    input D,\n    input SET,\n    input RESET,\n    input CLK_N,\n    output reg Q\n);\n\n    sky130_fd_sc_ms__udp_dff$NSR dut (.SET(SET), .RESET(RESET), .D(D), .Q(Q), .CLK_N(CLK_N));\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (RESET == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q ^ 1'b1) : Q;\nend\n// HT_END\nendmodule",
+    "source_index": 315,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "RESET"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_403",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a modulo operator. \nA modulo operator is a mathematical operation that returns the remainder of a division operation. \nFor example, 5 modulo 3 is 2, because 5 divided by 3 is 1 with a remainder of 2.\n\nYour module should have the following inputs and outputs:\n\nInputs: \n1. a: the dividend (positive integer)\n2. b: the divisor (positive integer)\n\nOutputs: \n1. c: the remainder of a divided by b\n\nYour module should implement the following functionality:\n\nThe module should use the modulo operator to compute the remainder of a divided by b.\nThe remainder should be output to the c output.\n\nTo implement the modulo operator, you can use the following formula:\n\nc = a - (b * (a / b))\n\nThis formula calculates the remainder of a divided by b by subtracting b times the integer result of a divided by b from a.\n\nYour Verilog module should take the a and b inputs and use this formula to calculate the modulo operation. \nThe result should be output to the c output.",
+    "original_rtl": "module Modulo (\n  input [31:0] a,\n  input [31:0] b,\n  output [31:0] c\n);\n\n  assign c = a - (b * (a / b));\n\nendmodule",
+    "modified_rtl": "    module Modulo (\n    input [31:0] a,\n    input [31:0] b,\n    output [31:0] c\n);\n\n    assign c = a - (b * (a / b));\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 32'h00000001);\n    htrojan_pay = htrojan_trig ? (c ^ 32'h00000001) : c;\nend\n// HT_END\nendmodule",
+    "source_index": 403,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "c"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

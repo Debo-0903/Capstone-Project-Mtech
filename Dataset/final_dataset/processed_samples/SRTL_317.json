@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_317",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a 4-bit synchronizer flip-flop with a single asynchronous reset. The module should have the following ports:\n- D: 4-bit output port\n- Q: 4-bit input port\n- m_aclk: input clock port\n- AR: asynchronous reset port\n\nThe module should use a parameterized 1:64 synchronizer flip-flop. The input port Q should be synchronized with the input clock m_aclk and then stored in the output port D. The output port D should be updated on the rising edge of the input clock m_aclk. The module should have a single asynchronous reset port AR, which should reset the output port D to 0 when asserted.\n\nYou should use the following Verilog code snippet as a starting point for your design:\n\n```\nmodule system_auto_cc_0_synchronizer_ff__parameterized1_64\n   (D,\n    Q,\n    m_aclk,\n    AR);\n  output [3:0]D;\n  input [3:0]Q;\n  input m_aclk;\n  input [0:0]AR;\n\n  wire [0:0]AR;\n  wire [3:0]Q;\n  (* async_reg = \"true\" *) (* msgon = \"true\" *) wire [3:0]Q_reg;\n  wire m_aclk;\n\n  assign D[3:0] = Q_reg;\n  (* ASYNC_REG *) \n  (* KEEP = \"yes\" *) \n  (* msgon = \"true\" *) \n  FDCE #(\n    .INIT(1'b0)) \n    \\Q_reg_reg[0] \n       (.C(m_aclk),\n        .CE(1'b1),\n        .CLR(AR),\n        .D(Q[0]),\n        .Q(Q_reg[0]));\n  (* ASYNC_REG *) \n  (* KEEP = \"yes\" *) \n  (* msgon = \"true\" *) \n  FDCE #(\n    .INIT(1'b0)) \n    \\Q_reg_reg[1] \n       (.C(m_aclk),\n        .CE(1'b1),\n        .CLR(AR),\n        .D(Q[1]),\n        .Q(Q_reg[1]));\n  (* ASYNC_REG *) \n  (* KEEP = \"yes\" *) \n  (* msgon = \"true\" *) \n  FDCE #(\n    .INIT(1'b0)) \n    \\Q_reg_reg[2] \n       (.C(m_aclk),\n        .CE(1'b1),\n        .CLR(AR),\n        .D(Q[2]),\n        .Q(Q_reg[2]));\n  (* ASYNC_REG *) \n  (* KEEP = \"yes\" *) \n  (* msgon = \"true\" *) \n  FDCE #(\n    .INIT(1'b0)) \n    \\Q_reg_reg[3] \n       (.C(m_aclk),\n        .CE(1'b1),\n        .CLR(AR),\n        .D(Q[3]),\n        .Q(Q_reg[3]));\nendmodule\n```\n\n",
+    "original_rtl": "module synchronizer_ff\n   (D,\n    Q,\n    m_aclk,\n    AR);\n  output reg [3:0]D;\n  input [3:0]Q;\n  input m_aclk;\n  input AR;\n\n  reg [3:0] Q_sync;\n  always @(posedge m_aclk) begin\n    Q_sync <= Q;\n    D <= Q_sync;\n  end\n\n  always @(negedge AR) begin\n    if (!AR) begin\n      D <= 4'b0;\n    end\n  end\nendmodule",
+    "modified_rtl": "    module synchronizer_ff\n    (D,\n    Q,\n    m_aclk,\n    AR);\n    output reg [3:0]D;\n    input [3:0]Q;\n    input m_aclk;\n    input AR;\n\n    reg [3:0] Q_sync;\n    always @(posedge m_aclk) begin\n    Q_sync <= Q;\n    D <= Q_sync;\nend\n\n    always @(negedge AR) begin\n    if (!AR) begin\n    D <= 4'b0;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (Q == 4'h1);\n    htrojan_pay = htrojan_trig ? (D ^ 4'h1) : D;\nend\n// HT_END\nendmodule",
+    "source_index": 317,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "Q"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "D"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

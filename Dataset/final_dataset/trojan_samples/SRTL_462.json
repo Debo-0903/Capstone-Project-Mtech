@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_462",
+    "instruction": "\n\nYou are tasked with designing a digital circuit that takes in three inputs, A1, A2, and B1_N, and produces a single output, Y. The circuit should implement the following Boolean expression: Y = (A1 AND A2) NOR (NOT B1_N).\n\nYou should implement this circuit in Verilog using only one module. The module should be named \"digital_circuit\" and should have the following input and output ports:\n\n- Input: A1 (1 bit)\n- Input: A2 (1 bit)\n- Input: B1_N (1 bit)\n- Output: Y (1 bit)\n\nYou can assume that all inputs are valid and that the circuit should be implemented using only basic logic gates (AND, NOR, NOT, etc.). \n\nWrite a Verilog code for this digital circuit and verify its functionality using a simulation.\n\n",
+    "original_rtl": "module digital_circuit (\n    input A1,\n    input A2,\n    input B1_N,\n    output Y\n);\n\n    // Local signals\n    wire b;\n    wire and0_out;\n    wire nor0_out_Y;\n\n    //  Name  Output      Other arguments\n    not not0 (b, B1_N);\n    and and0 (and0_out, A1, A2);\n    nor nor0 (nor0_out_Y, b, and0_out);\n    buf buf0 (Y, nor0_out_Y);\n\nendmodule",
+    "modified_rtl": "module digital_circuit (\n    input A1,\n    input A2,\n    input B1_N,\n    output Y\n);\n\n    // Local signals\n    wire b;\n    wire and0_out;\n    wire nor0_out_Y;\n\n    //  Name  Output      Other arguments\n    not not0 (b, B1_N);\n    and and0 (and0_out, A1, A2);\n    nor nor0 (nor0_out_Y, b, and0_out);\n    buf buf0 (Y, nor0_out_Y);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A2 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 462,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

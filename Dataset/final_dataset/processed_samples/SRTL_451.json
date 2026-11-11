@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_451",
+    "instruction": "Please act as a professional Verilog designer. Create a module that combines a barrel shifter-based rotator with an 100-bit BDD-based circuit that performs XOR, OR, and AND operations using the same input ports, and outputs the results on three separate output ports. The rotator should be a 100-bit synchronous loadable rotator with left/right enable. Additionally, include an extra module that takes in the output from the rotator and the output from the circuit and performs a bitwise OR operation.",
+    "original_rtl": "module rotator(\n    input clk,\n    input reset,\n    input load,\n    input [1:0] ena,\n    input [99:0] in,\n    output reg [99:0] q\n);\n\nalways @(posedge clk, posedge reset) begin\n    if (reset) begin\n        q <= 100'b0;\n    end else if (load) begin\n        q <= in;\n    end else if (ena[0]) begin\n        q <= {q[98:0], q[99]};\n    end else if (ena[1]) begin\n        q <= {q[1:99], q[0]};\n    end\nend\n\nendmodule\n\nmodule bdd_circuit(\n    input [99:0] in,\n    output out_or,\n    output out_xor,\n    output out_and\n);\n\nassign out_or = |in;\nassign out_xor = ^in;\nassign out_and = &in;\n\nendmodule\n\nmodule bitwise_or(\n    input [99:0] in1,\n    input [99:0] in2,\n    output [99:0] out\n);\n\nassign out = in1 | in2;\n\nendmodule\n\nmodule top_module(\n    input clk,\n    input reset,\n    input load,\n    input [1:0] ena,\n    input [99:0] in,\n    output out_or,\n    output out_xor,\n    output out_and,\n    output reg [99:0] q\n);\n\nrotator rotator_inst(\n    .clk(clk),\n    .reset(reset),\n    .load(load),\n    .ena(ena),\n    .in(in),\n    .q(q)\n);\n\nbdd_circuit bdd_circuit_inst(\n    .in(q),\n    .out_or(out_or),\n    .out_xor(out_xor),\n    .out_and(out_and)\n);\n\nbitwise_or bitwise_or_inst(\n    .in1(q),\n    .in2({out_or, out_xor, out_and}),\n    .out(out)\n);\n\nendmodule",
+    "modified_rtl": "    module rotator(\n    input clk,\n    input reset,\n    input load,\n    input [1:0] ena,\n    input [99:0] in,\n    output reg [99:0] q\n);\n\n    always @(posedge clk, posedge reset) begin\n    if (reset) begin\n    q <= 100'b0;\nend else if (load) begin\n    q <= in;\nend else if (ena[0]) begin\n    q <= {q[98:0], q[99]};\nend else if (ena[1]) begin\n    q <= {q[1:99], q[0]};\nend\nend\n\nendmodule\n\n    module bdd_circuit(\n    input [99:0] in,\n    output out_or,\n    output out_xor,\n    output out_and\n);\n\n    assign out_or = |in;\n    assign out_xor = ^in;\n    assign out_and = &in;\n\nendmodule\n\n    module bitwise_or(\n    input [99:0] in1,\n    input [99:0] in2,\n    output [99:0] out\n);\n\n    assign out = in1 | in2;\n\nendmodule\n\n    module top_module(\n    input clk,\n    input reset,\n    input load,\n    input [1:0] ena,\n    input [99:0] in,\n    output out_or,\n    output out_xor,\n    output out_and,\n    output reg [99:0] q\n);\n\n    rotator rotator_inst(\n    .clk(clk),\n    .reset(reset),\n    .load(load),\n    .ena(ena),\n    .in(in),\n    .q(q)\n);\n\n    bdd_circuit bdd_circuit_inst(\n    .in(q),\n    .out_or(out_or),\n    .out_xor(out_xor),\n    .out_and(out_and)\n);\n\n    bitwise_or bitwise_or_inst(\n    .in1(q),\n    .in2({out_or, out_xor, out_and}),\n    .out(out)\n);\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? (out_and ^ 1'b1) : out_and;\nend\n// HT_END\nendmodule",
+    "source_index": 451,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out_and"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

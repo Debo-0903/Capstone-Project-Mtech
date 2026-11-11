@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_529",
+    "instruction": "Design a module that can perform XOR operation on two 1-bit binary numbers using a combination of combinatorial logic and a flip-flop. The module must have a clock input and should be able to take two 1-bit binary numbers as input and provide a 1-bit binary number as output, which is the result of XOR operation of the two input values.",
+    "original_rtl": "module xor_comb_ff(\n    input clk,\n    input a,\n    input b,\n    output reg out_comb_ff\n);\n\nreg a_ff;\n\nalways @(posedge clk) begin\n    a_ff <= a;\n    out_comb_ff <= a_ff ^ b;\nend\n\nendmodule",
+    "modified_rtl": "    module xor_comb_ff(\n    input clk,\n    input a,\n    input b,\n    output reg out_comb_ff\n);\n\n    reg a_ff;\n\n    always @(posedge clk) begin\n    a_ff <= a;\n    out_comb_ff <= a_ff ^ b;\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? (out_comb_ff ^ 1'b1) : out_comb_ff;\nend\n// HT_END\nendmodule",
+    "source_index": 529,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out_comb_ff"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

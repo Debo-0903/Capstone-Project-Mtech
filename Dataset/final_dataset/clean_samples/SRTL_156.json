@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_156",
+    "instruction": "\n\nYou are tasked with designing a module that implements a 4-input AND gate using only 3-input NAND gates. You should create a module with the following interface:\n\n```\nmodule JAND4B(A1, A2, A3, A4, O);\ninput   A1;\ninput   A2;\ninput   A3;\ninput   A4;\noutput  O;\n// your code here\nendmodule\n```\n\nYour module should implement the following logic: `O = A1 & A2 & A3 & A4`, where `&` denotes the logical AND operation. You should only use the provided `JNAND3B` module and instantiate it as necessary.\n\nTo complete this task, you should follow these steps:\n1. Instantiate the `JNAND3B` module to create a 3-input NAND gate.\n2. Use the 3-input NAND gate to create a 2-input NAND gate.\n3. Use the 2-input NAND gate to create a 4-input NAND gate.\n4. Use the 4-input NAND gate to implement the 4-input AND gate.\n\nYour module should be able to pass the following test cases:\n\n```\n// Test case 1: All inputs are high\nA1 = 1;\nA2 = 1;\nA3 = 1;\nA4 = 1;\nO = 1;\n\n// Test case 2: One input is low\nA1 = 1;\nA2 = 0;\nA3 = 1;\nA4 = 1;\nO = 0;\n\n// Test case 3: Two inputs are low\nA1 = 1;\nA2 = 0;\nA3 = 1;\nA4 = 0;\nO = 0;\n\n// Test case 4: Three inputs are low\nA1 = 1;\nA2 = 0;\nA3 = 0;\nA4 = 0;\nO = 0;\n\n// Test case 5: All inputs are low\nA1 = 0;\nA2 = 0;\nA3 = 0;\nA4 = 0;\nO = 0;\n```\n\n",
+    "original_rtl": "module JAND4B(A1, A2, A3, A4, O);\ninput   A1;\ninput   A2;\ninput   A3;\ninput   A4;\noutput  O;\n\nwire n1, n2, n3;\n\nJNAND3B g1(n1, A1, A2, A3);\nJNAND3B g2(n2, n1, A4, n1);\nJNAND3B g3(n3, n2, n2, n2);\nJNAND3B g4(O, n3, n3, n3);\n\nendmodule",
+    "modified_rtl": "module JAND4B(A1, A2, A3, A4, O);\ninput   A1;\ninput   A2;\ninput   A3;\ninput   A4;\noutput  O;\n\nwire n1, n2, n3;\n\nJNAND3B g1(n1, A1, A2, A3);\nJNAND3B g2(n2, n1, A4, n1);\nJNAND3B g3(n3, n2, n2, n2);\nJNAND3B g4(O, n3, n3, n3);\n\nendmodule",
+    "source_index": 156,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

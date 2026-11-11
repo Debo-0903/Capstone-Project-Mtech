@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_571",
+    "instruction": "\nYou are tasked with designing a module that takes in four inputs (A, B, C, and D) and outputs a single value (Y). The module should implement a NOR4 gate, which outputs a high value only when all four inputs are low. The module should be named `nor4_module` and should be implemented within 200 lines of Verilog code.\n\nAssume that the inputs and output are all 1-bit signals, and that the module should be synthesizable. You may use any necessary Verilog libraries.\n\nDesign the `nor4_module` module and test it with appropriate inputs to ensure that it works as expected.\n\n",
+    "original_rtl": "module nor4_module (\n    input A,\n    input B,\n    input C,\n    input D,\n    output reg Y\n);\n\n    always @(*) begin\n        if(!(A|B|C|D)) begin\n            Y = 1'b1;\n        end else begin\n            Y = 1'b0;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module nor4_module (\n    input A,\n    input B,\n    input C,\n    input D,\n    output reg Y\n);\n\n    always @(*) begin\n    if(!(A|B|C|D)) begin\n    Y = 1'b1;\nend else begin\n    Y = 1'b0;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 571,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

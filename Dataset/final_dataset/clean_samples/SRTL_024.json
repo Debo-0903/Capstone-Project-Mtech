@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_024",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in three inputs: a clock signal (`clk`), a data input (`in`), and a reset signal (`reset`). The module should output a signal (`out`) that toggles between 0 and 1 on each rising edge of the clock signal, but only if the input signal (`in`) is different from the previous output signal.\n\nSpecifically, the module should behave as follows:\n- At the first rising edge of the clock signal, the output signal (`out`) should be 0.\n- On each subsequent rising edge of the clock signal, if the input signal (`in`) is different from the previous output signal, the output signal (`out`) should toggle between 0 and 1.\n- If the input signal (`in`) is the same as the previous output signal, the output signal (`out`) should remain the same.\n\nIf the reset signal (`reset`) is asserted (i.e., goes high), the output signal (`out`) should be set to 0 on the next rising edge of the clock signal, regardless of the input signal (`in`).\n\nYou should implement this module using registers and combinational logic.\n\n",
+    "original_rtl": "module toggle2pulse(\n   // Outputs\n   out,\n   // Inputs\n   clk, in, reset\n   );\n   \n   //clocks\n   input  clk; \n   \n   input  in;   \n   output out;\n\n   //reset\n   input  reset;\n   reg \t  out_reg;\n   reg   \t  out_reg_last;\n         \n   always @ (posedge clk) begin\n     if(reset) begin\n       out_reg <= 1'b0;\n     end else begin\n       out_reg_last <= out_reg;\n       out_reg <= in;\n     end\n   end\n      \n   assign out = (in ^ out_reg_last) ? ~out_reg_last : out_reg_last;\n\nendmodule",
+    "modified_rtl": "module toggle2pulse(\n   // Outputs\n   out,\n   // Inputs\n   clk, in, reset\n   );\n   \n   //clocks\n   input  clk; \n   \n   input  in;   \n   output out;\n\n   //reset\n   input  reset;\n   reg \t  out_reg;\n   reg   \t  out_reg_last;\n         \n   always @ (posedge clk) begin\n     if(reset) begin\n       out_reg <= 1'b0;\n     end else begin\n       out_reg_last <= out_reg;\n       out_reg <= in;\n     end\n   end\n      \n   assign out = (in ^ out_reg_last) ? ~out_reg_last : out_reg_last;\n\nendmodule",
+    "source_index": 24,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

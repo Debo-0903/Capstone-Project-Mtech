@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_374",
+    "instruction": "\n\nYou have been tasked with designing a 4-to-1 multiplexer (MUX) using Verilog. The MUX should have 4 input signals (A0, A1, A2, A3) and 2 select signals (S0, S1). The output signal of the MUX should be X. \n\nYou are provided with a code snippet for the MUX module, which includes the input and output signals, as well as the voltage supply signals. Your task is to complete the code for the MUX module to ensure that it functions correctly.\n\nYour completed code should implement the following behavior:\n- If S0 and S1 are both 0, the output X should be equal to A0.\n- If S0 is 0 and S1 is 1, the output X should be equal to A1.\n- If S0 is 1 and S1 is 0, the output X should be equal to A2.\n- If S0 and S1 are both 1, the output X should be equal to A3.\n\nNote that you should only use one module within 200 lines of Verilog code to complete this task.\n\n",
+    "original_rtl": "module sky130_fd_sc_hs__mux4_2 (\n    X ,\n    A0,\n    A1,\n    A2,\n    A3,\n    S0,\n    S1\n);\n\n    output X ;\n    input  A0;\n    input  A1;\n    input  A2;\n    input  A3;\n    input  S0;\n    input  S1;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n\n    wire X1, X2, X3;\n\n    // Implementing the behavior of the multiplexer\n    assign X1 = (S0 & S1) ? A3 : A2;\n    assign X2 = (!S0 & S1) ? A1 : X1;\n    assign X3 = (S0 & !S1) ? A2 : X2;\n    assign X = (!S0 & !S1) ? A0 : X3;\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_hs__mux4_2 (\n    X ,\n    A0,\n    A1,\n    A2,\n    A3,\n    S0,\n    S1\n);\n\n    output X ;\n    input  A0;\n    input  A1;\n    input  A2;\n    input  A3;\n    input  S0;\n    input  S1;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n\n    wire X1, X2, X3;\n\n    // Implementing the behavior of the multiplexer\n    assign X1 = (S0 & S1) ? A3 : A2;\n    assign X2 = (!S0 & S1) ? A1 : X1;\n    assign X3 = (S0 & !S1) ? A2 : X2;\n    assign X = (!S0 & !S1) ? A0 : X3;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (S0 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 374,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "S0"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

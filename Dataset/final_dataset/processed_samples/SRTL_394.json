@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_394",
+    "instruction": "\nYou are tasked with creating a Verilog module that takes in a single input `i` and outputs a single bit `oa`. However, there is a catch - the module cannot be longer than 200 lines of Verilog code. \n\nThe Verilog module should perform the following operations:\n\n1. Assign a value of 1'b1 to the input `i`.\n2. Assign the value of `i` to the output `oa`.\n\nYour task is to write a Verilog module that meets these requirements and is no longer than 200 lines of code.\n\n",
+    "original_rtl": "module a (input i, output oa);\n   // verilator lint_off ASSIGNIN\n   assign i = 1'b1;\n   assign oa = i;\nendmodule",
+    "modified_rtl": "module a (input i, output oa);\n   // verilator lint_off ASSIGNIN\n   assign i = 1'b1;\n   assign oa = i;\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (i == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 394,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "i"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

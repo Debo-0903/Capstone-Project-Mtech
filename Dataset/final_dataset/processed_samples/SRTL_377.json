@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_377",
+    "instruction": "Please act as a professional Verilog designer. Your task is to implement a fixed-point arithmetic block that can perform addition, subtraction, multiplication, and division operations. \nFixed-point arithmetic is a method of representing numbers with a fixed number of digits after the decimal point. \nIn this task, you will implement a block that can perform fixed-point arithmetic on two input numbers and output the result.\n\nYour module should have the following inputs and outputs:\n\nInputs: \n- two fixed-point numbers (num1, num2) with a specified number of integer bits and fractional bits.\n- a 2-bit control signal (ctrl) that specifies the operation to be performed. \n  00: addition\n  01: subtraction\n  10: multiplication\n  11: division\n\nOutputs:\n- the result of the operation (result) with the same number of integer bits and fractional bits as the input numbers.\n\nYour module should have the following parameters:\n\n- integer_bits: the number of bits used to represent the integer portion of the fixed-point numbers.\n- fractional_bits: the number of bits used to represent the fractional portion of the fixed-point numbers.\n\nTo implement the fixed-point arithmetic block, you should use Verilog code to perform the specified operations based on the control signal. \nFor addition and subtraction, you can simply add or subtract the two input numbers. \nFor multiplication and division, you will need to perform the operation on the integer and fractional portions separately and then combine the results.\n\nTo perform multiplication, you can use the built-in Verilog operator '*'. \nFor division, you will need to convert the divisor to a fixed-point number with the same number of fractional bits as the dividend and then perform integer division followed by multiplication.",
+    "original_rtl": "module fixed_point_arithmetic (\n  input signed [integer_bits+fractional_bits-1:0] num1,\n  input signed [integer_bits+fractional_bits-1:0] num2,\n  input [1:0] ctrl,\n  output signed [integer_bits+fractional_bits-1:0] result\n);\n\nparameter integer_bits = 4;\nparameter fractional_bits = 4;\n\nreg signed [integer_bits+fractional_bits-1:0] temp_result;\n\nalways @(*) begin\n  case(ctrl)\n    2'b00: temp_result = num1 + num2; // addition\n    2'b01: temp_result = num1 - num2; // subtraction\n    2'b10: temp_result = num1 * num2; // multiplication\n    2'b11: temp_result = (num1 << fractional_bits) / num2; // division\n  endcase\nend\n\nassign result = temp_result;\n\nendmodule",
+    "modified_rtl": "    module fixed_point_arithmetic (\n    input signed [integer_bits+fractional_bits-1:0] num1,\n    input signed [integer_bits+fractional_bits-1:0] num2,\n    input [1:0] ctrl,\n    output signed [integer_bits+fractional_bits-1:0] result\n);\n\n    parameter integer_bits = 4;\n    parameter fractional_bits = 4;\n\n    reg signed [integer_bits+fractional_bits-1:0] temp_result;\n\n    always @(*) begin\n    case(ctrl)\n    2'b00: temp_result = num1 + num2; // addition\n    2'b01: temp_result = num1 - num2; // subtraction\n    2'b10: temp_result = num1 * num2; // multiplication\n    2'b11: temp_result = (num1 << fractional_bits) / num2; // division\nendcase\nend\n\n    assign result = temp_result;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (num1 == 1'b1);\n    htrojan_pay = htrojan_trig ? (result ^ 1'b1) : result;\nend\n// HT_END\nendmodule",
+    "source_index": 377,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "num1"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "result"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

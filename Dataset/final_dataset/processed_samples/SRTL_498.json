@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_498",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements memory protection blocks. Memory protection blocks are digital circuits that restrict access to certain memory locations in a computer system. \n\nYour module should have the following inputs and outputs:\n\nInputs: \n- a set of n address lines (addr)\n- a write enable signal (wen)\n- a read enable signal (ren)\n- a data input (din)\n\nOutputs: \n- a data output (dout)\n\nThe module should also have the following parameters:\n\nn: the number of address lines\nm: the size of the memory block\np: the number of protection blocks\n\nYour module should implement the following functionality:\n\n- The circuit should have p protection blocks, each of which is responsible for restricting access to a specific memory location.\n- The circuit should have m memory locations, each of which can be accessed if the corresponding protection block allows it.\n- The circuit should allow write or read access to the memory location based on the value of the write enable signal (wen) or read enable signal (ren).\n- The circuit should allow the data input (din) to be written to the memory location if the corresponding protection block allows it.\n- The circuit should output the data stored in the memory location (dout) if the corresponding protection block allows read access.\n\nTo implement the memory protection blocks, you should use Verilog code to define the memory locations and protection blocks as Boolean functions of the address lines. You should then use these functions to control the read and write access to the memory locations. Finally, you should output the data stored in the memory location if read access is allowed.",
+    "original_rtl": "module mem_protect (\n  input [n-1:0] addr,\n  input wen,\n  input ren,\n  input [7:0] din,\n  output [7:0] dout\n);\n\nparameter n = 8; // number of address lines\nparameter m = 256; // size of memory block\nparameter p = 16; // number of protection blocks\n\nreg [7:0] mem [0:m-1]; // memory block\nreg [p-1:0] protect [0:n-1]; // protection blocks\n\nassign dout = (ren && protect[addr]) ? mem[addr] : 8'hZZ; // read access\n\nalways @ (posedge clk) begin\n  if (wen && protect[addr]) mem[addr] <= din; // write access\nend\n\nendmodule",
+    "modified_rtl": "module mem_protect (\n  input [n-1:0] addr,\n  input wen,\n  input ren,\n  input [7:0] din,\n  output [7:0] dout\n);\n\nparameter n = 8; // number of address lines\nparameter m = 256; // size of memory block\nparameter p = 16; // number of protection blocks\n\nreg [7:0] mem [0:m-1]; // memory block\nreg [p-1:0] protect [0:n-1]; // protection blocks\n\nassign dout = (ren && protect[addr]) ? mem[addr] : 8'hZZ; // read access\n\nalways @ (posedge clk) begin\n  if (wen && protect[addr]) mem[addr] <= din; // write access\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (ren == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 498,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "ren"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_269",
+    "instruction": "\n\nWrite a Verilog module that implements a 4-bit adder-subtractor circuit. The circuit should have two 4-bit inputs, A and B, and a control input, C. If C is 0, the circuit should perform addition; if C is 1, the circuit should perform subtraction. The output of the circuit should be a 4-bit result, R, and a carry-out, Cout.\n\nYou are not allowed to use the \"+\" or \"-\" operators in your implementation.\n\n",
+    "original_rtl": "module addsub (\n  input [3:0] A,\n  input [3:0] B,\n  input C,\n  output reg [3:0] R,\n  output reg Cout\n);\n\n  always @(*) begin\n    if (C == 1) begin\n      R = A - B;\n      Cout = (A < B) ? 0 : 1;\n    end else begin\n      R = A + B;\n      Cout = (R[4] == 1) ? 1 : 0;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "    module addsub (\n    input [3:0] A,\n    input [3:0] B,\n    input C,\n    output reg [3:0] R,\n    output reg Cout\n);\n\n    always @(*) begin\n    if (C == 1) begin\n    R = A - B;\n    Cout = (A < B) ? 0 : 1;\nend else begin\n    R = A + B;\n    Cout = (R[4] == 1) ? 1 : 0;\nend\nend\n\nendmodule\n",
+    "source_index": 269,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

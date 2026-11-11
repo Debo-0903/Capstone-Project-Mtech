@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_279",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a parity generator and checker. \nA parity generator is a digital circuit that takes a set of input signals and generates a single output signal that is the parity of the input signals. \nThe parity is defined as the exclusive OR (XOR) of the input signals. For example, if the input signals are 0101, the parity is 1.\nA parity checker is a digital circuit that takes a set of input signals and a parity signal and checks whether the parity of the input signals matches the parity signal. If there is a mismatch, the circuit should output an error signal.\n\nYour module should have the following inputs and outputs:\n\nInputs: a set of n input signals (in1, in2, ..., inn) and a parity selector signal (par)\nOutputs: a parity signal (out) and an error signal (err)\nThe module should also have the following parameters:\n\nn: the number of input signals\nYour module should implement the following functionality:\n\nThe circuit should generate the parity of the input signals using XOR gates.\nThe circuit should compare the generated parity with the parity selector signal.\nIf the two parities match, the circuit should output the generated parity on the out signal and a logic 0 on the err signal.\nIf the two parities do not match, the circuit should output the generated parity on the out signal and a logic 1 on the err signal.\nTo implement the parity generator and checker, you should use Verilog code to define the XOR gates to generate the parity and to compare the generated parity with the parity selector signal.",
+    "original_rtl": "module parity_generator_checker (\n  input [n-1:0] in,\n  input par,\n  output out,\n  output err\n);\n\nparameter n = 4; // number of input signals\n\nwire parity = in[0];\ngenvar i;\ngenerate\n  for (i = 1; i < n; i = i + 1) begin : xor_loop\n    assign parity = parity ^ in[i];\n  end\nendgenerate\n\nassign out = parity;\nassign err = (par == parity) ? 1'b0 : 1'b1;\n\nendmodule",
+    "modified_rtl": "module parity_generator_checker (\n  input [n-1:0] in,\n  input par,\n  output out,\n  output err\n);\n\nparameter n = 4; // number of input signals\n\nwire parity = in[0];\ngenvar i;\ngenerate\n  for (i = 1; i < n; i = i + 1) begin : xor_loop\n    assign parity = parity ^ in[i];\n  end\nendgenerate\n\nassign out = parity;\nassign err = (par == parity) ? 1'b0 : 1'b1;\n\nendmodule",
+    "source_index": 279,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

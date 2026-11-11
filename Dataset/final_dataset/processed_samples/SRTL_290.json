@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_290",
+    "instruction": "\n\nYou have been tasked with designing a clock gate module that can be used in a larger Verilog design. The module should take in a clock signal, an enable signal, and a test enable signal, and output a gated clock signal. The module should use a D flip-flop with an enable input to gate the clock signal.\n\nDesign a module named \"clock_gate\" that meets these requirements. The module should have the following inputs and outputs:\n- input clk: the clock signal\n- input en: the enable signal\n- input te: the test enable signal\n- output enclk: the gated clock signal\n\nTo implement the gated clock signal, use the following logic:\n- When the enable signal (en) is high, the output clock signal (enclk) should be the same as the input clock signal (clk).\n- When the enable signal (en) is low, the output clock signal (enclk) should be low.\n\nThe module should also have an initial block that annotates the design with SDF (Standard Delay Format) timing information. The SDF file should be named \"clock_gate.sdf\".\n\nDesign the module to be self-contained, within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module clock_gate (\n    input clk,\n    input en,\n    input te,\n    output reg enclk\n);\n\n    TLATNTSCAX2TS latch (\n        .E(en),\n        .SE(te),\n        .CK(clk),\n        .ECK(enclk)\n    );\n\n    initial begin\n        $sdf_annotate(\"clock_gate.sdf\");\n    end\n\n    always @(posedge clk) begin\n        if (en == 1'b1) begin\n            enclk <= 1'b1;\n        end else begin\n            enclk <= 1'b0;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module clock_gate (\n    input clk,\n    input en,\n    input te,\n    output reg enclk\n);\n\n    TLATNTSCAX2TS latch (\n        .E(en),\n        .SE(te),\n        .CK(clk),\n        .ECK(enclk)\n    );\n\n    initial begin\n        $sdf_annotate(\"clock_gate.sdf\");\n    end\n\n    always @(posedge clk) begin\n        if (en == 1'b1) begin\n            enclk <= 1'b1;\n        end else begin\n            enclk <= 1'b0;\n        end\n    end\n\nendmodule",
+    "source_index": 290,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

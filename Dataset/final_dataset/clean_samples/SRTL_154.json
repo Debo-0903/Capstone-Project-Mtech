@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_154",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in three signed 23-bit inputs, `a`, `b`, and `c`. The module should output a wire `int_AB`, which is the difference between `a` and `b`. The module should also check if `int_AB` is equal to `c` and output an error message if they are not equal.\n\nWrite a verilog module that satisfies the above requirements. \n\n",
+    "original_rtl": "module check (input signed [22:0] a, b, c, \n              output wire signed [22:0] int_AB);\n\n  assign int_AB = a - b;\n\n  always @(a, b, int_AB, c) begin\n    #1;\n    if (int_AB !== c) begin\n      $display(\"ERROR\");\n      $finish;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module check (input signed [22:0] a, b, c, \n              output wire signed [22:0] int_AB);\n\n  assign int_AB = a - b;\n\n  always @(a, b, int_AB, c) begin\n    #1;\n    if (int_AB !== c) begin\n      $display(\"ERROR\");\n      $finish;\n    end\n  end\n\nendmodule",
+    "source_index": 154,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

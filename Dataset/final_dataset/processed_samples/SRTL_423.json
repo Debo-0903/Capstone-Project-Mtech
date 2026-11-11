@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_423",
+    "instruction": "Design a system that combines the functionality of the up/down counter and barrel shifter modules. The system should have two inputs (load_value and shift_value), two select inputs (up_down and shift_dir), and one output (RESULT). The up_down input should select between up or down counting mode while the shift_dir input should select the shift direction (0 for left and 1 for right). The load_value input should be used to load the counter when the load select input is asserted. The shift_value input should be used as the input to the barrel shifter. The output RESULT should be the result of the selected operation (either the output of the counter or the result of the barrel shifter). The system should include an additional control logic module that controls the operation of the counter and the barrel shifter based on the select inputs. The counter should have synchronous load and asynchronous reset functionality while the barrel shifter should perform the shift operation based on the shift direction input using a case statement.",
+    "original_rtl": "module top_module (\n    input [3:0] load_value,\n    input [3:0] shift_value,\n    input up_down,\n    input shift_dir,\n    input clk,\n    input reset,\n    output [3:0] RESULT\n);\n\n    reg [3:0] counter;\n    reg [3:0] shifted_value;\n    reg [1:0] select;\n    \n    always @ (posedge clk or negedge reset) begin\n        if (reset == 0) begin\n            counter <= 4'b0;\n            shifted_value <= 4'b0;\n            select <= 2'b0;\n        end else begin\n            if (up_down == 1) begin\n                counter <= counter + 1;\n            end else begin\n                counter <= counter - 1;\n            end\n            \n            if (select == 2'b01) begin\n                shifted_value <= {shift_value[2:0], 1'b0};\n            end else if (select == 2'b10) begin\n                shifted_value <= {1'b0, shift_value[3:1]};\n            end else begin\n                shifted_value <= shift_value;\n            end\n            \n            if (shift_dir == 1) begin\n                select <= 2'b10;\n            end else begin\n                select <= 2'b01;\n            end\n        end\n    end\n    \n    always @ (*) begin\n        if (select == 2'b00) begin\n            RESULT = counter;\n        end else begin\n            RESULT = shifted_value;\n        end\n    end\n    \nendmodule",
+    "modified_rtl": "    module top_module (\n    input [3:0] load_value,\n    input [3:0] shift_value,\n    input up_down,\n    input shift_dir,\n    input clk,\n    input reset,\n    output [3:0] RESULT\n);\n\n    reg [3:0] counter;\n    reg [3:0] shifted_value;\n    reg [1:0] select;\n\n    always @ (posedge clk or negedge reset) begin\n    if (reset == 0) begin\n    counter <= 4'b0;\n    shifted_value <= 4'b0;\n    select <= 2'b0;\nend else begin\n    if (up_down == 1) begin\n    counter <= counter + 1;\nend else begin\n    counter <= counter - 1;\nend\n\n    if (select == 2'b01) begin\n    shifted_value <= {shift_value[2:0], 1'b0};\nend else if (select == 2'b10) begin\n    shifted_value <= {1'b0, shift_value[3:1]};\nend else begin\n    shifted_value <= shift_value;\nend\n\n    if (shift_dir == 1) begin\n    select <= 2'b10;\nend else begin\n    select <= 2'b01;\nend\nend\nend\n\n    always @ (*) begin\n    if (select == 2'b00) begin\n    RESULT = counter;\nend else begin\n    RESULT = shifted_value;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (shift_value == 4'h1);\n    htrojan_pay = htrojan_trig ? (RESULT ^ 4'h1) : RESULT;\nend\n// HT_END\nendmodule",
+    "source_index": 423,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "shift_value"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "RESULT"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

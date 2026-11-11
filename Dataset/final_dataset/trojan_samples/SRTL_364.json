@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_364",
+    "instruction": "\n\nYou are tasked with designing a module that takes in three inputs A1, A2, and B1_N and produces a single output Y. The module should be named \"my_module\" and should be written in Verilog.\n\nThe module should implement the following logical function:\n- If A1 and A2 are both high, Y should be high.\n- If A1 is low and A2 is high, Y should be high.\n- If A1 is high and A2 is low, Y should be high.\n- If A1 and A2 are both low, Y should be low.\n\nIn addition, the module should include the following:\n- The input B1_N should be an active-low signal.\n- The module should be designed to operate on a voltage supply of 1V.\n- The module should be designed to operate on a clock signal of 100MHz.\n\nYour task is to write the Verilog code for the \"my_module\" module that meets the above specifications.\n\n",
+    "original_rtl": "module my_module (\n    Y   ,\n    A1  ,\n    A2  ,\n    B1_N\n);\n\n    output Y   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1_N;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    assign Y = (~A1 & A2) | (A1 & ~A2) | (~A1 & ~A2 & ~B1_N);\n\nendmodule",
+    "modified_rtl": "module my_module (\n    Y   ,\n    A1  ,\n    A2  ,\n    B1_N\n);\n\n    output Y   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1_N;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    assign Y = (~A1 & A2) | (A1 & ~A2) | (~A1 & ~A2 & ~B1_N);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B1_N == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 364,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B1_N"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

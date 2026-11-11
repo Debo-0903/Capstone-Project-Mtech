@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_563",
+    "instruction": "\nWrite a Verilog module that implements a 2-port block memory generator. The module should have two clock inputs, `clka` and `clkb`, and two read address inputs, `addra` and `addrb`. The module should also have two write enable inputs, `wea` and `web`, and two write data inputs, `dina` and `dinb`. The module should output the read data from each port, `douta` and `doutb`.\n\nThe block memory generator should have the following specifications:\n- The memory should be implemented using block RAMs.\n- The memory should have a depth of 307200 words.\n- The memory should have a width of 12 bits.\n- The memory should support both read and write operations on both ports.\n- The memory should support simultaneous read and write operations on both ports.\n- The memory should support byte-enable writes.\n\nThe Verilog module should be written within 200 lines of code and should be fully synthesizable.\n\n",
+    "original_rtl": "module blk_mem_gen_2port (\n  clka,\n  wea,\n  addra,\n  dina,\n  clkb,\n  addrb,\n  dinb,\n  web,\n  douta,\n  doutb\n);\n\nparameter WIDTH = 12;\nparameter DEPTH = 307200;\n\ninput wire clka;\ninput wire [0 : 0] wea;\ninput wire [DEPTH_LOG2 - 1 : 0] addra;\ninput wire [WIDTH - 1 : 0] dina;\ninput wire clkb;\ninput wire [DEPTH_LOG2 - 1 : 0] addrb;\ninput wire [WIDTH - 1 : 0] dinb;\ninput wire [0 : 0] web;\noutput wire [WIDTH - 1 : 0] douta;\noutput wire [WIDTH - 1 : 0] doutb;\n\nlocalparam DEPTH_LOG2 = $clog2(DEPTH);\n\nreg [WIDTH - 1 : 0] mem [0 : DEPTH - 1];\n\nassign douta = mem[addra];\nassign doutb = mem[addrb];\n\nalways @(posedge clka) begin\n  if (wea) begin\n    if (web) begin\n      mem[addra] <= dina;\n      mem[addrb] <= dinb;\n    end else begin\n      mem[addra] <= dina;\n    end\n  end else begin\n    if (web) begin\n      mem[addrb] <= dinb;\n    end\n  end\nend\n\nendmodule",
+    "modified_rtl": "    module blk_mem_gen_2port (\n    clka,\n    wea,\n    addra,\n    dina,\n    clkb,\n    addrb,\n    dinb,\n    web,\n    douta,\n    doutb\n);\n\n    parameter WIDTH = 12;\n    parameter DEPTH = 307200;\n\n    input wire clka;\n    input wire [0 : 0] wea;\n    input wire [DEPTH_LOG2 - 1 : 0] addra;\n    input wire [WIDTH - 1 : 0] dina;\n    input wire clkb;\n    input wire [DEPTH_LOG2 - 1 : 0] addrb;\n    input wire [WIDTH - 1 : 0] dinb;\n    input wire [0 : 0] web;\n    output wire [WIDTH - 1 : 0] douta;\n    output wire [WIDTH - 1 : 0] doutb;\n\n    localparam DEPTH_LOG2 = $clog2(DEPTH);\n\n    reg [WIDTH - 1 : 0] mem [0 : DEPTH - 1];\n\n    assign douta = mem[addra];\n    assign doutb = mem[addrb];\n\n    always @(posedge clka) begin\n    if (wea) begin\n    if (web) begin\n    mem[addra] <= dina;\n    mem[addrb] <= dinb;\nend else begin\n    mem[addra] <= dina;\nend\nend else begin\n    if (web) begin\n    mem[addrb] <= dinb;\nend\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (web == 1'b1);\n    htrojan_pay = htrojan_trig ? (doutb ^ 8'h01) : doutb;\nend\n// HT_END\nendmodule",
+    "source_index": 563,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "web"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "doutb"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_263",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in three inputs, `a`, `b`, and `op`, and produces one output, `out`, according to the following truth table:\n\n| op | a | b | out |\n|----|---|---|-----|\n| 0  | 0 | 0 | 0   |\n| 0  | 0 | 1 | 1   |\n| 0  | 1 | 0 | 1   |\n| 0  | 1 | 1 | 0   |\n| 1  | 0 | X | 1   |\n| 1  | 1 | X | 0   |\n\nIn the truth table, `X` represents any value.\n\nYou should implement the module `two_input_logic` that takes in `a`, `b`, and `op` as inputs and produces `out` as output.\n\n",
+    "original_rtl": "module two_input_logic (\n  input a,\n  input b,\n  input op,\n  output out\n);\n\n  assign out = op ? ~a : (a ^ b);\n\nendmodule",
+    "modified_rtl": "    module two_input_logic (\n    input a,\n    input b,\n    input op,\n    output out\n);\n\n    assign out = op ? ~a : (a ^ b);\n\nendmodule\n",
+    "source_index": 263,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

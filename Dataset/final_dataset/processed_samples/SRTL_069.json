@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_069",
+    "instruction": "Design a module that contains 8 D flip-flops. The DFFs should be triggered by the negative edge of clk. Implement the DFFs using a combination of T flip-flops and combinational logic. The module should take an 8-bit input (d) and output an 8-bit value (q).",
+    "original_rtl": "module dff_module (\n    input clk,\n    input d,\n    output q\n);\n\nreg t1, t2;\n\nalways @ (negedge clk) begin\n    t1 <= ~d;\n    t2 <= ~t1;\n    q <= ~t2;\nend\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input [7:0] d,\n    output [7:0] q\n);\n\nwire [7:0] t;\n\ndff_module dff0(clk, d[0], t[0]);\ndff_module dff1(clk, t[0], t[1]);\ndff_module dff2(clk, t[1], t[2]);\ndff_module dff3(clk, t[2], t[3]);\ndff_module dff4(clk, t[3], t[4]);\ndff_module dff5(clk, t[4], t[5]);\ndff_module dff6(clk, t[5], t[6]);\ndff_module dff7(clk, t[6], t[7]);\n\nassign q = t;\n\nendmodule",
+    "modified_rtl": "    module dff_module (\n    input clk,\n    input d,\n    output q\n);\n\n    reg t1, t2;\n\n    always @ (negedge clk) begin\n    t1 <= ~d;\n    t2 <= ~t1;\n    q <= ~t2;\nend\n\nendmodule\n\n    module top_module (\n    input clk,\n    input [7:0] d,\n    output [7:0] q\n);\n\n    wire [7:0] t;\n\n    dff_module dff0(clk, d[0], t[0]);\n    dff_module dff1(clk, t[0], t[1]);\n    dff_module dff2(clk, t[1], t[2]);\n    dff_module dff3(clk, t[2], t[3]);\n    dff_module dff4(clk, t[3], t[4]);\n    dff_module dff5(clk, t[4], t[5]);\n    dff_module dff6(clk, t[5], t[6]);\n    dff_module dff7(clk, t[6], t[7]);\n\n    assign q = t;\n\nendmodule\n",
+    "source_index": 69,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

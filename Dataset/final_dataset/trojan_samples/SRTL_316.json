@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_316",
+    "instruction": "Please act as a professional verilog designer. Create a module that implements a 4-bit adder-subtractor with a carry-in and overflow output. The module should have two 4-bit inputs and a 1-bit control input that determines whether the module should perform addition or subtraction. The output should be a 4-bit result and a 1-bit overflow signal.",
+    "original_rtl": "module add_sub (\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    input control,\n    output reg [3:0] result,\n    output reg overflow\n);\n\n    always @(*) begin\n        if (control == 1'b0) begin // subtraction\n            result = a - b - cin;\n            if (a < b + cin) begin\n                overflow = 1'b1;\n            end else begin\n                overflow = 1'b0;\n            end\n        end else begin // addition\n            result = a + b + cin;\n            if (result < a | result < b) begin\n                overflow = 1'b1;\n            end else begin\n                overflow = 1'b0;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module add_sub (\n    input [3:0] a,\n    input [3:0] b,\n    input cin,\n    input control,\n    output reg [3:0] result,\n    output reg overflow\n);\n\n    always @(*) begin\n        if (control == 1'b0) begin // subtraction\n            result = a - b - cin;\n            if (a < b + cin) begin\n                overflow = 1'b1;\n            end else begin\n                overflow = 1'b0;\n            end\n        end else begin // addition\n            result = a + b + cin;\n            if (result < a | result < b) begin\n                overflow = 1'b1;\n            end else begin\n                overflow = 1'b0;\n            end\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 316,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_414",
+    "instruction": "\n\nYou have been tasked with designing a module in Verilog that implements the `sky130_fd_sc_lp__o2111a_lp` module. The module has 9 inputs and 1 output, where `X` is the output and `A1`, `A2`, `B1`, `C1`, `D1`, `VPWR`, `VGND`, `VPB`, and `VNB` are the inputs. \n\nThe `sky130_fd_sc_lp__o2111a_lp` module has already been defined and is provided in the code snippet above. Your task is to write the Verilog code for the module that instantiates `sky130_fd_sc_lp__o2111a_lp` and connects the inputs and output to the appropriate wires. \n\nYou should assume that the `sky130_fd_sc_lp__o2111a_lp` module is correct and does not need to be modified. Your module should be named `top_module` and should be no more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module top_module (\n    X   ,\n    A1  ,\n    A2  ,\n    B1  ,\n    C1  ,\n    D1  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output X   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1  ;\n    input  C1  ;\n    input  D1  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    wire   X_wire;\n    \n    sky130_fd_sc_lp__o2111a_lp base (\n        .X(X_wire),\n        .A1(A1),\n        .A2(A2),\n        .B1(B1),\n        .C1(C1),\n        .D1(D1),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n    \n    assign X = X_wire;\n\nendmodule",
+    "modified_rtl": "module top_module (\n    X   ,\n    A1  ,\n    A2  ,\n    B1  ,\n    C1  ,\n    D1  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output X   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1  ;\n    input  C1  ;\n    input  D1  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    wire   X_wire;\n    \n    sky130_fd_sc_lp__o2111a_lp base (\n        .X(X_wire),\n        .A1(A1),\n        .A2(A2),\n        .B1(B1),\n        .C1(C1),\n        .D1(D1),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n    \n    assign X = X_wire;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (C1 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 414,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "C1"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

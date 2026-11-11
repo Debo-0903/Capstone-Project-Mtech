@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_215",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a simple calculator that can perform addition, subtraction, multiplication, and division. The calculator should have two input ports, \"a\" and \"b\", and four output ports, \"sum\", \"difference\", \"product\", and \"quotient\". The calculator should also have a control input port, \"op\", which selects the operation to be performed: 0 for addition, 1 for subtraction, 2 for multiplication, and 3 for division. The calculator should be able to handle both positive and negative numbers.\n\nDesign the Verilog module for this calculator, including the necessary input and output ports, and implement the logic for each operation. Ensure that your design is optimized and efficient.\n\n",
+    "original_rtl": "module calculator(\n  input signed [31:0] a, b,\n  input [1:0] op,\n  output reg signed [31:0] sum,\n  output reg signed [31:0] difference,\n  output reg signed [31:0] product,\n  output reg signed [31:0] quotient\n);\n\nalways @(*) begin\n  case(op)\n    2'b00: begin // addition\n      sum = a + b;\n    end\n    2'b01: begin // subtraction\n      difference = a - b;\n    end\n    2'b10: begin // multiplication\n      product = a * b;\n    end\n    2'b11: begin // division\n      quotient = a / b;\n    end\n    default: begin // invalid operation\n      sum = 0;\n      difference = 0;\n      product = 0;\n      quotient = 0;\n    end\n  endcase\nend\n\nendmodule",
+    "modified_rtl": "    module calculator(\n    input signed [31:0] a, b,\n    input [1:0] op,\n    output reg signed [31:0] sum,\n    output reg signed [31:0] difference,\n    output reg signed [31:0] product,\n    output reg signed [31:0] quotient\n);\n\n    always @(*) begin\n    case(op)\n    2'b00: begin // addition\n    sum = a + b;\nend\n    2'b01: begin // subtraction\n    difference = a - b;\nend\n    2'b10: begin // multiplication\n    product = a * b;\nend\n    2'b11: begin // division\n    quotient = a / b;\nend\n    default: begin // invalid operation\n    sum = 0;\n    difference = 0;\n    product = 0;\n    quotient = 0;\nend\nendcase\nend\n\nendmodule\n",
+    "source_index": 215,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

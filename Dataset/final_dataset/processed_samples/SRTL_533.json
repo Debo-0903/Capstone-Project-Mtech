@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_533",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a Pulse Width Modulator (PWM). \nA PWM is a type of digital circuit that generates a square wave with a varying duty cycle. \nThe duty cycle is determined by a control signal, which can be used to adjust the average power delivered to a load. \nYour module should have the following inputs and outputs:\n\nInputs: \n- clk: the clock signal that drives the PWM circuit\n- ctrl: the control signal that determines the duty cycle of the output signal\n\nOutputs: \n- pwm: the PWM output signal with a variable duty cycle\n\nYour module should implement the following functionality:\n\n- The PWM circuit should have a fixed frequency determined by the clock signal.\n- The duty cycle of the output signal should be determined by the control signal.\n- The duty cycle should be a variable value between 0 and 1, where 0 corresponds to a 0% duty cycle and 1 corresponds to a 100% duty cycle.\n- The duty cycle should be adjustable in small increments, such as 1/256 or 1/1024.\n- The PWM circuit should generate a square wave with the specified duty cycle.\n\nTo implement the PWM, you should use Verilog code to generate the square wave with a varying duty cycle. \nYou should use a counter to divide the clock signal into smaller intervals, and compare the count value to the control signal to determine the duty cycle. \nFinally, you should use an output buffer to generate the PWM output signal.",
+    "original_rtl": "module PWM (\n  input clk,\n  input [7:0] ctrl,\n  output pwm\n);\n\n  reg [7:0] count;\n  reg pwm_out;\n\n  always @(posedge clk) begin\n    if (count == 8'hFF) begin\n      count <= 8'h00;\n      pwm_out <= (count < ctrl);\n    end else begin\n      count <= count + 1;\n      pwm_out <= (count < ctrl);\n    end\n  end\n\n  assign pwm = pwm_out;\n\nendmodule",
+    "modified_rtl": "    module PWM (\n    input clk,\n    input [7:0] ctrl,\n    output pwm\n);\n\n    reg [7:0] count;\n    reg pwm_out;\n\n    always @(posedge clk) begin\n    if (count == 8'hFF) begin\n    count <= 8'h00;\n    pwm_out <= (count < ctrl);\nend else begin\n    count <= count + 1;\n    pwm_out <= (count < ctrl);\nend\nend\n\n    assign pwm = pwm_out;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (pwm ^ 1'b1) : pwm;\nend\n// HT_END\nendmodule",
+    "source_index": 533,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "pwm"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

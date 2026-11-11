@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_282",
+    "instruction": "Please act as a professional Verilog designer. Create a module that takes in four 8-bit unsigned numbers and outputs the minimum value. The module should use a combinational logic design and should not use any sequential elements such as registers or flip-flops. Please use standard comparison operators (a < b) to compare the input values.",
+    "original_rtl": "module min_finder (\n  input [7:0] num1,\n  input [7:0] num2,\n  input [7:0] num3,\n  input [7:0] num4,\n  output reg [7:0] min_val\n);\n\n  assign min_val = (num1 < num2) ? num1 : num2;\n  assign min_val = (min_val < num3) ? min_val : num3;\n  assign min_val = (min_val < num4) ? min_val : num4;\n\nendmodule\n",
+    "modified_rtl": "module min_finder (\n  input [7:0] num1,\n  input [7:0] num2,\n  input [7:0] num3,\n  input [7:0] num4,\n  output reg [7:0] min_val\n);\n\n  assign min_val = (num1 < num2) ? num1 : num2;\n  assign min_val = (min_val < num3) ? min_val : num3;\n  assign min_val = (min_val < num4) ? min_val : num4;\n\nendmodule\n",
+    "source_index": 282,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

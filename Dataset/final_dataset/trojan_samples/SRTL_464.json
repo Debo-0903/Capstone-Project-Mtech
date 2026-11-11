@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_464",
+    "instruction": "Please act as a professional Verilog designer. Design a system that detects rising edges of an 8-bit input signal, counts the number of '1's in a 255-bit input vector, and outputs the sum of their values. The system should use D flip-flops and XOR gates for edge detection and a population count circuit for bit counting. The combinational logic architecture should include an additional functional module that takes in both output vectors and outputs the sum of their values as an 8-bit binary number.\n\nThe Verilog module should have an active high synchronous reset that resets the edge detection and population count modules to their initial state, with the output sum set to 0. The system should be triggered by the positive edge of the input clock signal.",
+    "original_rtl": "module top_module (\n    input clk,\n    input reset,\n    input [7:0] in_signal,\n    input [254:0] in_vector,\n    output reg [7:0] output_sum\n);\n\nreg [7:0] edge_detect_out;\nreg [7:0] pop_count_out;\n\nwire [7:0] edge_detect_in;\nwire [7:0] pop_count_in;\n\n// Edge detection module\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        edge_detect_out <= 8'b0;\n    end else begin\n        edge_detect_out <= {edge_detect_out[6:0], in_signal[7]} ^ in_signal;\n    end\nend\n\n// Population count module\npopulation_count pop_count(\n    .in(in_vector),\n    .out(pop_count_out)\n);\n\n// Additional functional module\nalways @* begin\n    edge_detect_in = edge_detect_out;\n    pop_count_in = pop_count_out;\n    output_sum = $countones(edge_detect_in) + $countones(pop_count_in);\nend\n\nendmodule\n\n// Population count circuit\nmodule population_count (\n    input [254:0] in,\n    output reg [7:0] out\n);\n\ninteger i;\n\nalways @* begin\n    for (i = 0; i < 8; i = i + 1) begin\n        out[i] = $countones(in[(i*32)+31:i*32]);\n    end\nend\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input clk,\n    input reset,\n    input [7:0] in_signal,\n    input [254:0] in_vector,\n    output reg [7:0] output_sum\n);\n\nreg [7:0] edge_detect_out;\nreg [7:0] pop_count_out;\n\nwire [7:0] edge_detect_in;\nwire [7:0] pop_count_in;\n\n// Edge detection module\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        edge_detect_out <= 8'b0;\n    end else begin\n        edge_detect_out <= {edge_detect_out[6:0], in_signal[7]} ^ in_signal;\n    end\nend\n\n// Population count module\npopulation_count pop_count(\n    .in(in_vector),\n    .out(pop_count_out)\n);\n\n// Additional functional module\nalways @* begin\n    edge_detect_in = edge_detect_out;\n    pop_count_in = pop_count_out;\n    output_sum = $countones(edge_detect_in) + $countones(pop_count_in);\nend\n\nendmodule\n\n// Population count circuit\nmodule population_count (\n    input [254:0] in,\n    output reg [7:0] out\n);\n\ninteger i;\n\nalways @* begin\n    for (i = 0; i < 8; i = i + 1) begin\n        out[i] = $countones(in[(i*32)+31:i*32]);\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in_vector == 255'h0000000000000000000000000000000000000000000000000000000000000001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 464,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in_vector"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

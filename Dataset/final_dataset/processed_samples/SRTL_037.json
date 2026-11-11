@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_037",
+    "instruction": "Design a system that combines the barrel shifter and the 2-to-1 multiplexer modules. The system should have four inputs (A, B, Shift, and Direction) and one output (Y). A and B are the two inputs to the multiplexer, while Shift and Direction are the inputs to the barrel shifter module. The system should select between the A and B inputs based on the value of SEL, which is the output of the barrel shifter module. The barrel shifter module should shift the selected input by the specified number of bit positions and in the selected direction.",
+    "original_rtl": "module barrel_shifter (\n    input [3:0] A,\n    input [1:0] Shift,\n    input Direction,\n    output [3:0] Y\n);\n\nreg [3:0] shifted_value;\n\nalways @(*) begin\n    case ({Direction, Shift})\n        2'b00: shifted_value = A; // No shift\n        2'b01: shifted_value = A << Shift; // Left shift\n        2'b10: shifted_value = A >> Shift; // Right shift\n        2'b11: shifted_value = {A[0], A[3:1]}; // Rotate left\n    endcase\nend\n\nassign Y = shifted_value;\n\nendmodule\n\nmodule mux_2to1 (\n    input [3:0] A,\n    input [3:0] B,\n    input SEL,\n    output [3:0] Y\n);\n\nassign Y = SEL ? B : A;\n\nendmodule",
+    "modified_rtl": "    module barrel_shifter (\n    input [3:0] A,\n    input [1:0] Shift,\n    input Direction,\n    output [3:0] Y\n);\n\n    reg [3:0] shifted_value;\n\n    always @(*) begin\n    case ({Direction, Shift})\n    2'b00: shifted_value = A; // No shift\n    2'b01: shifted_value = A << Shift; // Left shift\n    2'b10: shifted_value = A >> Shift; // Right shift\n    2'b11: shifted_value = {A[0], A[3:1]}; // Rotate left\nendcase\nend\n\n    assign Y = shifted_value;\n\nendmodule\n\n    module mux_2to1 (\n    input [3:0] A,\n    input [3:0] B,\n    input SEL,\n    output [3:0] Y\n);\n\n    assign Y = SEL ? B : A;\n\nendmodule\n",
+    "source_index": 37,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

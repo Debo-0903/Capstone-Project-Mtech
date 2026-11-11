@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_420",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in 7 input signals and produces 7 output signals using a buffer module. The buffer module is already provided and named `bw_u1_buf_40x`. Your task is to instantiate this module 7 times and connect the input and output signals to the correct ports. The input and output signals are named `in1`, `in2`, `in3`, `in4`, `in5`, `in6`, `in7`, `out1`, `out2`, `out3`, `out4`, `out5`, `out6`, and `out7`. The connections should be as follows:\n- `in1` should be connected to the input port of the first buffer module (`I1`), and `out1` should be connected to the output port of the first buffer module (`I1`).\n- `in2` should be connected to the input port of the second buffer module (`I102`), and `out2` should be connected to the output port of the second buffer module (`I102`).\n- `in3` should be connected to the input port of the third buffer module (`I103`), and `out3` should be connected to the output port of the third buffer module (`I103`).\n- `in4` should be connected to the input port of the fourth buffer module (`I114`), and `out4` should be connected to the output port of the fourth buffer module (`I114`).\n- `in5` should be connected to the input port of the fifth buffer module (`I113`), and `out5` should be connected to the output port of the fifth buffer module (`I113`).\n- `in6` should be connected to the input port of the sixth buffer module (`I112`), and `out6` should be connected to the output port of the sixth buffer module (`I112`).\n- `in7` should be connected to the input port of the seventh buffer module (`I132`), and `out7` should be connected to the output port of the seventh buffer module (`I132`).\n\nWrite a Verilog module that implements the above connections and outputs the 7 output signals.\n\n",
+    "original_rtl": "module buffer_connections(\n    input in1,\n    input in2,\n    input in3,\n    input in4,\n    input in5,\n    input in6,\n    input in7,\n    output out1,\n    output out2,\n    output out3,\n    output out4,\n    output out5,\n    output out6,\n    output out7\n);\n\nbw_u1_buf_40x I1 (\n    .z(out1),\n    .a(in1)\n);\n\nbw_u1_buf_40x I102 (\n    .z(out2),\n    .a(in2)\n);\n\nbw_u1_buf_40x I103 (\n    .z(out3),\n    .a(in3)\n);\n\nbw_u1_buf_40x I114 (\n    .z(out4),\n    .a(in4)\n);\n\nbw_u1_buf_40x I113 (\n    .z(out5),\n    .a(in5)\n);\n\nbw_u1_buf_40x I112 (\n    .z(out6),\n    .a(in6)\n);\n\nbw_u1_buf_40x I132 (\n    .z(out7),\n    .a(in7)\n);\n\nendmodule",
+    "modified_rtl": "module buffer_connections(\n    input in1,\n    input in2,\n    input in3,\n    input in4,\n    input in5,\n    input in6,\n    input in7,\n    output out1,\n    output out2,\n    output out3,\n    output out4,\n    output out5,\n    output out6,\n    output out7\n);\n\nbw_u1_buf_40x I1 (\n    .z(out1),\n    .a(in1)\n);\n\nbw_u1_buf_40x I102 (\n    .z(out2),\n    .a(in2)\n);\n\nbw_u1_buf_40x I103 (\n    .z(out3),\n    .a(in3)\n);\n\nbw_u1_buf_40x I114 (\n    .z(out4),\n    .a(in4)\n);\n\nbw_u1_buf_40x I113 (\n    .z(out5),\n    .a(in5)\n);\n\nbw_u1_buf_40x I112 (\n    .z(out6),\n    .a(in6)\n);\n\nbw_u1_buf_40x I132 (\n    .z(out7),\n    .a(in7)\n);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in3 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 420,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in3"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

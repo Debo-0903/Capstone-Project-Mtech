@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_536",
+    "instruction": "\nYou are tasked with designing a module that implements a 4-bit counter with a synchronous reset signal. The counter should increment on every rising edge of the clock input signal, and reset to zero when the reset signal is asserted. The module should have the following ports:\n- `clk`: a 1-bit input clock signal\n- `rst`: a 1-bit input reset signal\n- `out`: a 4-bit output signal representing the current count value\n\nWrite a Verilog module that implements the above counter with synchronous reset. Your module should be named `counter` and should contain only combinational and synchronous logic.\n\n",
+    "original_rtl": "module counter(\n    input clk,\n    input rst,\n    output reg [3:0] out\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        out <= 4'b0;\n    end else begin\n        out <= out + 1;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module counter(\n    input clk,\n    input rst,\n    output reg [3:0] out\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        out <= 4'b0;\n    end else begin\n        out <= out + 1;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (rst == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 536,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "rst"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

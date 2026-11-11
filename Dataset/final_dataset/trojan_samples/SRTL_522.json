@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_522",
+    "instruction": "\n\nYou are tasked with designing a simple counter module in Verilog. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: a clock signal\n- `reset`: a reset signal\n\nOutputs:\n- `count`: a 4-bit output representing the current count value\n\nThe counter should increment on every clock cycle, and should reset to 0 when the `reset` signal is asserted.\n\nWrite a Verilog module that implements this counter.\n\n",
+    "original_rtl": "module counter(\n    input clk,\n    input reset,\n    output reg [3:0] count\n);\n\n    always @(posedge clk) begin\n        if (reset) begin\n            count <= 4'b0;\n        end else begin\n            count <= count + 1;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module counter(\n    input clk,\n    input reset,\n    output reg [3:0] count\n);\n\n    always @(posedge clk) begin\n        if (reset) begin\n            count <= 4'b0;\n        end else begin\n            count <= count + 1;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 522,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

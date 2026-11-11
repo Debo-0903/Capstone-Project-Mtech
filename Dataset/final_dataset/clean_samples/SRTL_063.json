@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_063",
+    "instruction": "\n\nYou are tasked with designing a 16K x 32-bit RAM module in Verilog. The module should have two input ports and one output port. The first input port (A1) is used to read data from the RAM, and the second input port (B1) is used to write data to the RAM. The output port (A1DATA) should output the data read from the RAM.\n\nThe RAM should be initialized to 4096'bx. The read and write operations should be synchronized with a single clock signal (CLK1). The read operation should be enabled when the A1EN input is high, and the address to be read is specified by the A1ADDR input. The write operation should be enabled when the B1EN input is high, and the data to be written is specified by the B1DATA input, and the address to be written to is specified by the B1ADDR input.\n\nThe RAM should have a write enable mask (WENB) that is always set to 32'hFFFFFFFF. This means that all bits in the RAM can be written to.\n\nDesign the RAM module within 200 lines of Verilog code, and make sure that it is fully functional and meets all the requirements specified above.\n\n",
+    "original_rtl": "module RAM16K (\n    input CLK1,\n    input [8:0] A1ADDR,\n    input A1EN,\n    output reg [31:0] A1DATA,\n    input [8:0] B1ADDR,\n    input [31:0] B1DATA,\n    input B1EN\n);\n\n    parameter [4095:0] INIT = 4096'bx;\n\n    reg [31:0] ram [0:4095];\n\n    always @(posedge CLK1) begin\n        if (A1EN) begin\n            A1DATA <= ram[A1ADDR];\n        end\n\n        if (B1EN) begin\n            ram[B1ADDR] <= B1DATA;\n        end\n    end\n\n    // Initialize RAM with INIT value\n    integer i;\n    initial begin\n        for (i = 0; i < 4096; i = i + 1) begin\n            ram[i] <= INIT;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module RAM16K (\n    input CLK1,\n    input [8:0] A1ADDR,\n    input A1EN,\n    output reg [31:0] A1DATA,\n    input [8:0] B1ADDR,\n    input [31:0] B1DATA,\n    input B1EN\n);\n\n    parameter [4095:0] INIT = 4096'bx;\n\n    reg [31:0] ram [0:4095];\n\n    always @(posedge CLK1) begin\n        if (A1EN) begin\n            A1DATA <= ram[A1ADDR];\n        end\n\n        if (B1EN) begin\n            ram[B1ADDR] <= B1DATA;\n        end\n    end\n\n    // Initialize RAM with INIT value\n    integer i;\n    initial begin\n        for (i = 0; i < 4096; i = i + 1) begin\n            ram[i] <= INIT;\n        end\n    end\n\nendmodule",
+    "source_index": 63,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

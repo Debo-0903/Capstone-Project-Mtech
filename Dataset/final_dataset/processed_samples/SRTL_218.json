@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_218",
+    "instruction": "\n\nYou are tasked with designing a result first-in, first-out (FIFO) module in Verilog. The module should have the following inputs and outputs:\n- aclr: asynchronous clear input\n- clock: clock input\n- data: input data (34 bits)\n- rdreq: read request input\n- wrreq: write request input\n- q: output data (34 bits)\n- usedw: output indicating the number of words used in the FIFO (10 bits)\n\nThe module should use the scfifo_component module, which is a pre-existing FIFO module with the following inputs and outputs:\n- aclr: asynchronous clear input\n- clock: clock input\n- data: input data (34 bits)\n- rdreq: read request input\n- wrreq: write request input\n- q: output data (34 bits)\n- usedw: output indicating the number of words used in the FIFO (10 bits)\n\nYour task is to create a Verilog module that instantiates the scfifo_component module and connects its inputs and outputs to the inputs and outputs of your module.\n\n",
+    "original_rtl": "module my_fifo (\n    aclr,\n    clock,\n    data,\n    rdreq,\n    wrreq,\n    q,\n    usedw\n);\n\n    input aclr;\n    input clock;\n    input [33:0] data;\n    input rdreq;\n    input wrreq;\n    output [33:0] q;\n    output [9:0] usedw;\n\n    wire [9:0] sub_wire0;\n    wire [33:0] sub_wire1;\n\n    scfifo scfifo_component (\n        .aclr(aclr),\n        .clock(clock),\n        .data(data),\n        .rdreq(rdreq),\n        .wrreq(wrreq),\n        .q(sub_wire1),\n        .usedw(sub_wire0)\n    );\n\n    assign q = sub_wire1;\n    assign usedw = sub_wire0;\n\nendmodule",
+    "modified_rtl": "module my_fifo (\n    aclr,\n    clock,\n    data,\n    rdreq,\n    wrreq,\n    q,\n    usedw\n);\n\n    input aclr;\n    input clock;\n    input [33:0] data;\n    input rdreq;\n    input wrreq;\n    output [33:0] q;\n    output [9:0] usedw;\n\n    wire [9:0] sub_wire0;\n    wire [33:0] sub_wire1;\n\n    scfifo scfifo_component (\n        .aclr(aclr),\n        .clock(clock),\n        .data(data),\n        .rdreq(rdreq),\n        .wrreq(wrreq),\n        .q(sub_wire1),\n        .usedw(sub_wire0)\n    );\n\n    assign q = sub_wire1;\n    assign usedw = sub_wire0;\n\nendmodule",
+    "source_index": 218,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

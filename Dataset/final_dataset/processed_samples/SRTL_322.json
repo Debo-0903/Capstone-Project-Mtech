@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_322",
+    "instruction": "\n\nDesign a verilog module for a 4-bit binary counter with synchronous reset. The counter should have two inputs, `clk` and `rst`, and one output `count`. The counter should increment on the rising edge of `clk` and reset to 0 on the rising edge of `rst`. The initial value of the counter should be 0.\n\n",
+    "original_rtl": "module binary_counter(\n  input clk,\n  input rst,\n  output reg [3:0] count\n);\n\n  always @(posedge clk, posedge rst) begin\n    if (rst) begin\n      count <= 4'b0;\n    end else begin\n      count <= count + 1;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module binary_counter(\n  input clk,\n  input rst,\n  output reg [3:0] count\n);\n\n  always @(posedge clk, posedge rst) begin\n    if (rst) begin\n      count <= 4'b0;\n    end else begin\n      count <= count + 1;\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (rst == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 322,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "rst"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

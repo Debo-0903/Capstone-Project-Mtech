@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_002",
+    "instruction": "Please act as a professional Verilog designer. Design a pipelined module that implements a 4-to-2 priority encoder. The module should have four 1-bit inputs (I0, I1, I2, I3) and two 2-bit outputs (O0, O1). The output should be the binary encoding of the highest-priority input that is asserted. If multiple inputs are asserted, the output should correspond to the input with the highest index number (i.e., the last asserted input in the list). Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module priority_encoder (\n    input [3:0] I,\n    output reg [1:0] O\n);\n\nreg [1:0] stage1_out;\nreg [1:0] stage2_out;\n\nalways @(*) begin\n    case (I)\n        4'b0001: stage1_out = 2'b00;\n        4'b0010: stage1_out = 2'b01;\n        4'b0100: stage1_out = 2'b10;\n        4'b1000: stage1_out = 2'b11;\n        default: stage1_out = 2'b00;\n    endcase\nend\n\nalways @(posedge clk) begin\n    stage2_out <= stage1_out;\nend\n\nassign O = stage2_out;\n\nendmodule",
+    "modified_rtl": "module priority_encoder (\n    input [3:0] I,\n    output reg [1:0] O\n);\n\nreg [1:0] stage1_out;\nreg [1:0] stage2_out;\n\nalways @(*) begin\n    case (I)\n        4'b0001: stage1_out = 2'b00;\n        4'b0010: stage1_out = 2'b01;\n        4'b0100: stage1_out = 2'b10;\n        4'b1000: stage1_out = 2'b11;\n        default: stage1_out = 2'b00;\n    endcase\nend\n\nalways @(posedge clk) begin\n    stage2_out <= stage1_out;\nend\n\nassign O = stage2_out;\n\nendmodule",
+    "source_index": 2,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

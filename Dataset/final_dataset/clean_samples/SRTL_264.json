@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_264",
+    "instruction": "Please act as a professional Verilog designer. Design a module that implements a 4-bit counter with a synchronous reset and an enable input. The module should have an output that goes high for one clock cycle when the counter reaches its maximum value (15) and then resets to zero. The module should also implement a feature that allows the user to set the counter to a specific value using a 4-bit input. Please implement this module in Verilog within 20 lines of code.",
+    "original_rtl": "module counter (\n  input clk,\n  input reset,\n  input enable,\n  input [3:0] set_value,\n  output reg [3:0] count,\n  output reg max_value_reached\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 0;\n      max_value_reached <= 0;\n    end\n    else if (enable) begin\n      if (count == 15) begin\n        count <= 0;\n        max_value_reached <= 1;\n      end\n      else begin\n        if (set_value != count)\n          count <= set_value;\n        else\n          count <= count + 1;\n        max_value_reached <= 0;\n      end\n    end\n  end\n\nendmodule\n",
+    "modified_rtl": "module counter (\n  input clk,\n  input reset,\n  input enable,\n  input [3:0] set_value,\n  output reg [3:0] count,\n  output reg max_value_reached\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 0;\n      max_value_reached <= 0;\n    end\n    else if (enable) begin\n      if (count == 15) begin\n        count <= 0;\n        max_value_reached <= 1;\n      end\n      else begin\n        if (set_value != count)\n          count <= set_value;\n        else\n          count <= count + 1;\n        max_value_reached <= 0;\n      end\n    end\n  end\n\nendmodule\n",
+    "source_index": 264,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

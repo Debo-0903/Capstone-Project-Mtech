@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_129",
+    "instruction": "\n\nYou have been given a verilog module called `multiplier_block` which contains a set of multipliers and a single output. The module has one input port `i_data0` which is a 32-bit wide input bus and one output port `o_data0` which is also a 32-bit wide bus. The module contains the following wires:\n\n- `w1`: a 32-bit wide wire\n- `w511`: a 32-bit wide wire\n- `w512`: a 32-bit wide wire\n- `w128`: a 32-bit wide wire\n- `w129`: a 32-bit wide wire\n- `w1022`: a 32-bit wide wire\n- `w893`: a 32-bit wide wire\n- `w7144`: a 32-bit wide wire\n\nThe following assignments have been made:\n\n- `w1` is assigned the value of `i_data0`\n- `w1022` is assigned the value of `w511` shifted left by 1 bit\n- `w128` is assigned the value of `w1` shifted left by 7 bits\n- `w129` is assigned the sum of `w1` and `w128`\n- `w511` is assigned the difference between `w512` and `w1`\n- `w512` is assigned the value of `w1` shifted left by 9 bits\n- `w7144` is assigned the value of `w893` shifted left by 3 bits\n- `w893` is assigned the difference between `w1022` and `w129`\n\nYour task is to write a verilog code to implement the `multiplier_block` module.\n\n",
+    "original_rtl": "module multiplier_block (\n    i_data0,\n    o_data0\n);\n\n  // Port mode declarations:\n  input   [31:0] i_data0;\n  output  [31:0] o_data0;\n\n  //Multipliers:\n\n  wire [31:0]\n    w1,\n    w512,\n    w511,\n    w128,\n    w129,\n    w1022,\n    w893,\n    w7144;\n\n  assign w1 = i_data0;\n  assign w1022 = w511 << 1;\n  assign w128 = w1 << 7;\n  assign w129 = w1 + w128;\n  assign w511 = w512 - w1;\n  assign w512 = w1 << 9;\n  assign w7144 = w893 << 3;\n  assign w893 = w1022 - w129;\n\n  assign o_data0 = w7144;\n\n  //multiplier_block area estimate = 5012.88474054412;\nendmodule",
+    "modified_rtl": "    module multiplier_block (\n    i_data0,\n    o_data0\n);\n\n    // Port mode declarations:\n    input [31:0] i_data0;\n    output [31:0] o_data0;\n\n    //Multipliers:\n\n    wire [31:0]\n    w1,\n    w512,\n    w511,\n    w128,\n    w129,\n    w1022,\n    w893,\n    w7144;\n\n    assign w1 = i_data0;\n    assign w1022 = w511 << 1;\n    assign w128 = w1 << 7;\n    assign w129 = w1 + w128;\n    assign w511 = w512 - w1;\n    assign w512 = w1 << 9;\n    assign w7144 = w893 << 3;\n    assign w893 = w1022 - w129;\n\n    assign o_data0 = w7144;\n\n    //multiplier_block area estimate = 5012.88474054412;\nendmodule\n",
+    "source_index": 129,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_461",
+    "instruction": "Please act as a professional Verilog designer. Create a Mealy state machine module with three states, two inputs, and one output. The module should detect a specific 4-bit sequence \"1011\" in the input data. When the sequence is detected, the output should be set to high. Reset is an active-high synchronous reset to state S0.",
+    "original_rtl": "module mealy_fsm_4bit_sequence_detection (\n  input clk,\n  input reset,\n  input data,\n  output reg match\n);\n\n  parameter S0 = 2'b00, S1 = 2'b01, S2 = 2'b10;\n  reg [1:0] state, next_state;\n\n  always @(posedge clk) begin\n    if (reset) begin\n      state <= S0;\n      match <= 1'b0;\n    end else begin\n      state <= next_state;\n      match <= 1'b0;\n      case (state)\n        S0: begin\n          if (data == 1'b1) begin\n            next_state <= S1;\n          end else begin\n            next_state <= S0;\n          end\n        end\n        S1: begin\n          if (data == 1'b0) begin\n            next_state <= S2;\n          end else begin\n            next_state <= S0;\n          end\n        end\n        S2: begin\n          if (data == 1'b1) begin\n            next_state <= S0;\n            match <= 1'b1;\n          end else begin\n            next_state <= S0;\n          end\n        end\n      endcase\n    end\n  end\n\nendmodule\n",
+    "modified_rtl": "    module mealy_fsm_4bit_sequence_detection (\n    input clk,\n    input reset,\n    input data,\n    output reg match\n);\n\n    parameter S0 = 2'b00, S1 = 2'b01, S2 = 2'b10;\n    reg [1:0] state, next_state;\n\n    always @(posedge clk) begin\n    if (reset) begin\n    state <= S0;\n    match <= 1'b0;\nend else begin\n    state <= next_state;\n    match <= 1'b0;\n    case (state)\n    S0: begin\n    if (data == 1'b1) begin\n    next_state <= S1;\nend else begin\n    next_state <= S0;\nend\nend\n    S1: begin\n    if (data == 1'b0) begin\n    next_state <= S2;\nend else begin\n    next_state <= S0;\nend\nend\n    S2: begin\n    if (data == 1'b1) begin\n    next_state <= S0;\n    match <= 1'b1;\nend else begin\n    next_state <= S0;\nend\nend\nendcase\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data == 1'b1);\n    htrojan_pay = htrojan_trig ? (match ^ 1'b1) : match;\nend\n// HT_END\nendmodule\n",
+    "source_index": 461,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "match"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

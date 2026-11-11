@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_007",
+    "instruction": "\nYou are tasked with designing a Verilog module that implements a combinational logic circuit. The module should have one output, Y, and five inputs, A1, A2, B1, C1, and D1. The circuit should implement the following logic:\n\n1. Y should be the output of a buffer gate.\n2. The input to the buffer gate should be the output of a NAND gate.\n3. The NAND gate should have four inputs: C1, B1, D1, and the output of an OR gate.\n4. The OR gate should have two inputs: A1 and A2.\n\nDesign a Verilog module that implements this circuit.\n\n",
+    "original_rtl": "module combinational_logic (\n    Y ,\n    A1,\n    A2,\n    B1,\n    C1,\n    D1\n);\n\n    // Module ports\n    output Y ;\n    input  A1;\n    input  A2;\n    input  B1;\n    input  C1;\n    input  D1;\n\n    // Local signals\n    wire or0_out    ;\n    wire nand0_out_Y;\n\n    //   Name   Output       Other arguments\n    or   or0   (or0_out    , A2, A1             );\n    nand nand0 (nand0_out_Y, C1, B1, D1, or0_out);\n    buf  buf0  (Y          , nand0_out_Y        );\n\nendmodule",
+    "modified_rtl": "module combinational_logic (\n    Y ,\n    A1,\n    A2,\n    B1,\n    C1,\n    D1\n);\n\n    // Module ports\n    output Y ;\n    input  A1;\n    input  A2;\n    input  B1;\n    input  C1;\n    input  D1;\n\n    // Local signals\n    wire or0_out    ;\n    wire nand0_out_Y;\n\n    //   Name   Output       Other arguments\n    or   or0   (or0_out    , A2, A1             );\n    nand nand0 (nand0_out_Y, C1, B1, D1, or0_out);\n    buf  buf0  (Y          , nand0_out_Y        );\n\nendmodule",
+    "source_index": 7,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

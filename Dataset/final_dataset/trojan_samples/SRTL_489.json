@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_489",
+    "instruction": "Create a module that consists of two 8-bit registers with active high synchronous reset, resetting to 0x34. Both registers should be triggered by the negative edge of the clock signal. Additionally, design an additive functional module that takes in both register outputs and outputs the sum of the two values. Finally, the output of the adder module should be provided as the module output.",
+    "original_rtl": "module register_adder (\n    input clk,\n    input reset,\n    input [7:0] d1,\n    input [7:0] d2,\n    output [7:0] q\n);\n\nreg [7:0] reg1, reg2;\n\nalways @(negedge clk) begin\n    if (reset) begin\n        reg1 <= 8'h34;\n        reg2 <= 8'h34;\n    end else begin\n        reg1 <= d1;\n        reg2 <= d2;\n    end\nend\n\nassign q = reg1 + reg2;\n\nendmodule",
+    "modified_rtl": "module register_adder (\n    input clk,\n    input reset,\n    input [7:0] d1,\n    input [7:0] d2,\n    output [7:0] q\n);\n\nreg [7:0] reg1, reg2;\n\nalways @(negedge clk) begin\n    if (reset) begin\n        reg1 <= 8'h34;\n        reg2 <= 8'h34;\n    end else begin\n        reg1 <= d1;\n        reg2 <= d2;\n    end\nend\n\nassign q = reg1 + reg2;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (q ^ 8'h01) : q;\nend\n// HT_END\nendmodule",
+    "source_index": 489,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "q"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

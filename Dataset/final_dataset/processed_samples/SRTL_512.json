@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_512",
+    "instruction": "\nYou have been tasked with designing a Verilog module that implements a block memory generator. The module should have the following inputs and outputs:\n\nInputs:\n- `clka` and `clkb`: clock signals\n- `addra` and `addrb`: address signals, each 16 bits wide\n- `dina`: data input, 4 bits wide\n- `wea`: write enable signal\n\nOutputs:\n- `doutb`: data output, 4 bits wide\n\nThe module should implement a block memory that can store 2^16 4-bit values. The memory should be accessible through two separate address ports (`addra` and `addrb`) and should be able to read and write data on the rising edge of either clock signal.\n\nThe module should be designed to work with a specific parameterization, as indicated by the module name `blk_mem_gen_0_blk_mem_gen_prim_width__parameterized5`. The specific parameterization is not relevant to this problem.\n\nDesign a Verilog module that meets the above requirements and is no longer than 200 lines of code.\n\n",
+    "original_rtl": "module block_memory_generator\n   (\n    input wire clka,\n    input wire clkb,\n    input wire [15:0] addra,\n    input wire [15:0] addrb,\n    input wire [3:0] dina,\n    input wire wea,\n    output reg [3:0] doutb\n   );\n\n   // Define memory array\n   reg [3:0] memory [0:65535];\n\n   // Read and write operations\n   always @(posedge clka, posedge clkb) begin\n      if (wea) memory[addra] <= dina;\n      doutb <= memory[addrb];\n   end\n\nendmodule",
+    "modified_rtl": "module block_memory_generator\n   (\n    input wire clka,\n    input wire clkb,\n    input wire [15:0] addra,\n    input wire [15:0] addrb,\n    input wire [3:0] dina,\n    input wire wea,\n    output reg [3:0] doutb\n   );\n\n   // Define memory array\n   reg [3:0] memory [0:65535];\n\n   // Read and write operations\n   always @(posedge clka, posedge clkb) begin\n      if (wea) memory[addra] <= dina;\n      doutb <= memory[addrb];\n   end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (dina == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 512,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "dina"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

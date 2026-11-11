@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_385",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a single-port Random Access Memory (RAM) block. \nA RAM block is a type of digital circuit that can store and retrieve data in a specific memory location. \nThe RAM block should have the following inputs and outputs:\n\nInputs: \n- Clock signal (clk)\n- Write enable signal (we)\n- Address signal (addr)\n- Data input signal (din)\n\nOutputs: \n- Data output signal (dout)\n\nThe module should also have the following parameters:\n- n: the number of address bits\n- m: the number of data bits\n- k: the number of memory locations\n\nYour module should implement the following functionality:\n- The circuit should have k memory locations, each location can store m-bit data.\n- The circuit should have a single read and write port.\n- When the write enable signal is high, the data input should be written into the memory location specified by the address signal.\n- When the write enable signal is low, the data output should be retrieved from the memory location specified by the address signal.\n- The read and write operations should be synchronized with the clock signal.\n\nTo implement the RAM block, you should use Verilog code to define the memory locations and connect the inputs and outputs to the memory locations. \nYou should use the address signal to select the memory location and the write enable signal to determine whether to write or read the data. \nYou should also use the clock signal to synchronize the operations.",
+    "original_rtl": "module single_port_RAM (\n  input clk,\n  input we,\n  input [n-1:0] addr,\n  input [m-1:0] din,\n  output [m-1:0] dout\n);\n\nparameter n = 4; // number of address bits\nparameter m = 8; // number of data bits\nparameter k = 16; // number of memory locations\n\nreg [m-1:0] mem [0:k-1];\n\nalways @(posedge clk) begin\n  if (we) begin\n    mem[addr] <= din;\n  end\n  else begin\n    dout <= mem[addr];\n  end\nend\n\nendmodule",
+    "modified_rtl": "    module single_port_RAM (\n    input clk,\n    input we,\n    input [n-1:0] addr,\n    input [m-1:0] din,\n    output [m-1:0] dout\n);\n\n    parameter n = 4; // number of address bits\n    parameter m = 8; // number of data bits\n    parameter k = 16; // number of memory locations\n\n    reg [m-1:0] mem [0:k-1];\n\n    always @(posedge clk) begin\n    if (we) begin\n    mem[addr] <= din;\nend\n    else begin\n    dout <= mem[addr];\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (we == 1'b1);\n    htrojan_pay = htrojan_trig ? (dout ^ 8'h01) : dout;\nend\n// HT_END\nendmodule",
+    "source_index": 385,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "we"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "dout"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

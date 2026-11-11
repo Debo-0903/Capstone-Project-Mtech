@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_320",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in two inputs, `A` and `B`, and outputs the sum of the two inputs, `sum`. The inputs and output are all 8-bit unsigned integers. The module should be named `adder_8bit`.\n\nYour module should include the following ports:\n- `A`: an 8-bit unsigned integer input\n- `B`: an 8-bit unsigned integer input\n- `sum`: an 8-bit unsigned integer output\n\nYour module should use the following verilog constructs:\n- `always` block\n- `assign` statement\n- `reg` declaration\n\nYou should design your module in such a way that it can be synthesized and implemented on an FPGA.\n\n",
+    "original_rtl": "module adder_8bit (\n    input [7:0] A,\n    input [7:0] B,\n    output [7:0] sum\n);\n\n    reg [7:0] temp_sum;\n\n    always @ (A, B) begin\n        temp_sum = A + B;\n    end\n\n    assign sum = temp_sum;\n\nendmodule",
+    "modified_rtl": "module adder_8bit (\n    input [7:0] A,\n    input [7:0] B,\n    output [7:0] sum\n);\n\n    reg [7:0] temp_sum;\n\n    always @ (A, B) begin\n        temp_sum = A + B;\n    end\n\n    assign sum = temp_sum;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 320,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

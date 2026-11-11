@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_574",
+    "instruction": "Please act as a professional verilog designer. Develop a module that implements a 2-bit counter with a synchronous reset feature. The module should have one input (CLK) and two outputs (Q1 and Q0). The counter should increment on every rising edge of the clock, and the outputs should reflect the current count value. When the reset input is high, the counter should be reset to 00.",
+    "original_rtl": "module counter_2bit (\n    input CLK,\n    input RESET,\n    output reg Q1,\n    output reg Q0\n);\n\n    always @(posedge CLK) begin\n        if (RESET) begin\n            Q1 <= 0;\n            Q0 <= 0;\n        end else begin\n            if (Q0 == 0 && Q1 == 0) begin\n                Q0 <= 1;\n            end else if (Q0 == 1 && Q1 == 0) begin\n                Q0 <= 0;\n                Q1 <= 1;\n            end else if (Q0 == 0 && Q1 == 1) begin\n                Q0 <= 1;\n                Q1 <= 1;\n            end else begin\n                Q0 <= 0;\n                Q1 <= 0;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module counter_2bit (\n    input CLK,\n    input RESET,\n    output reg Q1,\n    output reg Q0\n);\n\n    always @(posedge CLK) begin\n        if (RESET) begin\n            Q1 <= 0;\n            Q0 <= 0;\n        end else begin\n            if (Q0 == 0 && Q1 == 0) begin\n                Q0 <= 1;\n            end else if (Q0 == 1 && Q1 == 0) begin\n                Q0 <= 0;\n                Q1 <= 1;\n            end else if (Q0 == 0 && Q1 == 1) begin\n                Q0 <= 1;\n                Q1 <= 1;\n            end else begin\n                Q0 <= 0;\n                Q1 <= 0;\n            end\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (RESET == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 574,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "RESET"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

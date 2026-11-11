@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_177",
+    "instruction": "Please act as a professional verilog designer. In this problem, you need to implement a 5-variable function using a Karnaugh map. Here is the K-map:\n\nABCDE\\ | 000 | 001 | 011 | 010 | 110 | 111 | 101 | 100 |\n-------|-----|-----|-----|-----|-----|-----|-----|-----|\n 00 0  |  1  |  0  |  0  |  1  |  1  |  0  |  0  |  1  |\n 01 0  |  0  |  1  |  0  |  0  |  1  |  1  |  1  |  0  |\n 11 0  |  0  |  1  |  1  |  0  |  0  |  1  |  1  |  0  |\n 10 0  |  1  |  0  |  0  |  1  |  0  |  1  |  1  |  1  |\n 00 1  |  1  |  0  |  0  |  1  |  0  |  1  |  1  |  1  |\n 01 1  |  0  |  1  |  1  |  0  |  1  |  0  |  0  |  1  |\n 11 1  |  0  |  1  |  1  |  0  |  0  |  1  |  1  |  0  |\n 10 1  |  1  |  0  |  0  |  1  |  1  |  0  |  0  |  1  |\n\nYour task is to create a module named \"karnaugh_map\" to implement this function. The module should have 5 input wires (A, B, C, D, E) and 1 output reg (F). Within the module, you should use the Karnaugh map to simplify the function and write the simplified expression for F. You can use any method to simplify the function, but the final result must be correct according to the K-map.",
+    "original_rtl": "module karnaugh_map(\n  input wire A, B, C, D, E,\n  output reg F\n);\n\n  always @*\n    case ({A,B,C,D,E})\n      5'b00000, 5'b00001, 5'b00101, 5'b00100, 5'b01110, 5'b11110, 5'b10110, 5'b10000: F = 1;\n      5'b01000, 5'b01010, 5'b11010, 5'b11000: F = 0;\n      5'b00010, 5'b00110, 5'b10100, 5'b10001: F = C;\n      5'b01100, 5'b11100, 5'b01101, 5'b11101: F = !C;\n      5'b01001, 5'b01011, 5'b11011, 5'b11001: F = B;\n      5'b10010, 5'b10111, 5'b00111, 5'b00011: F = !B;\n      5'b10010, 5'b10011, 5'b10111, 5'b10110: F = A;\n      5'b01101, 5'b01111, 5'b11111, 5'b11101: F = !A;\n    endcase\n\nendmodule",
+    "modified_rtl": "    module karnaugh_map(\n    input wire A, B, C, D, E,\n    output reg F\n);\n\n    always @*\n    case ({A,B,C,D,E})\n    5'b00000, 5'b00001, 5'b00101, 5'b00100, 5'b01110, 5'b11110, 5'b10110, 5'b10000: F = 1;\n    5'b01000, 5'b01010, 5'b11010, 5'b11000: F = 0;\n    5'b00010, 5'b00110, 5'b10100, 5'b10001: F = C;\n    5'b01100, 5'b11100, 5'b01101, 5'b11101: F = !C;\n    5'b01001, 5'b01011, 5'b11011, 5'b11001: F = B;\n    5'b10010, 5'b10111, 5'b00111, 5'b00011: F = !B;\n    5'b10010, 5'b10011, 5'b10111, 5'b10110: F = A;\n    5'b01101, 5'b01111, 5'b11111, 5'b11101: F = !A;\nendcase\n\nendmodule\n",
+    "source_index": 177,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

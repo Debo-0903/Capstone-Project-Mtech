@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_165",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that can perform bitwise AND and OR operations on two 32-bit input vectors. The module should have two 32-bit input ports, `a` and `b`, and two 32-bit output ports, `and_out` and `or_out`. The module should also have a 1-bit control input port, `ctrl`, which determines whether the module should perform a bitwise AND or OR operation.\n\nAssume that the input vectors are stored in two 32-bit registers and that the output vectors should be stored in two separate 32-bit registers.\n\nDesign the module to be self-contained and within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module bitwise_and_or(a, b, ctrl, and_out, or_out);\n  input [31:0] a;\n  input [31:0] b;\n  input ctrl;\n  output [31:0] and_out;\n  output [31:0] or_out;\n\n  reg [31:0] and_result;\n  reg [31:0] or_result;\n\n  always @(*) begin\n    if (ctrl) begin\n      and_result = a & b;\n      or_result = 32'b0;\n    end else begin\n      and_result = 32'b1;\n      or_result = a | b;\n    end\n  end\n\n  assign and_out = and_result;\n  assign or_out = or_result;\nendmodule",
+    "modified_rtl": "module bitwise_and_or(a, b, ctrl, and_out, or_out);\n  input [31:0] a;\n  input [31:0] b;\n  input ctrl;\n  output [31:0] and_out;\n  output [31:0] or_out;\n\n  reg [31:0] and_result;\n  reg [31:0] or_result;\n\n  always @(*) begin\n    if (ctrl) begin\n      and_result = a & b;\n      or_result = 32'b0;\n    end else begin\n      and_result = 32'b1;\n      or_result = a | b;\n    end\n  end\n\n  assign and_out = and_result;\n  assign or_out = or_result;\nendmodule",
+    "source_index": 165,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

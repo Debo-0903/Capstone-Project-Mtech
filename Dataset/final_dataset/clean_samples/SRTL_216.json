@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_216",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a comparator circuit. The module should have the following inputs and outputs:\n\n- `Vplus`: an inout electrical signal representing the positive input of the comparator\n- `Vminus`: an inout electrical signal representing the negative input of the comparator\n- `clock`: an input electrical signal representing the clock\n- `CmpOut`: an output electrical signal representing the output of the comparator\n\nYour module should implement the following logic:\n\n- When `Vplus` is greater than `Vminus`, `CmpOut` should be set to 1\n- When `Vplus` is less than or equal to `Vminus`, `CmpOut` should be set to 0\n\nYour implementation should use the `cy_psoc3_ctcomp_v1_0` module to perform the comparison.\n\nYour module should be self-contained and should not require any external modules or testbenches. It should be no more than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module comparator (\n    inout Vplus,\n    inout Vminus,\n    input clock,\n    output CmpOut\n);\n\n    wire Net_1;\n\n    cy_psoc3_ctcomp_v1_0 ctComp (\n        .vplus(Vplus),\n        .vminus(Vminus),\n        .cmpout(Net_1),\n        .clk_udb(clock),\n        .clock(clock)\n    );\n\n    assign CmpOut = Net_1;\n\nendmodule",
+    "modified_rtl": "module comparator (\n    inout Vplus,\n    inout Vminus,\n    input clock,\n    output CmpOut\n);\n\n    wire Net_1;\n\n    cy_psoc3_ctcomp_v1_0 ctComp (\n        .vplus(Vplus),\n        .vminus(Vminus),\n        .cmpout(Net_1),\n        .clk_udb(clock),\n        .clock(clock)\n    );\n\n    assign CmpOut = Net_1;\n\nendmodule",
+    "source_index": 216,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

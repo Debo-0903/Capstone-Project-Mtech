@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_568",
+    "instruction": "\n\nYou have been tasked with designing a verilog module for a flip-flop with asynchronous set and reset. The module should have the following ports:\n\n- `clk`: input clock signal\n- `reset`: asynchronous active-low reset signal\n- `set`: asynchronous active-low set signal\n- `d`: input data signal\n- `q`: output data signal\n- `q_n`: output inverted data signal\n\nThe flip-flop should operate on the positive edge of the clock signal and should be reset when the reset signal is low. When the set signal is low, the flip-flop should be set to 1. The initial value of the flip-flop should be 0.\n\n",
+    "original_rtl": "module async_sr_ff (\n    input clk,\n    input reset,\n    input set,\n    input d,\n    output reg q,\n    output reg q_n\n);\n\nalways @(posedge clk) begin\n    if(!reset) begin\n        q <= 0;\n        q_n <= 1;\n    end else if(!set) begin\n        q <= 1;\n        q_n <= 0;\n    end else begin\n        q <= d;\n        q_n <= ~d;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module async_sr_ff (\n    input clk,\n    input reset,\n    input set,\n    input d,\n    output reg q,\n    output reg q_n\n);\n\nalways @(posedge clk) begin\n    if(!reset) begin\n        q <= 0;\n        q_n <= 1;\n    end else if(!set) begin\n        q <= 1;\n        q_n <= 0;\n    end else begin\n        q <= d;\n        q_n <= ~d;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 568,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

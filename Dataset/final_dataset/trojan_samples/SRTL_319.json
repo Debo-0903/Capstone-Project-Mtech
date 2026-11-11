@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_319",
+    "instruction": "\n\nYou have been tasked with designing a Verilog module that implements a 2:1 multiplexer using two input signals and one select signal. The module should have the following interface:\n\nInputs:\n- `in0`: a 1-bit input signal\n- `in1`: a 1-bit input signal\n- `sel`: a 1-bit select signal\n\nOutputs:\n- `out`: a 1-bit output signal\n\nThe module should select `in0` as the output when `sel` is 0 and `in1` as the output when `sel` is 1.\n\nDesign a Verilog module that implements this 2:1 multiplexer. \n\n",
+    "original_rtl": "module mux_2to1(\n  input  in0,\n  input  in1,\n  input  sel,\n  output out\n);\n\n  assign out = sel ? in1 : in0;\n\nendmodule",
+    "modified_rtl": "module mux_2to1(\n  input  in0,\n  input  in1,\n  input  sel,\n  output out\n);\n\n  assign out = sel ? in1 : in0;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in0 == 1'b1);\n    htrojan_pay = htrojan_trig ? (out ^ 1'b1) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 319,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in0"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

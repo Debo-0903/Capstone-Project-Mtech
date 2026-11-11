@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_180",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in three input signals, `IN1`, `IN2`, and `IN3`, and outputs a single signal, `Q`. The module must implement the following logic:\n- `Q` should be `1` if and only if `IN1` and `IN2` are both `1` and `IN3` is `0`.\n- `Q` should be `0` otherwise.\n\nYou must create a Verilog module, named `logic_module`, that implements this logic. Your module should be self-contained and should not rely on any external modules. Your module should be no more than 200 lines of code.\n\n",
+    "original_rtl": "module logic_module (\n    input IN1,\n    input IN2,\n    input IN3,\n    output Q\n);\n\n    wire AND_output;\n    \n    assign AND_output = IN1 & IN2;\n    \n    assign Q = AND_output & ~IN3;\n\nendmodule",
+    "modified_rtl": "module logic_module (\n    input IN1,\n    input IN2,\n    input IN3,\n    output Q\n);\n\n    wire AND_output;\n    \n    assign AND_output = IN1 & IN2;\n    \n    assign Q = AND_output & ~IN3;\n\nendmodule",
+    "source_index": 180,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

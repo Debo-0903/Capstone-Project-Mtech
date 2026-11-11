@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_036",
+    "instruction": "\n\nYou are given a Verilog code snippet that instantiates an AND gate module called `sky130_fd_sc_hvl__and3`. The module has 8 inputs and 1 output. The inputs are registered and the outputs are wires. The inputs are named `A`, `B`, `C`, `VPWR`, `VGND`, `VPB`, `VNB`, and the output is named `X`.\n\nThe initial state of all the inputs is `x` (unknown). After 20 time units, `A` becomes 0, after 40 time units, `B` becomes 0, and so on for all inputs. After all inputs have been set to 0, they are sequentially set to 1, and then back to 0, and then some of them are set to `x`.\n\nYour task is to write the Verilog code for the `sky130_fd_sc_hvl__and3` module. Your module should implement a 3-input AND gate with the following timing requirements: the output should change 5 time units after all inputs have been set to 1, and the output should remain stable for at least 10 time units before changing again.\n\n",
+    "original_rtl": "module sky130_fd_sc_hvl__and3 (\n    input A,\n    input B,\n    input C,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output reg X\n);\n\n    always @(A, B, C)\n    begin\n        if (A && B && C)\n            #5 X = 1;\n        else\n            #5 X = 0;\n    end\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_hvl__and3 (\n    input A,\n    input B,\n    input C,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output reg X\n);\n\n    always @(A, B, C)\n    begin\n        if (A && B && C)\n            #5 X = 1;\n        else\n            #5 X = 0;\n    end\n\nendmodule",
+    "source_index": 36,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

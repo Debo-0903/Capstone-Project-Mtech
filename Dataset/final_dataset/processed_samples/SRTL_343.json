@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_343",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a 4-bit binary counter with asynchronous reset functionality. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: a 1-bit clock signal\n- `reset`: a 1-bit signal that asynchronously resets the counter to 0 when high\n\nOutputs:\n- `count`: a 4-bit signal that represents the current count value of the counter\n\nThe counter should increment on the rising edge of the clock signal. When the reset signal is high, the counter should immediately reset to 0, regardless of the state of the clock signal.\n\nWrite a Verilog module that implements this counter with asynchronous reset functionality.\n\n",
+    "original_rtl": "module counter_async_reset(\n    input clk,\n    input reset,\n    output reg [3:0] count\n);\n\n    always @(posedge clk or posedge reset) begin\n        if (reset) begin\n            count <= 4'b0000;\n        end else begin\n            count <= count + 1;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module counter_async_reset(\n    input clk,\n    input reset,\n    output reg [3:0] count\n);\n\n    always @(posedge clk or posedge reset) begin\n    if (reset) begin\n    count <= 4'b0000;\nend else begin\n    count <= count + 1;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? (count ^ 4'h1) : count;\nend\n// HT_END\nendmodule",
+    "source_index": 343,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "count"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

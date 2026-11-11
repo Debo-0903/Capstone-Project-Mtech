@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_500",
+    "instruction": "\n\nYou are given a Verilog module `mul_add` that takes in three 8-bit inputs: `a`, `b`, and `c`. It outputs two 16-bit values: `sum` and `product`. The module computes the following:\n\n* `sum` is the sum of `a` and `b` added to `c`.\n* `product` is the product of `a` and `b`.\n\nImplement the `mul_add` module using the following components:\n\n* A 8-bit adder to add `a`, `b`, and `c`.\n* A 8-bit multiplier to multiply `a` and `b`.\n* A 16-bit register to store the sum of `a`, `b`, and `c`.\n* A 16-bit register to store the product of `a` and `b`.\n* A clock input.\n\nUse the following Verilog module template:\n\n```\nmodule mul_add(\n  input clk,\n  input [7:0] a,\n  input [7:0] b,\n  input [7:0] c,\n  output reg [15:0] sum,\n  output reg [15:0] product\n);\n  // Add your code here\nendmodule\n```\n\n",
+    "original_rtl": "module mul_add(\n  input clk,\n  input [7:0] a,\n  input [7:0] b,\n  input [7:0] c,\n  output reg [15:0] sum,\n  output reg [15:0] product\n);\n  reg [7:0] temp_product;\n  reg [15:0] temp_sum;\n  \n  always @(posedge clk) begin\n    // Calculate sum\n    temp_sum <= a + b + c;\n    sum <= temp_sum;\n    \n    // Calculate product\n    temp_product <= a * b;\n    product <= temp_product;\n  end\nendmodule",
+    "modified_rtl": "module mul_add(\n  input clk,\n  input [7:0] a,\n  input [7:0] b,\n  input [7:0] c,\n  output reg [15:0] sum,\n  output reg [15:0] product\n);\n  reg [7:0] temp_product;\n  reg [15:0] temp_sum;\n  \n  always @(posedge clk) begin\n    // Calculate sum\n    temp_sum <= a + b + c;\n    sum <= temp_sum;\n    \n    // Calculate product\n    temp_product <= a * b;\n    product <= temp_product;\n  end\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 500,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

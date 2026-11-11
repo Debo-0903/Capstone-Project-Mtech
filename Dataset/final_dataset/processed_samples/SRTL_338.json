@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_338",
+    "instruction": "Design a system that includes the two given modules, a half adder and a module for bitwise OR and logical OR. The half adder should take two bits as input, with no carry-in, and generate a sum and carry-out as output. The module for bitwise OR and logical OR should receive two 3-bit binary numbers as input and output the bitwise OR and logical OR of these two numbers, and the inverse (NOT) of both numbers. The inverted value of 'b' should be placed in the upper half of 'out_not' (bits [5:3]), and the inverted value of 'a' should be placed in the lower half. The system should also include an additional functional module that takes in both the outputs of the half adder and the bitwise OR module to produce a final output. The final output should be the sum of the two 3-bit binary numbers.",
+    "original_rtl": "module top_module( \n    input a, \n    input b,\n    input [2:0] a_bitwise,\n    input [2:0] b_bitwise,\n    output [2:0] out_sum\n); \n\n    wire cout;\n    wire sum;\n    wire [2:0] out_or_bitwise;\n    wire out_or_logical;\n    wire [5:0] out_not;\n    wire [2:0] out_final;\n    \n    half_adder ha(a, b, cout, sum);\n    bitwise_OR bo(a_bitwise, b_bitwise, out_or_bitwise, out_or_logical, out_not);\n    functional_module fm(cout, sum, out_or_bitwise, out_or_logical, out_not, out_final);\n    \n    assign out_sum = out_final;\n    \nendmodule\n\nmodule half_adder( \n    input a, \n    input b,\n    output cout, \n    output sum\n);\n    assign cout = a & b;\n    assign sum = a ^ b;\nendmodule\n\nmodule bitwise_OR( \n    input [2:0] a_bitwise, \n    input [2:0] b_bitwise,\n    output [2:0] out_or_bitwise,\n    output out_or_logical,\n    output [5:0] out_not\n);\n    assign out_or_bitwise = a_bitwise | b_bitwise;\n    assign out_or_logical = |{a_bitwise, b_bitwise};\n    assign out_not = ~{a_bitwise, b_bitwise};\nendmodule\n\nmodule functional_module( \n    input cout, \n    input sum,\n    input [2:0] out_or_bitwise,\n    input out_or_logical,\n    input [5:0] out_not,\n    output [2:0] out_final\n);\n    assign out_final = sum + out_or_bitwise;\nendmodule",
+    "modified_rtl": "module top_module( \n    input a, \n    input b,\n    input [2:0] a_bitwise,\n    input [2:0] b_bitwise,\n    output [2:0] out_sum\n); \n\n    wire cout;\n    wire sum;\n    wire [2:0] out_or_bitwise;\n    wire out_or_logical;\n    wire [5:0] out_not;\n    wire [2:0] out_final;\n    \n    half_adder ha(a, b, cout, sum);\n    bitwise_OR bo(a_bitwise, b_bitwise, out_or_bitwise, out_or_logical, out_not);\n    functional_module fm(cout, sum, out_or_bitwise, out_or_logical, out_not, out_final);\n    \n    assign out_sum = out_final;\n    \nendmodule\n\nmodule half_adder( \n    input a, \n    input b,\n    output cout, \n    output sum\n);\n    assign cout = a & b;\n    assign sum = a ^ b;\nendmodule\n\nmodule bitwise_OR( \n    input [2:0] a_bitwise, \n    input [2:0] b_bitwise,\n    output [2:0] out_or_bitwise,\n    output out_or_logical,\n    output [5:0] out_not\n);\n    assign out_or_bitwise = a_bitwise | b_bitwise;\n    assign out_or_logical = |{a_bitwise, b_bitwise};\n    assign out_not = ~{a_bitwise, b_bitwise};\nendmodule\n\nmodule functional_module( \n    input cout, \n    input sum,\n    input [2:0] out_or_bitwise,\n    input out_or_logical,\n    input [5:0] out_not,\n    output [2:0] out_final\n);\n    assign out_final = sum + out_or_bitwise;\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 338,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

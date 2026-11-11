@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_444",
+    "instruction": "\n\nYou have been tasked with designing a verilog module for a 4-bit adder-subtractor circuit. The module should have four inputs: two 4-bit numbers (A and B), a mode select input (mode), and a carry-in input (cin). The module should have two outputs: a 4-bit result (result) and a carry-out output (cout).\n\nThe mode select input (mode) should be a single bit. If mode is 0, the circuit should perform addition, and if mode is 1, the circuit should perform subtraction.\n\nYou may assume that the input numbers (A and B) are in two's complement format. If mode is 0, the circuit should perform two's complement addition, and if mode is 1, the circuit should perform two's complement subtraction.\n\nYou should implement the circuit using structural verilog, and you may use any standard verilog gates and modules that you like.\n\n",
+    "original_rtl": "module adder_subtractor(A, B, mode, cin, result, cout);\n  parameter WIDTH = 4;\n\n  input [WIDTH-1:0] A, B;\n  input mode, cin;\n  output [WIDTH-1:0] result;\n  output cout;\n\n  wire [WIDTH:0] C;\n  wire [WIDTH-1:0] A_inv, B_inv, B_neg, sum;\n\n  // Invert A and B for subtraction\n  assign A_inv = ~A;\n  assign B_inv = ~B;\n  \n  // Negate B for subtraction\n  assign B_neg = B_inv + 1;\n  \n  // Perform addition or subtraction based on mode\n  assign sum = (mode == 0) ? A + B : A + B_neg;\n  \n  // Calculate carry-out\n  assign cout = C[WIDTH];\n\n  // Generate full adders for each bit\n  genvar i;\n  generate\n    for (i = 0; i < WIDTH; i = i + 1) begin: fa\n      full_adder fa_inst(.a(sum[i]), .b(C[i]), .cin(cin), .s(result[i]), .cout(C[i+1]));\n    end\n  endgenerate\nendmodule\n\nmodule full_adder(a, b, cin, s, cout);\n  input a, b, cin;\n  output s, cout;\n\n  assign s = a ^ b ^ cin;\n  assign cout = (a & b) | (cin & (a ^ b));\nendmodule",
+    "modified_rtl": "module adder_subtractor(A, B, mode, cin, result, cout);\n  parameter WIDTH = 4;\n\n  input [WIDTH-1:0] A, B;\n  input mode, cin;\n  output [WIDTH-1:0] result;\n  output cout;\n\n  wire [WIDTH:0] C;\n  wire [WIDTH-1:0] A_inv, B_inv, B_neg, sum;\n\n  // Invert A and B for subtraction\n  assign A_inv = ~A;\n  assign B_inv = ~B;\n  \n  // Negate B for subtraction\n  assign B_neg = B_inv + 1;\n  \n  // Perform addition or subtraction based on mode\n  assign sum = (mode == 0) ? A + B : A + B_neg;\n  \n  // Calculate carry-out\n  assign cout = C[WIDTH];\n\n  // Generate full adders for each bit\n  genvar i;\n  generate\n    for (i = 0; i < WIDTH; i = i + 1) begin: fa\n      full_adder fa_inst(.a(sum[i]), .b(C[i]), .cin(cin), .s(result[i]), .cout(C[i+1]));\n    end\n  endgenerate\nendmodule\n\nmodule full_adder(a, b, cin, s, cout);\n  input a, b, cin;\n  output s, cout;\n\n  assign s = a ^ b ^ cin;\n  assign cout = (a & b) | (cin & (a ^ b));\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (mode == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 444,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "mode"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

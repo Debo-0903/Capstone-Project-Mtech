@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_452",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a 4-bit binary counter. The counter should have a reset input that sets the counter to 0, and a clock input that increments the counter on each rising edge. The counter should also have an enable input that allows the counter to count only when it is high. \n\nDesign the module with the following inputs and outputs:\n\n- `clk`: a 1-bit input clock signal\n- `reset`: a 1-bit input reset signal\n- `enable`: a 1-bit input enable signal\n- `count`: a 4-bit output representing the current count value\n\nYour module should be able to count from 0 to 15, and should wrap around to 0 after reaching 15. The counter should only increment when the enable input is high. The counter should be reset to 0 when the reset input is high.\n\nYou should implement this module using only one module within 200 lines of Verilog code. \n\n",
+    "original_rtl": "module binary_counter (\n    input clk,\n    input reset,\n    input enable,\n    output reg [3:0] count\n);\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count <= 4'b0;\n    end else if (enable) begin\n        if (count == 4'b1111) begin\n            count <= 4'b0;\n        end else begin\n            count <= count + 1;\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "module binary_counter (\n    input clk,\n    input reset,\n    input enable,\n    output reg [3:0] count\n);\n\nalways @(posedge clk) begin\n    if (reset) begin\n        count <= 4'b0;\n    end else if (enable) begin\n        if (count == 4'b1111) begin\n            count <= 4'b0;\n        end else begin\n            count <= count + 1;\n        end\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (enable == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 452,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "enable"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

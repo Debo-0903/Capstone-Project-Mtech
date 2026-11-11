@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_404",
+    "instruction": "Design a system that combines a 4-bit priority encoder and a 4-bit Johnson counter. The priority encoder should take in four 1-bit inputs and output a 2-bit signal indicating the highest priority input that is asserted. If multiple inputs are asserted, the output should indicate the input with the highest index. The Johnson counter should have one input (clk) for the clock signal and one output (Q) for the counter value. The counter should cycle through the sequence 0001, 0011, 0111, 1110, 1100, 1000, and repeat. The system should also include an additional functional module that takes in the 2-bit output from the priority encoder and the 4-bit output from the Johnson counter to get a final output. The final output should be the sum of the two inputs.",
+    "original_rtl": "module top_module (\n    input clk,\n    input [3:0] in, // 4-bit input for the priority encoder\n    output [3:0] Q, // 4-bit output from the Johnson counter\n    output [7:0] out // 8-bit final output\n);\n\n    // Priority Encoder\n    wire [1:0] priority;\n    priority_encoder pe(\n        .in(in),\n        .out(priority)\n    );\n\n    // Johnson Counter\n    reg [3:0] johnson;\n    always @(posedge clk) begin\n        case(johnson)\n            4'b0001: johnson <= 4'b0011;\n            4'b0011: johnson <= 4'b0111;\n            4'b0111: johnson <= 4'b1110;\n            4'b1110: johnson <= 4'b1100;\n            4'b1100: johnson <= 4'b1000;\n            4'b1000: johnson <= 4'b0001;\n        endcase\n    end\n    assign Q = johnson;\n\n    // Final Output\n    assign out = {priority, johnson} + 8'b0;\n\nendmodule\n\nmodule priority_encoder (\n    input [3:0] in,\n    output [1:0] out\n);\n    assign out = ({in[3], in[2]} > {in[1], in[0]}) ? 2'b11 :\n                 ({in[3], in[2]} == {in[1], in[0]}) ? 2'b10 :\n                 2'b01;\nendmodule",
+    "modified_rtl": "module top_module (\n    input clk,\n    input [3:0] in, // 4-bit input for the priority encoder\n    output [3:0] Q, // 4-bit output from the Johnson counter\n    output [7:0] out // 8-bit final output\n);\n\n    // Priority Encoder\n    wire [1:0] priority;\n    priority_encoder pe(\n        .in(in),\n        .out(priority)\n    );\n\n    // Johnson Counter\n    reg [3:0] johnson;\n    always @(posedge clk) begin\n        case(johnson)\n            4'b0001: johnson <= 4'b0011;\n            4'b0011: johnson <= 4'b0111;\n            4'b0111: johnson <= 4'b1110;\n            4'b1110: johnson <= 4'b1100;\n            4'b1100: johnson <= 4'b1000;\n            4'b1000: johnson <= 4'b0001;\n        endcase\n    end\n    assign Q = johnson;\n\n    // Final Output\n    assign out = {priority, johnson} + 8'b0;\n\nendmodule\n\nmodule priority_encoder (\n    input [3:0] in,\n    output [1:0] out\n);\n    assign out = ({in[3], in[2]} > {in[1], in[0]}) ? 2'b11 :\n                 ({in[3], in[2]} == {in[1], in[0]}) ? 2'b10 :\n                 2'b01;\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 404,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

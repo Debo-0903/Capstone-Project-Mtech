@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_231",
+    "instruction": "\nYou are tasked with designing a Verilog module that implements a 2-bit comparator. The module should have two 2-bit inputs, A and B, and one output, X. The output X should be high if A is greater than or equal to B, and low otherwise. The module should be named \"comparator_2bit\" and should be contained within 200 lines of Verilog code.\n\nYour module should account for all possible input combinations and should be able to handle changes in the input values at any time. Your code should also include the necessary voltage supply signals.\n\n",
+    "original_rtl": "module comparator_2bit (\n    A,\n    B,\n    X\n);\n\n    input [1:0] A;\n    input [1:0] B;\n    output X;\n\n    assign X = (A >= B) ? 1'b1 : 1'b0;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\nendmodule",
+    "modified_rtl": "module comparator_2bit (\n    A,\n    B,\n    X\n);\n\n    input [1:0] A;\n    input [1:0] B;\n    output X;\n\n    assign X = (A >= B) ? 1'b1 : 1'b0;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\nendmodule",
+    "source_index": 231,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

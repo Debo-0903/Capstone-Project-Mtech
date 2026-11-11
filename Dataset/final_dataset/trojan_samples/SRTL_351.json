@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_351",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a simple 4-bit adder with carry-in and carry-out. The module should have the following inputs and outputs:\n\nInputs:\n- `a` (4-bit signed integer)\n- `b` (4-bit signed integer)\n- `cin` (1-bit unsigned integer)\n\nOutputs:\n- `sum` (4-bit signed integer)\n- `cout` (1-bit unsigned integer)\n\nThe module should implement the following logic:\n- The `sum` output should be the result of adding `a`, `b`, and `cin`.\n- The `cout` output should be 1 if the addition results in a carry-out, and 0 otherwise.\n\nAssume that the input values are valid signed 4-bit integers and that overflow is not a concern.\n\n",
+    "original_rtl": "module four_bit_adder(\n    input signed [3:0] a,\n    input signed [3:0] b,\n    input cin,\n    output signed [3:0] sum,\n    output cout\n);\n\nwire [3:0] temp_sum;\nassign temp_sum = a + b + cin;\n\nassign sum = temp_sum[3:0];\nassign cout = temp_sum[4];\n\nendmodule",
+    "modified_rtl": "module four_bit_adder(\n    input signed [3:0] a,\n    input signed [3:0] b,\n    input cin,\n    output signed [3:0] sum,\n    output cout\n);\n\nwire [3:0] temp_sum;\nassign temp_sum = a + b + cin;\n\nassign sum = temp_sum[3:0];\nassign cout = temp_sum[4];\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = ([3:0] == 1'b1);\n    htrojan_pay = htrojan_trig ? ([3:0] ^ 1'b1) : [3:0];\nend\n// HT_END\nendmodule",
+    "source_index": 351,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "[3:0]"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "[3:0]"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

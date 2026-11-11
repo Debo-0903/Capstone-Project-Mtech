@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_094",
+    "instruction": "\n\nYou are tasked with designing a module that will perform a binary to Gray code conversion. The module should take in a binary input of n bits and output the corresponding Gray code. The input and output should be of the same width.\n\nGray code is a binary numeral system where two successive values differ in only one bit. For example, the binary representation of 3 is 011 and its corresponding Gray code is 010. The conversion from binary to Gray code is done by XORing the input with a right-shifted version of itself.\n\nYour task is to design a module that will take in a binary input and output its corresponding Gray code.\n\nThe module should have the following interface:\n\n```\nmodule binary_to_gray (\n    input  [n-1:0] binary_in,\n    output [n-1:0] gray_out\n);\n```\nwhere `n` is the number of bits in the input and output.\n\n",
+    "original_rtl": "module binary_to_gray (\n    input  [n-1:0] binary_in,\n    output [n-1:0] gray_out\n);\n    assign gray_out = binary_in ^ ({1'b0, binary_in[n-1:1]});\nendmodule",
+    "modified_rtl": "module binary_to_gray (\n    input  [n-1:0] binary_in,\n    output [n-1:0] gray_out\n);\n    assign gray_out = binary_in ^ ({1'b0, binary_in[n-1:1]});\nendmodule",
+    "source_index": 94,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

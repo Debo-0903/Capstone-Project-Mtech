@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_436",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements an 8-bit shift register with a parallel load capability. The module should have the following inputs and outputs:\n\n- `clk`: a clock input\n- `load`: a control input that enables parallel loading of the shift register\n- `in`: an 8-bit input that is loaded into the shift register when `load` is asserted\n- `shift`: a control input that enables shifting of the shift register\n- `out`: an 8-bit output that represents the current state of the shift register\n\nThe shift register should shift the data in the register to the left on each positive edge of the clock when `shift` is asserted. If `load` is asserted, the data on the `in` input should be loaded into the shift register on the next positive edge of the clock.\n\nYou should ensure that the module meets the following requirements:\n\n- The module should be named `shift_register`.\n- The module should be implemented using behavioral Verilog.\n- The shift register should be initialized to all zeros.\n- The output `out` should be updated on every positive edge of the clock, regardless of whether `load` or `shift` are asserted.\n\n",
+    "original_rtl": "module shift_register (\n  input clk,\n  input load,\n  input [7:0] in,\n  input shift,\n  output reg [7:0] out\n);\n\n  always @(posedge clk) begin\n    if (load) begin\n      out <= in;\n    end else if (shift) begin\n      out <= {out[6:0], 1'b0};\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module shift_register (\n  input clk,\n  input load,\n  input [7:0] in,\n  input shift,\n  output reg [7:0] out\n);\n\n  always @(posedge clk) begin\n    if (load) begin\n      out <= in;\n    end else if (shift) begin\n      out <= {out[6:0], 1'b0};\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 436,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

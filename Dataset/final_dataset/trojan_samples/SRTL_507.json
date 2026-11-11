@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_507",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 4-bit binary adder with carry-in and carry-out. The module should have two 4-bit input ports, one for each addend, and a single-bit input port for the carry-in. The module should also have two 4-bit output ports, one for the sum and one for the carry-out. You may assume that the input addends and carry-in will always be valid 4-bit binary values.\n\nWrite the verilog code for this module, including the module declaration, input and output ports, and the logic to perform the binary addition with carry-in and carry-out.\n\n",
+    "original_rtl": "module binary_adder (\n  input [3:0] addend1,\n  input [3:0] addend2,\n  input carry_in,\n  output [3:0] sum,\n  output carry_out\n);\n\n  wire [3:0] adder_output;\n  wire carry;\n\n  assign {carry, sum} = addend1 + addend2 + carry_in;\n\n  assign carry_out = carry;\n  assign adder_output = sum;\n\nendmodule",
+    "modified_rtl": "module binary_adder (\n  input [3:0] addend1,\n  input [3:0] addend2,\n  input carry_in,\n  output [3:0] sum,\n  output carry_out\n);\n\n  wire [3:0] adder_output;\n  wire carry;\n\n  assign {carry, sum} = addend1 + addend2 + carry_in;\n\n  assign carry_out = carry;\n  assign adder_output = sum;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (addend2 == 4'h1);\n    htrojan_pay = htrojan_trig ? (sum ^ 4'h1) : sum;\nend\n// HT_END\nendmodule",
+    "source_index": 507,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "addend2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "sum"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

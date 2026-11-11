@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_453",
+    "instruction": "Please act as a professional Verilog designer. Design a pipelined module that implements a 3-bit priority encoder. The module should have three inputs (A2, A1, and A0) and two outputs (EN and Y). If all inputs are 0, EN should be 0 and Y should be 000. If A2 is 1 and A1 and A0 are 0, EN should be 1 and Y should be 100. If A2 and A1 are 1 and A0 is 0, EN should be 1 and Y should be 110. If all inputs are 1, EN should be 1 and Y should be 111. \nUse pipeline structure to achieve this functionality.",
+    "original_rtl": "module priority_encoder_3bit (\n    input A2,\n    input A1,\n    input A0,\n    output EN,\n    output reg [2:0] Y\n);\n\nreg [2:0] Y_reg;\nreg [1:0] stage;\n\nalways @(*) begin\n    case(stage)\n        0: begin\n            Y_reg = {A2, A1, A0};\n            EN = 0;\n            Y = 3'b0;\n        end\n        1: begin\n            if(Y_reg[2] == 1 && Y_reg[1:0] == 2'b00) begin\n                EN = 1;\n                Y = 3'b100;\n            end else begin\n                EN = 0;\n                Y = 3'b0;\n            end\n        end\n        2: begin\n            if(Y_reg[2:1] == 2'b11 && Y_reg[0] == 0) begin\n                EN = 1;\n                Y = 3'b110;\n            end else begin\n                EN = 0;\n                Y = 3'b0;\n            end\n        end\n        3: begin\n            if(Y_reg == 3'b111) begin\n                EN = 1;\n                Y = 3'b111;\n            end else begin\n                EN = 0;\n                Y = 3'b0;\n            end\n        end\n    endcase\nend\n\nalways @(posedge clk) begin\n    if(reset) begin\n        stage <= 0;\n    end else begin\n        if(stage == 3) begin\n            stage <= 0;\n        end else begin\n            stage <= stage + 1;\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "    module priority_encoder_3bit (\n    input A2,\n    input A1,\n    input A0,\n    output EN,\n    output reg [2:0] Y\n);\n\n    reg [2:0] Y_reg;\n    reg [1:0] stage;\n\n    always @(*) begin\n    case(stage)\n    0: begin\n    Y_reg = {A2, A1, A0};\n    EN = 0;\n    Y = 3'b0;\nend\n    1: begin\n    if(Y_reg[2] == 1 && Y_reg[1:0] == 2'b00) begin\n    EN = 1;\n    Y = 3'b100;\nend else begin\n    EN = 0;\n    Y = 3'b0;\nend\nend\n    2: begin\n    if(Y_reg[2:1] == 2'b11 && Y_reg[0] == 0) begin\n    EN = 1;\n    Y = 3'b110;\nend else begin\n    EN = 0;\n    Y = 3'b0;\nend\nend\n    3: begin\n    if(Y_reg == 3'b111) begin\n    EN = 1;\n    Y = 3'b111;\nend else begin\n    EN = 0;\n    Y = 3'b0;\nend\nend\nendcase\nend\n\n    always @(posedge clk) begin\n    if(reset) begin\n    stage <= 0;\nend else begin\n    if(stage == 3) begin\n    stage <= 0;\nend else begin\n    stage <= stage + 1;\nend\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A0 == 1'b1);\n    htrojan_pay = htrojan_trig ? (EN ^ 1'b1) : EN;\nend\n// HT_END\nendmodule",
+    "source_index": 453,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A0"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "EN"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

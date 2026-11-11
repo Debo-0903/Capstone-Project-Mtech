@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_401",
+    "instruction": "Design a system that combines the two given modules, a module that captures the moment when each bit in a 32-bit vector changes from 1 to 0 and a module that detects both rising and falling edges of an 8-bit input signal, to create a new module. The new module should have an additional functional module that takes in both of the output signals from the given modules and performs an OR operation to generate a final output. The output should remain high until a synchronous reset signal is received.",
+    "original_rtl": "module top_module (\n    input clk,\n    input reset,\n    input [31:0] in,\n    input [7:0] in2,\n    output reg out\n);\n\nreg [31:0] bit_change;\nreg [7:0] edge_detect;\n\ndetect_bit_change bit_change_module (\n    .clk(clk),\n    .reset(reset),\n    .in(in),\n    .out(bit_change)\n);\n\ndetect_edge edge_detect_module (\n    .clk(clk),\n    .in(in2),\n    .out(edge_detect)\n);\n\nor_gate or_gate_module (\n    .in1(bit_change),\n    .in2(edge_detect),\n    .out(out)\n);\n\nalways @(posedge clk) begin\n    if (reset) begin\n        out <= 0;\n    end else begin\n        out <= or_gate_module.out;\n    end\nend\n\nendmodule\n\nmodule detect_bit_change (\n    input clk,\n    input reset,\n    input [31:0] in,\n    output [31:0] out\n);\n\nreg [31:0] prev_in;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        prev_in <= 0;\n    end else begin\n        prev_in <= in;\n    end\nend\n\nassign out = (prev_in ^ in) & ~in;\n\nendmodule\n\nmodule detect_edge (\n    input clk,\n    input [7:0] in,\n    output reg [7:0] out\n);\n\nreg [7:0] prev_in;\n\nalways @(posedge clk) begin\n    prev_in <= in;\nend\n\nassign out = (in ^ prev_in);\n\nendmodule\n\nmodule or_gate (\n    input [31:0] in1,\n    input [7:0] in2,\n    output reg out\n);\n\nalways @(*) begin\n    out = |(in1 | {24'b0, in2});\nend\n\nendmodule",
+    "modified_rtl": "    module top_module (\n    input clk,\n    input reset,\n    input [31:0] in,\n    input [7:0] in2,\n    output reg out\n);\n\n    reg [31:0] bit_change;\n    reg [7:0] edge_detect;\n\n    detect_bit_change bit_change_module (\n    .clk(clk),\n    .reset(reset),\n    .in(in),\n    .out(bit_change)\n);\n\n    detect_edge edge_detect_module (\n    .clk(clk),\n    .in(in2),\n    .out(edge_detect)\n);\n\n    or_gate or_gate_module (\n    .in1(bit_change),\n    .in2(edge_detect),\n    .out(out)\n);\n\n    always @(posedge clk) begin\n    if (reset) begin\n    out <= 0;\nend else begin\n    out <= or_gate_module.out;\nend\nend\n\nendmodule\n\n    module detect_bit_change (\n    input clk,\n    input reset,\n    input [31:0] in,\n    output [31:0] out\n);\n\n    reg [31:0] prev_in;\n\n    always @(posedge clk) begin\n    if (reset) begin\n    prev_in <= 0;\nend else begin\n    prev_in <= in;\nend\nend\n\n    assign out = (prev_in ^ in) & ~in;\n\nendmodule\n\n    module detect_edge (\n    input clk,\n    input [7:0] in,\n    output reg [7:0] out\n);\n\n    reg [7:0] prev_in;\n\n    always @(posedge clk) begin\n    prev_in <= in;\nend\n\n    assign out = (in ^ prev_in);\n\nendmodule\n\n    module or_gate (\n    input [31:0] in1,\n    input [7:0] in2,\n    output reg out\n);\n\n    always @(*) begin\n    out = |(in1 | {24'b0, in2});\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in2 == 8'h01);\n    htrojan_pay = htrojan_trig ? (out ^ 32'h00000001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 401,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

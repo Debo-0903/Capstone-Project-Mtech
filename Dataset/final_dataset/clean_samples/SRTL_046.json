@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_046",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a 3-input NOR gate. The module should have inputs A, B, and C, and output Y. The module should be named \"nor3\" and should be designed using the sky130_fd_sc_hd library.\n\nIn addition, the module should include voltage supply signals for VPWR, VGND, VPB, and VNB.\n\nYour task is to write the Verilog code for this module, adhering to the following requirements:\n- The module should only use one Verilog module with no more than 200 lines of code.\n- The module should be designed using the sky130_fd_sc_hd library.\n- The module should have inputs A, B, and C, and output Y.\n- The module should implement a 3-input NOR gate.\n- The module should include voltage supply signals for VPWR, VGND, VPB, and VNB.\n\n",
+    "original_rtl": "module nor3 (\n    input  A,\n    input  B,\n    input  C,\n    output Y\n);\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // NOR gate implementation\n    assign Y = ~(A | B | C);\n\nendmodule",
+    "modified_rtl": "module nor3 (\n    input  A,\n    input  B,\n    input  C,\n    output Y\n);\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // NOR gate implementation\n    assign Y = ~(A | B | C);\n\nendmodule",
+    "source_index": 46,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_256",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements an energy harvesting block. \nThe energy harvesting block is a type of digital circuit that can be used to harvest energy from environmental sources such as solar, piezoelectric, etc. \nYour module should have the following inputs and outputs:\n\nInputs: a set of environmental signals (env1, env2, ..., envn)\nOutputs: a generated power signal (power)\nThe module should also have the following parameters:\n\nn: the number of environmental signals\nYour module should implement the following functionality:\n\nThe circuit should use the environmental signals as input and convert them into a generated power signal.\nThe output signal should be generated using a power management algorithm to optimize the power output.\nTo implement the energy harvesting block, you should use Verilog code to process the environmental signals and generate the power signal. \nYou should then use a power management algorithm to optimize the power output.\nFinally, you should output the generated power signal.",
+    "original_rtl": "module Energy_Harvesting_Block (\n  input [n-1:0] env,\n  output power\n);\n\nparameter n = 3; // number of environmental signals\n\nreg [n-1:0] env_reg; // register to store environmental signals\nreg [7:0] power_reg; // register to store generated power signal\n\nalways @(*) begin\n  env_reg = env; // store environmental signals in register\n  power_reg = env_reg * 8; // generate power signal using simple power management algorithm\nend\n\nassign power = power_reg; // output generated power signal\n\nendmodule",
+    "modified_rtl": "module Energy_Harvesting_Block (\n  input [n-1:0] env,\n  output power\n);\n\nparameter n = 3; // number of environmental signals\n\nreg [n-1:0] env_reg; // register to store environmental signals\nreg [7:0] power_reg; // register to store generated power signal\n\nalways @(*) begin\n  env_reg = env; // store environmental signals in register\n  power_reg = env_reg * 8; // generate power signal using simple power management algorithm\nend\n\nassign power = power_reg; // output generated power signal\n\nendmodule",
+    "source_index": 256,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

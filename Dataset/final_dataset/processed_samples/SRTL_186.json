@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_186",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a 4-bit binary counter. The counter should increment on every rising edge of the clock signal and should reset to 0 when a reset signal is asserted. The module should have three inputs: `clk`, `reset`, and `enable`, and one output: `count`.\n\nThe `clk` input is a clock signal with a frequency of 50MHz. The `reset` input is an active-low signal that resets the counter to 0 when asserted. The `enable` input is an active-high signal that enables the counter to increment when asserted. When `enable` is de-asserted, the counter should stop incrementing.\n\nThe `count` output is a 4-bit binary value that represents the current count of the counter. The counter should count from 0 to 15 and then wrap around to 0.\n\nYou are required to implement this counter using only one module within 200 lines of Verilog code. Your implementation should be efficient and optimized for speed.\n\n",
+    "original_rtl": "module counter(clk, reset, enable, count);\n\n\tinput clk, reset, enable;\n\toutput reg [3:0] count;\n\n\talways @(posedge clk) begin\n\t\tif (reset == 0) begin\n\t\t\tcount <= 4'b0000;\n\t\tend else if (enable == 1) begin\n\t\t\tcount <= count + 1;\n\t\tend\n\tend\n\nendmodule",
+    "modified_rtl": "module counter(clk, reset, enable, count);\n\n\tinput clk, reset, enable;\n\toutput reg [3:0] count;\n\n\talways @(posedge clk) begin\n\t\tif (reset == 0) begin\n\t\t\tcount <= 4'b0000;\n\t\tend else if (enable == 1) begin\n\t\t\tcount <= count + 1;\n\t\tend\n\tend\n\nendmodule",
+    "source_index": 186,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

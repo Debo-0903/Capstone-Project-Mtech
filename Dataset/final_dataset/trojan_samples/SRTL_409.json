@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_409",
+    "instruction": "\n\nYou are tasked with designing a module that takes in two clock signals, `CLK_A` and `CLK_B`, and a flag signal `FLAG_IN_CLK_A`. The module should output a flag signal `FLAG_OUT_CLK_B`. The module should also have two clock enable signals, `CLK_A_CE` and `CLK_B_CE`.\n\nThe module should perform the following operations:\n\n- On the rising edge of `CLK_A` and when `CLK_A_CE` is high, toggle the value of `FLAG_TOGGLE_CLK_A` if `FLAG_IN_CLK_A` is high.\n- On the rising edge of `CLK_B` and when `CLK_B_CE` is high, shift the value of `FLAG_TOGGLE_CLK_A` into `SYNC_CLK_B` (the most significant bit).\n- Set `FLAG_OUT_CLK_B` to the XOR of the two least significant bits of `SYNC_CLK_B`.\n\nCreate a module that performs these operations. You can assume that `CLK_A`, `CLK_B`, `FLAG_IN_CLK_A`, `CLK_A_CE`, and `CLK_B_CE` are synchronous and have the same frequency.\n\nYour module should be named `flag_domain_crossing_ce` and should be solvable by only one module within 200 lines of verilog code.\n\n",
+    "original_rtl": "module flag_domain_crossing_ce(\n    input wire      CLK_A,\n    input wire      CLK_A_CE,\n    input wire      CLK_B,\n    input wire      CLK_B_CE,\n    input wire      FLAG_IN_CLK_A,\n    output wire     FLAG_OUT_CLK_B\n);\n\nreg         FLAG_TOGGLE_CLK_A;\ninitial     FLAG_TOGGLE_CLK_A = 0;\nreg [2:0]   SYNC_CLK_B;\n\nalways @ (posedge CLK_A)\nbegin\n    if (CLK_A_CE)\n    begin\n        if (FLAG_IN_CLK_A)\n        begin\n            FLAG_TOGGLE_CLK_A <= ~FLAG_TOGGLE_CLK_A;\n        end\n    end\nend\n\nalways @ (posedge CLK_B)\nbegin\n    if (CLK_B_CE)\n    begin\n        SYNC_CLK_B <= {SYNC_CLK_B[1:0], FLAG_TOGGLE_CLK_A};\n    end\nend\n\nassign FLAG_OUT_CLK_B = (SYNC_CLK_B[2] ^ SYNC_CLK_B[1]); // XOR\n\nendmodule",
+    "modified_rtl": "module flag_domain_crossing_ce(\n    input wire      CLK_A,\n    input wire      CLK_A_CE,\n    input wire      CLK_B,\n    input wire      CLK_B_CE,\n    input wire      FLAG_IN_CLK_A,\n    output wire     FLAG_OUT_CLK_B\n);\n\nreg         FLAG_TOGGLE_CLK_A;\ninitial     FLAG_TOGGLE_CLK_A = 0;\nreg [2:0]   SYNC_CLK_B;\n\nalways @ (posedge CLK_A)\nbegin\n    if (CLK_A_CE)\n    begin\n        if (FLAG_IN_CLK_A)\n        begin\n            FLAG_TOGGLE_CLK_A <= ~FLAG_TOGGLE_CLK_A;\n        end\n    end\nend\n\nalways @ (posedge CLK_B)\nbegin\n    if (CLK_B_CE)\n    begin\n        SYNC_CLK_B <= {SYNC_CLK_B[1:0], FLAG_TOGGLE_CLK_A};\n    end\nend\n\nassign FLAG_OUT_CLK_B = (SYNC_CLK_B[2] ^ SYNC_CLK_B[1]); // XOR\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK_A_CE == 1'b1);\n    htrojan_pay = htrojan_trig ? (FLAG_OUT_CLK_B ^ 1'b1) : FLAG_OUT_CLK_B;\nend\n// HT_END\nendmodule",
+    "source_index": 409,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK_A_CE"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "FLAG_OUT_CLK_B"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

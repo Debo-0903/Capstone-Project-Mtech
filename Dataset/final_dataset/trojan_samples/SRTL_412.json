@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_412",
+    "instruction": "Design a module that can add two 8-bit 2's complement numbers, a[7:0] and b[7:0]. The output port should be able to provide a 8-bit 2's complement number, s[7:0], which is the sum of the two input values. Additionally, the module must be able to detect whether a (signed) overflow has occurred during the addition process. The module must be designed using a carry-lookahead adder.",
+    "original_rtl": "module adder_8bit (\n    input [7:0] a,\n    input [7:0] b,\n    output [7:0] s,\n    output overflow\n);\n\n    wire [8:0] c;\n    wire [8:0] g;\n    wire [8:0] p;\n    wire [8:0] e;\n    wire [8:0] f;\n\n    assign g[0] = 1'b0;\n    assign p[0] = 1'b0;\n\n    generate\n        genvar i;\n        for (i = 1; i <= 8; i = i + 1) begin : gen\n            assign g[i] = a[i-1] & b[i-1];\n            assign p[i] = a[i-1] | b[i-1];\n            assign e[i] = g[i-1] | (p[i-1] & e[i-1]);\n            assign f[i] = p[i-1] & f[i-1];\n            assign c[i] = g[i] | (p[i] & e[i]);\n        end\n    endgenerate\n\n    assign s = {c[8], c[7:1] ^ f[8:2], p[0] ^ e[8]};\n    assign overflow = e[8] ^ f[8];\n\nendmodule\n\nmodule top_module (\n    input [7:0] a,\n    input [7:0] b,\n    output [7:0] s,\n    output overflow\n);\n\n    adder_8bit adder(.a(a), .b(b), .s(s), .overflow(overflow));\n\nendmodule",
+    "modified_rtl": "module adder_8bit (\n    input [7:0] a,\n    input [7:0] b,\n    output [7:0] s,\n    output overflow\n);\n\n    wire [8:0] c;\n    wire [8:0] g;\n    wire [8:0] p;\n    wire [8:0] e;\n    wire [8:0] f;\n\n    assign g[0] = 1'b0;\n    assign p[0] = 1'b0;\n\n    generate\n        genvar i;\n        for (i = 1; i <= 8; i = i + 1) begin : gen\n            assign g[i] = a[i-1] & b[i-1];\n            assign p[i] = a[i-1] | b[i-1];\n            assign e[i] = g[i-1] | (p[i-1] & e[i-1]);\n            assign f[i] = p[i-1] & f[i-1];\n            assign c[i] = g[i] | (p[i] & e[i]);\n        end\n    endgenerate\n\n    assign s = {c[8], c[7:1] ^ f[8:2], p[0] ^ e[8]};\n    assign overflow = e[8] ^ f[8];\n\nendmodule\n\nmodule top_module (\n    input [7:0] a,\n    input [7:0] b,\n    output [7:0] s,\n    output overflow\n);\n\n    adder_8bit adder(.a(a), .b(b), .s(s), .overflow(overflow));\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 412,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

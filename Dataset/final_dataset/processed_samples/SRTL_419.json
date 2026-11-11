@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_419",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a 4-bit adder. The module should have two 4-bit inputs, A and B, and a 1-bit input, Cin, representing the carry-in bit. The module should output a 4-bit sum, S, and a 1-bit carry-out bit, Cout. The module should also have a synchronous reset input, rst, which resets the output to 0 when high.\n\nImplement the adder using a structural verilog design, using four 1-bit full adders and a 1-bit ripple carry adder. The full adders should be instantiated as separate modules.\n\n",
+    "original_rtl": "module full_adder(\n  input a,\n  input b,\n  input cin,\n  output sum,\n  output cout\n);\n\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\n\nendmodule\n\n\nmodule four_bit_adder(\n  input [3:0] A,\n  input [3:0] B,\n  input Cin,\n  input rst,\n  output [3:0] S,\n  output Cout\n);\n\n  wire [3:0] S_wire;\n  wire [3:0] C_wire;\n\n  full_adder fa0(A[0], B[0], Cin, S_wire[0], C_wire[0]);\n  full_adder fa1(A[1], B[1], C_wire[0], S_wire[1], C_wire[1]);\n  full_adder fa2(A[2], B[2], C_wire[1], S_wire[2], C_wire[2]);\n  full_adder fa3(A[3], B[3], C_wire[2], S_wire[3], Cout);\n\n  assign S = S_wire;\n\n  always @(posedge rst) begin\n    if (rst) begin\n      S <= 0;\n      Cout <= 0;\n    end\n  end\n\nendmodule\n\n\nmodule four_bit_adder_with_rca(\n  input [3:0] A,\n  input [3:0] B,\n  input Cin,\n  input rst,\n  output [3:0] S,\n  output Cout\n);\n\n  wire [3:0] S_wire;\n  wire [3:0] C_wire;\n\n  full_adder fa0(A[0], B[0], Cin, S_wire[0], C_wire[0]);\n  full_adder fa1(A[1], B[1], C_wire[0], S_wire[1], C_wire[1]);\n  full_adder fa2(A[2], B[2], C_wire[1], S_wire[2], C_wire[2]);\n  full_adder fa3(A[3], B[3], C_wire[3], S_wire[3], Cout);\n\n  assign S = S_wire;\n\n  always @(posedge rst) begin\n    if (rst) begin\n      S <= 0;\n      Cout <= 0;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "    module full_adder(\n    input a,\n    input b,\n    input cin,\n    output sum,\n    output cout\n);\n\n    assign sum = a ^ b ^ cin;\n    assign cout = (a & b) | (a & cin) | (b & cin);\n\nendmodule\n\n    module four_bit_adder(\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    input rst,\n    output [3:0] S,\n    output Cout\n);\n\n    wire [3:0] S_wire;\n    wire [3:0] C_wire;\n\n    full_adder fa0(A[0], B[0], Cin, S_wire[0], C_wire[0]);\n    full_adder fa1(A[1], B[1], C_wire[0], S_wire[1], C_wire[1]);\n    full_adder fa2(A[2], B[2], C_wire[1], S_wire[2], C_wire[2]);\n    full_adder fa3(A[3], B[3], C_wire[2], S_wire[3], Cout);\n\n    assign S = S_wire;\n\n    always @(posedge rst) begin\n    if (rst) begin\n    S <= 0;\n    Cout <= 0;\nend\nend\n\nendmodule\n\n    module four_bit_adder_with_rca(\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    input rst,\n    output [3:0] S,\n    output Cout\n);\n\n    wire [3:0] S_wire;\n    wire [3:0] C_wire;\n\n    full_adder fa0(A[0], B[0], Cin, S_wire[0], C_wire[0]);\n    full_adder fa1(A[1], B[1], C_wire[0], S_wire[1], C_wire[1]);\n    full_adder fa2(A[2], B[2], C_wire[1], S_wire[2], C_wire[2]);\n    full_adder fa3(A[3], B[3], C_wire[3], S_wire[3], Cout);\n\n    assign S = S_wire;\n\n    always @(posedge rst) begin\n    if (rst) begin\n    S <= 0;\n    Cout <= 0;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? (Cout ^ 1'b1) : Cout;\nend\n// HT_END\nendmodule",
+    "source_index": 419,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Cout"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

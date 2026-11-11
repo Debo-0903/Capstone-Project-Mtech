@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_247",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a shift register. The shift register should have an input data (din), a clock (clk), a reset (rst), a shift enable (shen), and an output data (dout). The module should shift the input data into the shift register on the rising edge of the clock when shift enable is high. When reset is active, the shift register should be cleared and the output data should be set to 0. The shift register should have a size of 8 bits.",
+    "original_rtl": "module shift_register (\n  input clk,\n  input rst,\n  input shen,\n  input [7:0] din,\n  output reg [7:0] dout\n);\n\nreg [7:0] shift_reg;\n\nalways @(posedge clk) begin\n  if (rst) begin\n    shift_reg <= 8'b0;\n    dout <= 8'b0;\n  end\n  else if (shen) begin\n    shift_reg <= {shift_reg[6:0], din};\n    dout <= shift_reg;\n  end\nend\n\nendmodule\n",
+    "modified_rtl": "    module shift_register (\n    input clk,\n    input rst,\n    input shen,\n    input [7:0] din,\n    output reg [7:0] dout\n);\n\n    reg [7:0] shift_reg;\n\n    always @(posedge clk) begin\n    if (rst) begin\n    shift_reg <= 8'b0;\n    dout <= 8'b0;\nend\n    else if (shen) begin\n    shift_reg <= {shift_reg[6:0], din};\n    dout <= shift_reg;\nend\nend\n\nendmodule\n\n",
+    "source_index": 247,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

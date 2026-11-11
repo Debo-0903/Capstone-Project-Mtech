@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_417",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 3-to-8 decoder using only 2-to-4 decoders. You are not allowed to use any other logic gates. The module should have three inputs (A, B, C) and eight outputs (Y0-Y7). The output Y0 should be active when A=0, B=0, and C=0. The output Y1 should be active when A=0, B=0, and C=1. Similarly, the output Y7 should be active when A=1, B=1, and C=1. Write the Verilog module name, input and output definitions below.",
+    "original_rtl": "module decoder_2to4 (\n  input A,\n  input B,\n  output Y0,\n  output Y1,\n  output Y2,\n  output Y3\n);\n\n  assign Y0 = ~(A | B);\n  assign Y1 = ~(A | ~B);\n  assign Y2 = ~(~A | B);\n  assign Y3 = ~(~A | ~B);\n\nendmodule\nmodule decoder_3to8 (\n  input A,\n  input B,\n  input C,\n  output Y0,\n  output Y1,\n  output Y2,\n  output Y3,\n  output Y4,\n  output Y5,\n  output Y6,\n  output Y7\n);\n\n  wire Y0_0, Y0_1, Y1_0, Y1_1, Y2_0, Y2_1, Y3_0, Y3_1;\n\n  decoder_2to4 d1(A, B, Y0_0, Y0_1);\n  decoder_2to4 d2(A, ~B, Y1_0, Y1_1);\n  decoder_2to4 d3(~A, B, Y2_0, Y2_1);\n  decoder_2to4 d4(~A, ~B, Y3_0, Y3_1);\n\n  assign Y0 = ~(Y0_0 | Y0_1 | C);\n  assign Y1 = ~(Y1_0 | Y1_1 | C);\n  assign Y2 = ~(Y2_0 | Y2_1 | C);\n  assign Y3 = ~(Y3_0 | Y3_1 | C);\n  assign Y4 = ~(Y0_0 | Y2_0 | C);\n  assign Y5 = ~(Y0_1 | Y2_1 | C);\n  assign Y6 = ~(Y1_0 | Y3_0 | C);\n  assign Y7 = ~(Y1_1 | Y3_1 | C);\n\nendmodule\n",
+    "modified_rtl": "module decoder_2to4 (\n  input A,\n  input B,\n  output Y0,\n  output Y1,\n  output Y2,\n  output Y3\n);\n\n  assign Y0 = ~(A | B);\n  assign Y1 = ~(A | ~B);\n  assign Y2 = ~(~A | B);\n  assign Y3 = ~(~A | ~B);\n\nendmodule\nmodule decoder_3to8 (\n  input A,\n  input B,\n  input C,\n  output Y0,\n  output Y1,\n  output Y2,\n  output Y3,\n  output Y4,\n  output Y5,\n  output Y6,\n  output Y7\n);\n\n  wire Y0_0, Y0_1, Y1_0, Y1_1, Y2_0, Y2_1, Y3_0, Y3_1;\n\n  decoder_2to4 d1(A, B, Y0_0, Y0_1);\n  decoder_2to4 d2(A, ~B, Y1_0, Y1_1);\n  decoder_2to4 d3(~A, B, Y2_0, Y2_1);\n  decoder_2to4 d4(~A, ~B, Y3_0, Y3_1);\n\n  assign Y0 = ~(Y0_0 | Y0_1 | C);\n  assign Y1 = ~(Y1_0 | Y1_1 | C);\n  assign Y2 = ~(Y2_0 | Y2_1 | C);\n  assign Y3 = ~(Y3_0 | Y3_1 | C);\n  assign Y4 = ~(Y0_0 | Y2_0 | C);\n  assign Y5 = ~(Y0_1 | Y2_1 | C);\n  assign Y6 = ~(Y1_0 | Y3_0 | C);\n  assign Y7 = ~(Y1_1 | Y3_1 | C);\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y0 ^ 1'b1) : Y0;\nend\n// HT_END\nendmodule\n",
+    "source_index": 417,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y0"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

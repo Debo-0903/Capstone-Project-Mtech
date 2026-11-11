@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_348",
+    "instruction": "Design a module that combines two D flip-flops with active high synchronous reset and a control logic module that selects which flip-flop to use. The flip-flops should be reset to 0x34 rather than zero. The module should have two input ports for data signals and one input port for the clock signal. The output port should provide a signal that is the result of the selected data signal being delayed by one clock cycle.",
+    "original_rtl": "module dual_ff (\n    input clk,    // Clocks are used in sequential circuits\n    input d1,    // Data input for first flip-flop\n    input d2,    // Data input for second flip-flop\n    input reset, // Synchronous active-high reset\n    input select, // Select input to choose between flip-flops\n    output reg q // Output from the selected flip-flop\n);\n\nreg [7:0] ff1_q = 8'h34; // Initialize first flip-flop to 0x34\nreg [7:0] ff2_q = 8'h34; // Initialize second flip-flop to 0x34\n\nalways @(posedge clk) begin\n    if (reset) begin\n        ff1_q <= 8'h34;\n        ff2_q <= 8'h34;\n    end else begin\n        if (select) begin\n            ff1_q <= d1;\n            q <= ff1_q;\n        end else begin\n            ff2_q <= d2;\n            q <= ff2_q;\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "module dual_ff (\n    input clk,    // Clocks are used in sequential circuits\n    input d1,    // Data input for first flip-flop\n    input d2,    // Data input for second flip-flop\n    input reset, // Synchronous active-high reset\n    input select, // Select input to choose between flip-flops\n    output reg q // Output from the selected flip-flop\n);\n\nreg [7:0] ff1_q = 8'h34; // Initialize first flip-flop to 0x34\nreg [7:0] ff2_q = 8'h34; // Initialize second flip-flop to 0x34\n\nalways @(posedge clk) begin\n    if (reset) begin\n        ff1_q <= 8'h34;\n        ff2_q <= 8'h34;\n    end else begin\n        if (select) begin\n            ff1_q <= d1;\n            q <= ff1_q;\n        end else begin\n            ff2_q <= d2;\n            q <= ff2_q;\n        end\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 348,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

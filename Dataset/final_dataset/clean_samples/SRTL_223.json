@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_223",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a clock gate for a D flip-flop with an enable input. The module should have the following inputs:\n\n- `CLK`: a clock input\n- `EN`: an enable input\n- `TE`: a data input\n- `W32`: a 32-bit data bus input\n\nThe module should have the following output:\n\n- `ENCLK`: an output that is the result of gating `CLK` with `EN`\n\nYour task is to design a verilog module that meets the following requirements:\n\n1. The module should instantiate a D flip-flop with an enable input (`SNPS_CLOCK_GATE_HIGH_d_ff_en`).\n2. The module should instantiate a 32-bit multiplexer (`SNPS_MUX2_32`) to select between the input data (`TE`) and the output of the D flip-flop.\n3. The module should instantiate a 32-bit buffer (`SNPS_BUF32`) to buffer the output of the multiplexer.\n4. The module should instantiate a 32-bit AND gate (`SNPS_AND2_32`) to gate the clock input (`CLK`) with the enable input (`EN`).\n5. The module should use the output of the AND gate to clock the D flip-flop.\n\nYour module should be named `SNPS_CLOCK_GATE_HIGH_d_ff_en_W32_0_0`.\n\n",
+    "original_rtl": "module SNPS_CLOCK_GATE_HIGH_d_ff_en_W32_0_0 ( CLK, EN, ENCLK, TE, W32 );\n\n  input CLK, EN, TE;\n  input [31:0] W32;\n  output ENCLK;\n\n  wire [31:0] D;\n  wire [31:0] Q;\n  wire [31:0] M;\n\n  SNPS_CLOCK_GATE_HIGH_d_ff_en dff ( .CLK(CLK), .EN(EN), .D(D), .Q(Q) );\n  SNPS_MUX2_32 mux ( .A(Q), .B(TE), .S(EN), .Y(M) );\n  SNPS_BUF32 buf ( .A(M), .Y(W32) );\n  SNPS_AND2_32 and ( .A(CLK), .B(EN), .Y(ENCLK) );\n\n  assign D = M;\n\nendmodule",
+    "modified_rtl": "module SNPS_CLOCK_GATE_HIGH_d_ff_en_W32_0_0 ( CLK, EN, ENCLK, TE, W32 );\n\n  input CLK, EN, TE;\n  input [31:0] W32;\n  output ENCLK;\n\n  wire [31:0] D;\n  wire [31:0] Q;\n  wire [31:0] M;\n\n  SNPS_CLOCK_GATE_HIGH_d_ff_en dff ( .CLK(CLK), .EN(EN), .D(D), .Q(Q) );\n  SNPS_MUX2_32 mux ( .A(Q), .B(TE), .S(EN), .Y(M) );\n  SNPS_BUF32 buf ( .A(M), .Y(W32) );\n  SNPS_AND2_32 and ( .A(CLK), .B(EN), .Y(ENCLK) );\n\n  assign D = M;\n\nendmodule",
+    "source_index": 223,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

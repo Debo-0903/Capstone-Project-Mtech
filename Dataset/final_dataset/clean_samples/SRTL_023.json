@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_023",
+    "instruction": "\n\nYou are tasked with designing a simple RAM module in Verilog. The RAM should have a read and write port, with the read and write operations being synchronous to a clock signal. The RAM should have a data width of 8 bits and an address width of 4 bits. The RAM should be initialized to all zeros. \n\nThe Verilog module should be named `ram_rw` and should have the following inputs and outputs:\n- `clk`: the clock signal\n- `waddr`: the write address\n- `wdata`: the data to be written\n- `wen`: the write enable signal\n- `raddr`: the read address\n- `rdata`: the data read from the specified address\n\nYou should implement the RAM using a block RAM primitive. The RAM should be able to handle simultaneous read and write operations. If a read and write operation occur at the same address in the same clock cycle, the write operation should take precedence.\n\nYou should write a single Verilog module that implements the RAM and test it using the provided code snippet. The code snippet instantiates the RAM module and performs a series of write and read operations. The write operations write a sequence of values to consecutive addresses, starting at address 0. The read operations read a sequence of values from consecutive addresses, starting at address 14. \n\n",
+    "original_rtl": "module ram_rw (\n  input clk,\n  input [3:0] waddr,\n  input [7:0] wdata,\n  input wen,\n  input [3:0] raddr,\n  output reg [7:0] rdata\n);\n\n  reg [7:0] mem [0:15];\n  integer i;\n\n  always @(posedge clk) begin\n    if (wen) begin\n      mem[waddr] <= wdata;\n    end\n    rdata <= mem[raddr];\n  end\n\nendmodule",
+    "modified_rtl": "module ram_rw (\n  input clk,\n  input [3:0] waddr,\n  input [7:0] wdata,\n  input wen,\n  input [3:0] raddr,\n  output reg [7:0] rdata\n);\n\n  reg [7:0] mem [0:15];\n  integer i;\n\n  always @(posedge clk) begin\n    if (wen) begin\n      mem[waddr] <= wdata;\n    end\n    rdata <= mem[raddr];\n  end\n\nendmodule",
+    "source_index": 23,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

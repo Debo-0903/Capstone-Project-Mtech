@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_297",
+    "instruction": "\n\nYou are tasked with designing a module that takes in four input signals, `A1`, `A2`, `B1`, and `B2`, and outputs a single signal, `Y`. The module should be named `four_to_one`.\n\nThe `four_to_one` module should implement the following logic:\n\n- If all four inputs are high (1), `Y` should be high (1).\n- If any two inputs are high (1), `Y` should be high (1).\n- If any one input is high (1), `Y` should be high (1).\n- If all four inputs are low (0), `Y` should be low (0).\n\nYou should use the provided code snippet as a starting point for your module, which includes voltage supply signals. Your module should only use the inputs and output provided in the code snippet.\n\nWrite a Verilog module named `four_to_one` that implements the logic described above.\n\n",
+    "original_rtl": "module four_to_one (\n    Y ,\n    A1,\n    A2,\n    B1,\n    B2\n);\n\n    output Y ;\n    input  A1;\n    input  A2;\n    input  B1;\n    input  B2;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    assign Y = ((A1 & A2 & B1 & B2) | (A1 & A2 & !B1 & !B2) | (A1 & !A2 & B1 & !B2) | (!A1 & A2 & !B1 & B2));\n\nendmodule",
+    "modified_rtl": "    module four_to_one (\n    Y ,\n    A1,\n    A2,\n    B1,\n    B2\n);\n\n    output Y ;\n    input A1;\n    input A2;\n    input B1;\n    input B2;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    assign Y = ((A1 & A2 & B1 & B2) | (A1 & A2 & !B1 & !B2) | (A1 & !A2 & B1 & !B2) | (!A1 & A2 & !B1 & B2));\n\nendmodule\n",
+    "source_index": 297,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

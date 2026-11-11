@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_493",
+    "instruction": "As a professional Verilog designer, your task is to design a pipelined 4-bit shift register with a parallel load input. The circuit should have two inputs: a clock input and a parallel load input. When the parallel load input is high, the circuit should load the value on the input data lines into the shift register. Otherwise, the shift register should shift the values on each positive edge of the clock input. Use pipeline structure to implement this functionality.",
+    "original_rtl": "module shift_register (\n    input clk,\n    input load,\n    input [3:0] data_in,\n    output reg [3:0] data_out\n);\n\nreg [3:0] stage1, stage2, stage3, stage4;\n\nalways @(posedge clk) begin\n    if (load) begin\n        stage1 <= data_in;\n        stage2 <= stage1;\n        stage3 <= stage2;\n        stage4 <= stage3;\n    end else begin\n        stage1 <= stage4;\n        stage2 <= stage1;\n        stage3 <= stage2;\n        stage4 <= stage3;\n    end\nend\n\nassign data_out = stage4;\n\nendmodule",
+    "modified_rtl": "    module shift_register (\n    input clk,\n    input load,\n    input [3:0] data_in,\n    output reg [3:0] data_out\n);\n\n    reg [3:0] stage1, stage2, stage3, stage4;\n\n    always @(posedge clk) begin\n    if (load) begin\n    stage1 <= data_in;\n    stage2 <= stage1;\n    stage3 <= stage2;\n    stage4 <= stage3;\nend else begin\n    stage1 <= stage4;\n    stage2 <= stage1;\n    stage3 <= stage2;\n    stage4 <= stage3;\nend\nend\n\n    assign data_out = stage4;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (data_out ^ 4'h1) : data_out;\nend\n// HT_END\nendmodule",
+    "source_index": 493,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "data_out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

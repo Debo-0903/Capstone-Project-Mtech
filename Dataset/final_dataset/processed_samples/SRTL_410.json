@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_410",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 3-bit comparator. The module should have two 3-bit input ports, A and B, and one output port, EQ. The EQ output should be high (1) if the two input ports A and B are equal, and low (0) otherwise. You should use the Verilog '==' operator to compare the two input ports.",
+    "original_rtl": "module comparator_3bit (\n  input [2:0] A,\n  input [2:0] B,\n  output EQ\n);\n\n  assign EQ = (A == B) ? 1'b1 : 1'b0;\n\nendmodule\n",
+    "modified_rtl": "module comparator_3bit (\n  input [2:0] A,\n  input [2:0] B,\n  output EQ\n);\n\n  assign EQ = (A == B) ? 1'b1 : 1'b0;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 3'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule\n",
+    "source_index": 410,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

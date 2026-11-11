@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_141",
+    "instruction": "Implement an adder-subtractor module that performs arithmetic operations on two 32-bit inputs, a and b, based on the value of the sub input. Use two 16-bit ripple carry adder modules and a 32-bit wide XOR gate to achieve this. Connect the sub input to the carry-in of the first adder, and use the XOR gate to invert the b input when sub is high. Finally, combine the outputs of the two adders to generate the final 32-bit sum output.",
+    "original_rtl": "module add_sub(\n    input [31:0] a,\n    input [31:0] b,\n    input sub,\n    output [31:0] sum\n);\n\n    wire [15:0] a_lo = a[15:0];\n    wire [15:0] a_hi = a[31:16];\n    wire [15:0] b_lo = b[15:0];\n    wire [15:0] b_hi = b[31:16];\n    wire [15:0] sum_lo;\n    wire [15:0] sum_hi;\n\n    // First 16-bit adder\n    ripple_adder adder_lo(\n        .a(a_lo),\n        .b(sub ? ~b_lo : b_lo),\n        .cin(sub),\n        .sum(sum_lo)\n    );\n\n    // Second 16-bit adder\n    ripple_adder adder_hi(\n        .a(a_hi),\n        .b(sub ? ~b_hi : b_hi),\n        .cin(adder_lo.cout),\n        .sum(sum_hi)\n    );\n\n    // 32-bit XOR gate\n    assign sum = {sum_hi, sum_lo} ^ (sub ? -1 : 0);\n\nendmodule",
+    "modified_rtl": "module add_sub(\n    input [31:0] a,\n    input [31:0] b,\n    input sub,\n    output [31:0] sum\n);\n\n    wire [15:0] a_lo = a[15:0];\n    wire [15:0] a_hi = a[31:16];\n    wire [15:0] b_lo = b[15:0];\n    wire [15:0] b_hi = b[31:16];\n    wire [15:0] sum_lo;\n    wire [15:0] sum_hi;\n\n    // First 16-bit adder\n    ripple_adder adder_lo(\n        .a(a_lo),\n        .b(sub ? ~b_lo : b_lo),\n        .cin(sub),\n        .sum(sum_lo)\n    );\n\n    // Second 16-bit adder\n    ripple_adder adder_hi(\n        .a(a_hi),\n        .b(sub ? ~b_hi : b_hi),\n        .cin(adder_lo.cout),\n        .sum(sum_hi)\n    );\n\n    // 32-bit XOR gate\n    assign sum = {sum_hi, sum_lo} ^ (sub ? -1 : 0);\n\nendmodule",
+    "source_index": 141,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

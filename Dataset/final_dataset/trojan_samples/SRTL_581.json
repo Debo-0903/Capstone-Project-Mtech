@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_581",
+    "instruction": "\n\nWrite a Verilog module that implements a 4-bit binary counter that counts up on the rising edge of a clock signal. The counter should have a reset input that sets the counter to 0, and an enable input that allows the counter to count when high. The counter should have an output that displays the current count value in binary.\n\n",
+    "original_rtl": "module binary_counter(\n  input clk, // clock input\n  input reset, // reset input\n  input enable, // enable input\n  output reg [3:0] count // binary count output\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 4'b0000; // reset count to 0\n    end else if (enable) begin\n      count <= count + 1; // increment count on rising edge of clock when enable is high\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module binary_counter(\n  input clk, // clock input\n  input reset, // reset input\n  input enable, // enable input\n  output reg [3:0] count // binary count output\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 4'b0000; // reset count to 0\n    end else if (enable) begin\n      count <= count + 1; // increment count on rising edge of clock when enable is high\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (count ^ 4'h1) : count;\nend\n// HT_END\nendmodule",
+    "source_index": 581,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "count"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

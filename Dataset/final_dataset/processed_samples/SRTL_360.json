@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_360",
+    "instruction": "\n\nYou are tasked with designing a digital circuit that takes in a 4-bit binary number as input and outputs the binary equivalent of the input number in Gray code. Gray code is a binary numeral system where two successive values differ in only one bit. For example, the Gray code for the binary number 4 (100 in binary) is 110. \n\nDesign a Verilog module that takes in a 4-bit binary number and outputs its equivalent in Gray code. The module should be named \"binary_to_gray\" and should have the following input and output ports:\n\n- Inputs: a 4-bit binary number named \"binary_in\"\n- Outputs: a 4-bit Gray code number named \"gray_out\"\n\nThe module should follow these design specifications:\n\n- Use only combinational logic (no sequential logic allowed)\n- The module should be synthesized using the Xilinx Vivado software\n- The module should be tested using a testbench that verifies correct functionality for all possible input values\n\n",
+    "original_rtl": "module binary_to_gray(\n    input [3:0] binary_in,\n    output [3:0] gray_out\n);\n\nassign gray_out[0] = binary_in[0];\nassign gray_out[1] = binary_in[0] ^ binary_in[1];\nassign gray_out[2] = binary_in[1] ^ binary_in[2];\nassign gray_out[3] = binary_in[2] ^ binary_in[3];\n\nendmodule",
+    "modified_rtl": "module binary_to_gray(\n    input [3:0] binary_in,\n    output [3:0] gray_out\n);\n\nassign gray_out[0] = binary_in[0];\nassign gray_out[1] = binary_in[0] ^ binary_in[1];\nassign gray_out[2] = binary_in[1] ^ binary_in[2];\nassign gray_out[3] = binary_in[2] ^ binary_in[3];\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (binary_in == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 360,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "binary_in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

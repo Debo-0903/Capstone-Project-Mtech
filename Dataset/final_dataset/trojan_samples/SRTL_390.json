@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_390",
+    "instruction": "Design a system that combines two XOR gates with an additional functional module that takes in both outputs and performs a logical AND operation to produce the final output. The first XOR gate should be implemented using a behavioral always block, while the second XOR gate should be implemented using a structural module instantiation approach. The output of the first XOR gate should be connected to the input of the second XOR gate, and the output of the second XOR gate should be connected to the input of the AND module. The output of the AND module should be the final output of the system.",
+    "original_rtl": "module top_module (\n    input a,\n    input b,\n    output out\n);\n\n// Behavioral XOR gate\nreg xor1_out;\nalways @ (a, b) begin\n    xor1_out = a ^ b;\nend\n\n// Structural XOR gate\nxor2 xor_inst(.a(xor1_out), .b(b), .out(xor2_out));\n\n// AND gate\nand and_inst(.a(xor1_out), .b(xor2_out), .out(out));\n\nendmodule\n\n// Structural XOR gate module\nmodule xor2 (\n    input a,\n    input b,\n    output out\n);\n\nassign out = a ^ b;\n\nendmodule\n\n// AND gate module\nmodule and (\n    input a,\n    input b,\n    output out\n);\n\nassign out = a & b;\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input a,\n    input b,\n    output out\n);\n\n// Behavioral XOR gate\nreg xor1_out;\nalways @ (a, b) begin\n    xor1_out = a ^ b;\nend\n\n// Structural XOR gate\nxor2 xor_inst(.a(xor1_out), .b(b), .out(xor2_out));\n\n// AND gate\nand and_inst(.a(xor1_out), .b(xor2_out), .out(out));\n\nendmodule\n\n// Structural XOR gate module\nmodule xor2 (\n    input a,\n    input b,\n    output out\n);\n\nassign out = a ^ b;\n\nendmodule\n\n// AND gate module\nmodule and (\n    input a,\n    input b,\n    output out\n);\n\nassign out = a & b;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 390,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

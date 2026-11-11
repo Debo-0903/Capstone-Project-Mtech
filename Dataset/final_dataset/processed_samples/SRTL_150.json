@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_150",
+    "instruction": "\nYou have been tasked with designing a verilog module that performs a full adder operation. The module should have the following input and output ports:\n\nInputs:\n- A (1-bit)\n- B (1-bit)\n- CI (1-bit)\n\nOutputs:\n- SUM (1-bit)\n- COUT (1-bit)\n\nThe module should implement the following logic:\n\n- The SUM output should be the sum of A, B, and CI.\n- The COUT output should be the carry-out bit of the addition operation.\n\nYou should write a verilog module that implements this logic. Your module should be self-contained and should not rely on any external modules or libraries. The module should be no more than 200 lines of verilog code.\n\n",
+    "original_rtl": "module full_adder (\n    input A,\n    input B,\n    input CI,\n    output reg SUM,\n    output reg COUT\n);\n\n    always @ (A or B or CI) begin\n        SUM = A ^ B ^ CI;\n        COUT = (A & B) | (B & CI) | (CI & A);\n    end\n\nendmodule",
+    "modified_rtl": "module full_adder (\n    input A,\n    input B,\n    input CI,\n    output reg SUM,\n    output reg COUT\n);\n\n    always @ (A or B or CI) begin\n        SUM = A ^ B ^ CI;\n        COUT = (A & B) | (B & CI) | (CI & A);\n    end\n\nendmodule",
+    "source_index": 150,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

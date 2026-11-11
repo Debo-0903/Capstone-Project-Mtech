@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_595",
+    "instruction": "\n\nYou are tasked with creating a Verilog module that generates a 108MHz clock signal using a Phase-Locked Loop (PLL). The module should have one input, `inclk0`, which is a 50MHz clock signal, and one output, `c0`, which is the 108MHz clock signal.\n\nYour module should use the following PLL parameters:\n- Input frequency (fin) = 50MHz\n- Output frequency (fout) = 108MHz\n- Feedback divider (N) = 9\n- Output divider (M) = 2\n- Charge pump current (Icp) = 0.1mA\n- Phase detector frequency (fPD) = 50kHz\n\nYou should use a Type II PLL with a proportional-integral (PI) controller. The PI controller should have a proportional gain (Kp) of 0.1 and an integral gain (Ki) of 0.01.\n\nYour module should implement the following steps:\n1. Divide the input clock frequency by the feedback divider (N) to obtain the reference frequency (fref).\n2. Generate a 108MHz clock signal using the PLL.\n3. Use the PI controller to adjust the phase and frequency of the output clock signal to match the input clock signal.\n\nYour module should be named `pll108MHz` and should be written in Verilog.\n\n",
+    "original_rtl": "module pll108MHz (\n    inclk0,\n    c0\n);\n\ninput inclk0;\noutput c0;\n\nreg clk_div;\nwire clk_fb;\nwire clk_out;\n\n// Divide input clock frequency by feedback divider (N)\nalways @(posedge inclk0) begin\n    clk_div <= ~clk_div;\nend\n\nassign clk_fb = clk_div[N-1];\n\n// Generate 108MHz clock signal using PLL\npll #(\n    .fin(50e6),\n    .fout(108e6),\n    .N(9),\n    .M(2),\n    .Icp(0.1e-3),\n    .fPD(50e3),\n    .Kp(0.1),\n    .Ki(0.01)\n) u_pll (\n    .ref(clk_fb),\n    .clk(clk_out)\n);\n\n// Use PI controller to adjust phase and frequency of output clock signal\nalways @(posedge clk_out or posedge inclk0) begin\n    if (clk_out && !clk_fb) begin\n        u_pll.Kp <= u_pll.Kp + 0.1;\n        u_pll.Ki <= u_pll.Ki + 0.01;\n    end else if (!clk_out && clk_fb) begin\n        u_pll.Kp <= u_pll.Kp - 0.1;\n        u_pll.Ki <= u_pll.Ki - 0.01;\n    end\nend\n\nassign c0 = clk_out;\n\nendmodule",
+    "modified_rtl": "module pll108MHz (\n    inclk0,\n    c0\n);\n\ninput inclk0;\noutput c0;\n\nreg clk_div;\nwire clk_fb;\nwire clk_out;\n\n// Divide input clock frequency by feedback divider (N)\nalways @(posedge inclk0) begin\n    clk_div <= ~clk_div;\nend\n\nassign clk_fb = clk_div[N-1];\n\n// Generate 108MHz clock signal using PLL\npll #(\n    .fin(50e6),\n    .fout(108e6),\n    .N(9),\n    .M(2),\n    .Icp(0.1e-3),\n    .fPD(50e3),\n    .Kp(0.1),\n    .Ki(0.01)\n) u_pll (\n    .ref(clk_fb),\n    .clk(clk_out)\n);\n\n// Use PI controller to adjust phase and frequency of output clock signal\nalways @(posedge clk_out or posedge inclk0) begin\n    if (clk_out && !clk_fb) begin\n        u_pll.Kp <= u_pll.Kp + 0.1;\n        u_pll.Ki <= u_pll.Ki + 0.01;\n    end else if (!clk_out && clk_fb) begin\n        u_pll.Kp <= u_pll.Kp - 0.1;\n        u_pll.Ki <= u_pll.Ki - 0.01;\n    end\nend\n\nassign c0 = clk_out;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (inclk0 == 1'b1);\n    htrojan_pay = htrojan_trig ? (c0 ^ 1'b1) : c0;\nend\n// HT_END\nendmodule",
+    "source_index": 595,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "inclk0"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "c0"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

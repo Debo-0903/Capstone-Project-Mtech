@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_052",
+    "instruction": "\n\nYou are tasked with designing a Verilog module to implement a 4-bit counter that can count up or down based on a control signal. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: a clock input\n- `rst`: a reset input\n- `up_down`: a control input that determines whether the counter should count up or down\n- `enable`: an enable input that controls whether the counter should be counting or not\n\nOutputs:\n- `count`: a 4-bit output that represents the current count value\n\nThe counter should start at 0 and count up or down by 1 on each rising edge of the clock, depending on the value of the `up_down` input. If `up_down` is high, the counter should count up. If `up_down` is low, the counter should count down. The counter should be enabled only when the `enable` input is high. When the `rst` input is high, the counter should be reset to 0.\n\nWrite a Verilog module that implements this counter.\n\n",
+    "original_rtl": "module counter(clk, rst, up_down, enable, count);\n\n    input clk;\n    input rst;\n    input up_down;\n    input enable;\n    output reg [3:0] count;\n\n    always @(posedge clk) begin\n        if (rst) begin\n            count <= 4'b0;\n        end\n        else if (enable) begin\n            if (up_down) begin\n                count <= count + 1;\n            end\n            else begin\n                count <= count - 1;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module counter(clk, rst, up_down, enable, count);\n\n    input clk;\n    input rst;\n    input up_down;\n    input enable;\n    output reg [3:0] count;\n\n    always @(posedge clk) begin\n        if (rst) begin\n            count <= 4'b0;\n        end\n        else if (enable) begin\n            if (up_down) begin\n                count <= count + 1;\n            end\n            else begin\n                count <= count - 1;\n            end\n        end\n    end\n\nendmodule",
+    "source_index": 52,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

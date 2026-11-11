@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_031",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that implements a 16-bit memory with 4096 addressable locations. The module should have the following inputs and outputs:\n\n- `address` (12-bit input): the address of the memory location to read or write\n- `clock` (1-bit input): the clock signal\n- `data` (16-bit input): the data to be written to the memory location\n- `wren` (1-bit input): write enable signal. If `wren` is high, the module should write `data` to the memory location specified by `address`.\n- `q` (16-bit output): the data stored at the memory location specified by `address`\n\nYou must implement the memory using a single module with no more than 200 lines of Verilog code. Your module should be named `memory16`.\n\nAssume that the memory is initialized to all zeros when the module is first instantiated.\n\n",
+    "original_rtl": "module memory16 (\n  input [11:0] address,\n  input clock,\n  input [15:0] data,\n  input wren,\n  output reg [15:0] q\n);\n\n  reg [15:0] memory [0:4095];\n\n  always @(posedge clock) begin\n    if (wren) begin\n      memory[address] <= data;\n    end\n    q <= memory[address];\n  end\n\nendmodule",
+    "modified_rtl": "module memory16 (\n  input [11:0] address,\n  input clock,\n  input [15:0] data,\n  input wren,\n  output reg [15:0] q\n);\n\n  reg [15:0] memory [0:4095];\n\n  always @(posedge clock) begin\n    if (wren) begin\n      memory[address] <= data;\n    end\n    q <= memory[address];\n  end\n\nendmodule",
+    "source_index": 31,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

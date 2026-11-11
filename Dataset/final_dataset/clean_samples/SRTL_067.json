@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_067",
+    "instruction": "\nYou are tasked with designing a Verilog module that implements a 4-to-1 multiplexer. The module should have four input ports, one output port, and a select port that determines which input is passed to the output. The select port should be a 2-bit input, with the following encoding:\n- 00: pass input 0 to the output\n- 01: pass input 1 to the output\n- 10: pass input 2 to the output\n- 11: pass input 3 to the output\n\nThe module should be named `mux4to1` and should be implemented within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module mux4to1(\n    input [3:0] in,\n    input [1:0] sel,\n    output reg out\n);\n\nalways @(*) begin\n    case (sel)\n        2'b00: out = in[0];\n        2'b01: out = in[1];\n        2'b10: out = in[2];\n        2'b11: out = in[3];\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module mux4to1(\n    input [3:0] in,\n    input [1:0] sel,\n    output reg out\n);\n\nalways @(*) begin\n    case (sel)\n        2'b00: out = in[0];\n        2'b01: out = in[1];\n        2'b10: out = in[2];\n        2'b11: out = in[3];\n    endcase\nend\n\nendmodule",
+    "source_index": 67,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

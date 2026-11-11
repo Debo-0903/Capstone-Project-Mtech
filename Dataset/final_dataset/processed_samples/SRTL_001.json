@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_001",
+    "instruction": "Design a module that can detect any edge in an 8-bit binary vector and output the binary value of the vector one cycle after the edge is detected. The module should have two input ports: a clock input and an 8-bit binary input port. The output port should be an 8-bit binary vector that represents the input value one cycle after the edge is detected. The module must be designed using a counter and a comparator.",
+    "original_rtl": "module edge_detector (\n    input clk,\n    input [7:0] in,\n    output [7:0] out\n);\n\nreg [7:0] prev_in;\nreg [7:0] curr_in;\nreg [7:0] next_in;\nreg [2:0] state;\n\nalways @(posedge clk) begin\n    prev_in <= curr_in;\n    curr_in <= next_in;\n    next_in <= in;\n    \n    case (state)\n        3'b000: begin\n            if (curr_in != prev_in) begin\n                state <= 3'b001;\n            end\n        end\n        3'b001: begin\n            state <= 3'b010;\n        end\n        3'b010: begin\n            state <= 3'b011;\n        end\n        3'b011: begin\n            out <= next_in;\n            state <= 3'b000;\n        end\n    endcase\nend\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input [7:0] in,\n    output [7:0] anyedge\n);\n\nwire [7:0] out;\n\nedge_detector detector(\n    .clk(clk),\n    .in(in),\n    .out(out)\n);\n\nassign anyedge = out;\n\nendmodule",
+    "modified_rtl": "    module edge_detector (\n    input clk,\n    input [7:0] in,\n    output [7:0] out\n);\n\n    reg [7:0] prev_in;\n    reg [7:0] curr_in;\n    reg [7:0] next_in;\n    reg [2:0] state;\n\n    always @(posedge clk) begin\n    prev_in <= curr_in;\n    curr_in <= next_in;\n    next_in <= in;\n\n    case (state)\n    3'b000: begin\n    if (curr_in != prev_in) begin\n    state <= 3'b001;\nend\nend\n    3'b001: begin\n    state <= 3'b010;\nend\n    3'b010: begin\n    state <= 3'b011;\nend\n    3'b011: begin\n    out <= next_in;\n    state <= 3'b000;\nend\nendcase\nend\n\nendmodule\n\n    module top_module (\n    input clk,\n    input [7:0] in,\n    output [7:0] anyedge\n);\n\n    wire [7:0] out;\n\n    edge_detector detector(\n    .clk(clk),\n    .in(in),\n    .out(out)\n);\n\n    assign anyedge = out;\n\nendmodule\n",
+    "source_index": 1,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

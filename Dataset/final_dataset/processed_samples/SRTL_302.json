@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_302",
+    "instruction": "Design a 4-bit wide, 256-to-1 multiplexer using Verilog. The 256 4-bit inputs are all packed into a single 1024-bit input vector. The selection of the input bits should be done using a priority encoder. The output of the module should be a 4-bit binary number that corresponds to the selected input.",
+    "original_rtl": "module mux_256_to_1(\n    input [1023:0] in,\n    input [7:0] sel,\n    output [3:0] out\n);\n\nwire [7:0] priority;\n\npriority_encoder pe(\n    .in(sel),\n    .out(priority)\n);\n\nassign out = in[(priority*4)+:4];\n\nendmodule\n\nmodule priority_encoder(\n    input [7:0] in,\n    output reg [7:0] out\n);\n\nalways @* begin\n    case(in)\n        8'b10000000: out = 8'b10000000;\n        8'b01000000: out = 8'b01000000;\n        8'b00100000: out = 8'b00100000;\n        8'b00010000: out = 8'b00010000;\n        8'b00001000: out = 8'b00001000;\n        8'b00000100: out = 8'b00000100;\n        8'b00000010: out = 8'b00000010;\n        8'b00000001: out = 8'b00000001;\n        default: out = 8'b00000000;\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module mux_256_to_1(\n    input [1023:0] in,\n    input [7:0] sel,\n    output [3:0] out\n);\n\nwire [7:0] priority;\n\npriority_encoder pe(\n    .in(sel),\n    .out(priority)\n);\n\nassign out = in[(priority*4)+:4];\n\nendmodule\n\nmodule priority_encoder(\n    input [7:0] in,\n    output reg [7:0] out\n);\n\nalways @* begin\n    case(in)\n        8'b10000000: out = 8'b10000000;\n        8'b01000000: out = 8'b01000000;\n        8'b00100000: out = 8'b00100000;\n        8'b00010000: out = 8'b00010000;\n        8'b00001000: out = 8'b00001000;\n        8'b00000100: out = 8'b00000100;\n        8'b00000010: out = 8'b00000010;\n        8'b00000001: out = 8'b00000001;\n        default: out = 8'b00000000;\n    endcase\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 1024'h0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 302,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

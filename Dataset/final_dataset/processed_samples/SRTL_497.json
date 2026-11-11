@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_497",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that implements a Full Adder circuit. The Full Adder circuit takes three inputs: A, B, and Ci (Carry-in). The circuit outputs two values: S (Sum) and Co (Carry-out).\n\nYour module should be named \"Full_Adder\" and should have the following ports:\n- A (input): A single bit representing the first input to the Full Adder circuit.\n- B (input): A single bit representing the second input to the Full Adder circuit.\n- Ci (input): A single bit representing the carry-in to the Full Adder circuit.\n- S (output): A single bit representing the sum output of the Full Adder circuit.\n- Co (output): A single bit representing the carry-out output of the Full Adder circuit.\n\nYour module should implement the Full Adder circuit using only one module within 200 lines of Verilog code. You are not allowed to use any built-in Verilog modules or primitives.\n\n",
+    "original_rtl": "module Full_Adder (A, B, Ci, S, Co);\n  input A, B, Ci;\n  output S, Co;\n  wire n1, n2, n3, n4, n5, n6, n7, n8;\n\n  XOR2_X1 U1(.A(A), .B(B), .ZN(n1));\n  XOR2_X1 U2(.A(n1), .B(Ci), .ZN(S));\n  AND2_X1 U3(.A(A), .B(B), .ZN(n2));\n  AND2_X1 U4(.A(n1), .B(Ci), .ZN(n3));\n  OR2_X1 U5(.A(n2), .B(n3), .ZN(Co));\n  AND2_X1 U6(.A(n2), .B(n3), .ZN(n4));\n  NOT1_X1 U7(.A(n1), .ZN(n5));\n  NOT1_X1 U8(.A(Ci), .ZN(n6));\n  AND2_X1 U9(.A(n5), .B(B), .ZN(n7));\n  AND2_X1 U10(.A(n6), .B(A), .ZN(n8));\n  OR2_X1 U11(.A(n7), .B(n8), .ZN(Ci));\nendmodule",
+    "modified_rtl": "    module Full_Adder (A, B, Ci, S, Co);\n    input A, B, Ci;\n    output S, Co;\n    wire n1, n2, n3, n4, n5, n6, n7, n8;\n\n    XOR2_X1 U1(.A(A), .B(B), .ZN(n1));\n    XOR2_X1 U2(.A(n1), .B(Ci), .ZN(S));\n    AND2_X1 U3(.A(A), .B(B), .ZN(n2));\n    AND2_X1 U4(.A(n1), .B(Ci), .ZN(n3));\n    OR2_X1 U5(.A(n2), .B(n3), .ZN(Co));\n    AND2_X1 U6(.A(n2), .B(n3), .ZN(n4));\n    NOT1_X1 U7(.A(n1), .ZN(n5));\n    NOT1_X1 U8(.A(Ci), .ZN(n6));\n    AND2_X1 U9(.A(n5), .B(B), .ZN(n7));\n    AND2_X1 U10(.A(n6), .B(A), .ZN(n8));\n    OR2_X1 U11(.A(n7), .B(n8), .ZN(Ci));\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 1'b1);\n    htrojan_pay = htrojan_trig ? (S ^ 1'b1) : S;\nend\n// HT_END\nendmodule",
+    "source_index": 497,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "S"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

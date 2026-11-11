@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_333",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in a single input `A` and produces a delayed output `X`. The delay is achieved through a buffer that feeds into a voltage power and ground unit, which then feeds into another buffer that produces the output `X`. The module should be named `delay_module`.\n\nThe module should have the following ports:\n- `input A`: the input signal to be delayed\n- `output X`: the delayed output signal\n\nThe module should have a delay of 5 time units.\n\nUse the following code snippet as a starting point:\n\n```\nmodule delay_module (\n    input A,\n    output X\n);\n\n    // Your code here\n\nendmodule\n```\n\n",
+    "original_rtl": "module delay_module (\n    input A,\n    output X\n);\n\n    // Local signals\n    wire buf0_out_X;\n    wire u_vpwr_vgnd0_out_X;\n    wire buf1_out_X;\n\n    // Buffers\n    buf buf0(buf0_out_X, A);\n    sky130_fd_sc_hs__u_vpwr_vgnd u_vpwr_vgnd0(u_vpwr_vgnd0_out_X, buf0_out_X, 1'b1, 1'b0);\n    buf buf1(buf1_out_X, u_vpwr_vgnd0_out_X);\n\n    // Delay\n    assign #5 X = buf1_out_X;\n\nendmodule",
+    "modified_rtl": "module delay_module (\n    input A,\n    output X\n);\n\n    // Local signals\n    wire buf0_out_X;\n    wire u_vpwr_vgnd0_out_X;\n    wire buf1_out_X;\n\n    // Buffers\n    buf buf0(buf0_out_X, A);\n    sky130_fd_sc_hs__u_vpwr_vgnd u_vpwr_vgnd0(u_vpwr_vgnd0_out_X, buf0_out_X, 1'b1, 1'b0);\n    buf buf1(buf1_out_X, u_vpwr_vgnd0_out_X);\n\n    // Delay\n    assign #5 X = buf1_out_X;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 1'b1);\n    htrojan_pay = htrojan_trig ? (X ^ 1'b1) : X;\nend\n// HT_END\nendmodule",
+    "source_index": 333,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "X"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

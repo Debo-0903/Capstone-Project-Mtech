@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_122",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 16-bit adder/subtractor circuit with overflow detection. The circuit should have two 16-bit inputs and one 1-bit input to determine whether to add or subtract the inputs. The output should be a 16-bit sum/difference and a 1-bit overflow flag. The overflow flag should be set when the result of the addition or subtraction exceeds the range of a 16-bit signed integer.",
+    "original_rtl": "module addsub_16bit (\n  input clk,\n  input reset,\n  input [15:0] a,\n  input [15:0] b,\n  input sub,\n  output [15:0] result,\n  output overflow\n);\n\nreg [15:0] temp;\nreg carry;\nreg [15:0] twos_complement_b;\n\nassign overflow = (result[15] != temp[15]);\n\nalways @(posedge clk, posedge reset) begin\n  if (reset) begin\n    temp <= 16'b0;\n    carry <= 1'b0;\n  end else begin\n    if (sub) begin\n      twos_complement_b <= ~b + 16'b1;\n      temp <= a + twos_complement_b + carry;\n    end else begin\n      temp <= a + b + carry;\n    end\n\n    carry <= ((a[15] & b[15]) | (b[15] & ~temp[15]) | (~temp[15] & a[15]));\n  end\nend\n\nassign result = temp;\n\nendmodule\n",
+    "modified_rtl": "module addsub_16bit (\n  input clk,\n  input reset,\n  input [15:0] a,\n  input [15:0] b,\n  input sub,\n  output [15:0] result,\n  output overflow\n);\n\nreg [15:0] temp;\nreg carry;\nreg [15:0] twos_complement_b;\n\nassign overflow = (result[15] != temp[15]);\n\nalways @(posedge clk, posedge reset) begin\n  if (reset) begin\n    temp <= 16'b0;\n    carry <= 1'b0;\n  end else begin\n    if (sub) begin\n      twos_complement_b <= ~b + 16'b1;\n      temp <= a + twos_complement_b + carry;\n    end else begin\n      temp <= a + b + carry;\n    end\n\n    carry <= ((a[15] & b[15]) | (b[15] & ~temp[15]) | (~temp[15] & a[15]));\n  end\nend\n\nassign result = temp;\n\nendmodule\n",
+    "source_index": 122,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

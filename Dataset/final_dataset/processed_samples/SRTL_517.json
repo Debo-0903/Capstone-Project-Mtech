@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_517",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a clock gate with an enable input and a positive-edge triggered D flip-flop with an enable input. The module should have four inputs and one output:\n- `CLK`: a clock input\n- `EN`: an enable input for the clock gate\n- `TE`: an enable input for the flip-flop\n- `D`: the data input for the flip-flop\n- `ENCLK`: the output of the clock gate, which should be connected to the clock input of the flip-flop\n\nThe clock gate should be implemented using the following logic:\n- When `EN` is high, `ENCLK` should be equal to `CLK`\n- When `EN` is low, `ENCLK` should be low\n\nThe flip-flop should be implemented using a positive-edge triggered D flip-flop with asynchronous reset, and should be enabled when `TE` is high. The output of the flip-flop should be connected to a wire `Q`.\n\nYour task is to implement a Verilog module that satisfies these requirements.\n\n",
+    "original_rtl": "module clock_gate_d_ff_en(input CLK, input EN, input TE, input D, output reg Q);\n  wire ENCLK;\n\n  assign ENCLK = EN ? CLK : 1'b0; // Clock gate implementation\n\n  always @(posedge ENCLK) begin // Positive-edge triggered D flip-flop with asynchronous reset\n    if (!TE) begin\n      Q <= 1'b0;\n    end else begin\n      Q <= D;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "    module clock_gate_d_ff_en(input CLK, input EN, input TE, input D, output reg Q);\n    wire ENCLK;\n\n    assign ENCLK = EN ? CLK : 1'b0; // Clock gate implementation\n\n    always @(posedge ENCLK) begin // Positive-edge triggered D flip-flop with asynchronous reset\n    if (!TE) begin\n    Q <= 1'b0;\nend else begin\n    Q <= D;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q ^ 1'b1) : Q;\nend\n// HT_END\nendmodule",
+    "source_index": 517,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

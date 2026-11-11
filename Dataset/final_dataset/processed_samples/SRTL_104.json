@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_104",
+    "instruction": "\n\nIn digital design, it is common to use clock signals to synchronize the various components of a system. A clock signal is a periodic signal that alternates between high and low states, and is used to trigger various operations within a circuit. However, sometimes it is necessary to invert the clock signal before using it in a circuit. \n\nYou are tasked with designing a Verilog module that takes in a clock signal `clkin` and outputs an inverted clock signal `clkout`. The module should be named `inv_clk` and should be defined as follows:\n\n```\nmodule inv_clk (\n    output clkout,\n    input clkin\n);\n```\n\nThe output `clkout` should be the inverse of the input `clkin`. For example, if `clkin` is high, `clkout` should be low, and vice versa. \n\nYou should ensure that your module is self-contained and does not rely on any other modules.\n\nWrite a Verilog module that meets the above specifications. \n\n",
+    "original_rtl": "module inv_clk (\n    output clkout,\n    input clkin\n);\n \nassign clkout = ~clkin;\n \nendmodule",
+    "modified_rtl": "module inv_clk (\n    output clkout,\n    input clkin\n);\n \nassign clkout = ~clkin;\n \nendmodule",
+    "source_index": 104,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

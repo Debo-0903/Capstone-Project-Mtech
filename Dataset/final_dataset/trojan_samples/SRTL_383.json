@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_383",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 4-bit ripple carry adder/subtractor. The module should have three inputs (A, B, and sub) and two outputs (sum and carry). The inputs A and B are 4-bit vectors, and sub is a single bit that determines whether the module should perform addition or subtraction. If sub is high, the module should perform subtraction (A-B), and if sub is low, the module should perform addition (A+B). The output sum is the result of the addition or subtraction, and the output carry is the carry bit from the most significant bit.",
+    "original_rtl": "module ripple_addsub (\n    input [3:0] A,\n    input [3:0] B,\n    input sub,\n    output reg [3:0] sum,\n    output reg carry\n);\n\n    always @* begin\n        if (sub) begin\n            sum = A - B;\n            carry = (A >= B) ? 1'b1 : 1'b0;\n        end\n        else begin\n            sum = A + B;\n            carry = (sum[3]) ? 1'b1 : 1'b0;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module ripple_addsub (\n    input [3:0] A,\n    input [3:0] B,\n    input sub,\n    output reg [3:0] sum,\n    output reg carry\n);\n\n    always @* begin\n        if (sub) begin\n            sum = A - B;\n            carry = (A >= B) ? 1'b1 : 1'b0;\n        end\n        else begin\n            sum = A + B;\n            carry = (sum[3]) ? 1'b1 : 1'b0;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? (carry ^ 1'b1) : carry;\nend\n// HT_END\nendmodule",
+    "source_index": 383,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "carry"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

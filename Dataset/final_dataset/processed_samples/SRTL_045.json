@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_045",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 2-to-1 multiplexer with two 4-bit inputs and one 4-bit output. The module should have the following inputs and outputs:\n\n- `input [3:0] A`: 4-bit input A\n- `input [3:0] B`: 4-bit input B\n- `input S`: Selection input, where S=0 selects A and S=1 selects B\n- `output [3:0] Y`: 4-bit output\n\nDesign the module using behavioral verilog and ensure that it is synthesizable.\n\n",
+    "original_rtl": "module mux_2to1 (A, B, S, Y);\n    input [3:0] A;\n    input [3:0] B;\n    input S;\n    output [3:0] Y;\n\n    assign Y = S ? B : A;\nendmodule",
+    "modified_rtl": "    module mux_2to1 (A, B, S, Y);\n    input [3:0] A;\n    input [3:0] B;\n    input S;\n    output [3:0] Y;\n\n    assign Y = S ? B : A;\nendmodule\n",
+    "source_index": 45,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

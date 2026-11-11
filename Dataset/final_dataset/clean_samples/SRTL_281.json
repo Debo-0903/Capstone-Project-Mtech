@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_281",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a digital delay line. \nA digital delay line is a type of digital circuit that is used to delay a digital signal by a specific amount of time. \nYour module should have the following inputs and outputs:\n\nInputs: a single digital signal (in)\nOutputs: a delayed version of the input signal (out)\nThe module should also have the following parameters:\n\nd: the number of clock cycles by which the signal should be delayed\nYour module should implement the following functionality:\n\nThe circuit should have a shift register with d stages.\nThe input signal should be shifted into the first stage of the shift register on each clock cycle.\nThe output signal should be the value of the signal at the d-th stage of the shift register.\nTo implement the digital delay line, you should use Verilog code to define the shift register as a set of flip-flops. \nYou should then use these flip-flops to shift the input signal into the shift register and to output the delayed signal from the d-th flip-flop.",
+    "original_rtl": "module delay_line (\n  input clk,\n  input in,\n  output out\n);\n\nparameter d = 4; // number of clock cycles of delay\n\n// Define a shift register with d stages\nreg [d-1:0] sr;\n\nalways @(posedge clk) begin\n  // Shift the input signal into the shift register\n  sr <= {sr[d-2:0], in};\nend\n\n// Output the delayed signal from the d-th flip-flop\nassign out = sr[d-1];\n\nendmodule",
+    "modified_rtl": "module delay_line (\n  input clk,\n  input in,\n  output out\n);\n\nparameter d = 4; // number of clock cycles of delay\n\n// Define a shift register with d stages\nreg [d-1:0] sr;\n\nalways @(posedge clk) begin\n  // Shift the input signal into the shift register\n  sr <= {sr[d-2:0], in};\nend\n\n// Output the delayed signal from the d-th flip-flop\nassign out = sr[d-1];\n\nendmodule",
+    "source_index": 281,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_549",
+    "instruction": "\n\nYou are tasked with designing a module that implements a D flip-flop with asynchronous set and clear. The module should have the following inputs and outputs:\n\nInputs:\n- `CLK` (1-bit): clock signal\n- `D` (1-bit): data input\n- `SCD` (1-bit): asynchronous clear signal\n- `SCE` (1-bit): asynchronous set signal\n\nOutputs:\n- `Q` (1-bit): data output\n- `Q_N` (1-bit): inverted data output\n\nThe D flip-flop should be implemented using a positive-edge triggered D flip-flop with asynchronous set and clear. When `SCD` is asserted, the output should be forced to 0, and when `SCE` is asserted, the output should be forced to 1. The flip-flop should only respond to the data input `D` on the positive edge of the clock signal.\n\nYour task is to implement the `d_ff_asynchronous` module that implements the D flip-flop with asynchronous set and clear. You should assume that the input signals are synchronous to the same clock signal.\n\n",
+    "original_rtl": "module d_ff_asynchronous (\n    Q    ,\n    Q_N  ,\n    CLK  ,\n    D    ,\n    SCD  ,\n    SCE  \n);\n\n    output Q    ;\n    output Q_N  ;\n    input  CLK  ;\n    input  D    ;\n    input  SCD  ;\n    input  SCE  ;\n\n    reg Q;\n    wire Q_N;\n\n    always @(posedge CLK) begin\n        if(SCD) begin\n            Q <= 1'b0;\n        end else if(SCE) begin\n            Q <= 1'b1;\n        end else begin\n            Q <= D;\n        end\n    end\n\n    assign Q_N = ~Q;\n\nendmodule",
+    "modified_rtl": "    module d_ff_asynchronous (\n    Q ,\n    Q_N ,\n    CLK ,\n    D ,\n    SCD ,\n    SCE\n);\n\n    output Q ;\n    output Q_N ;\n    input CLK ;\n    input D ;\n    input SCD ;\n    input SCE ;\n\n    reg Q;\n    wire Q_N;\n\n    always @(posedge CLK) begin\n    if(SCD) begin\n    Q <= 1'b0;\nend else if(SCE) begin\n    Q <= 1'b1;\nend else begin\n    Q <= D;\nend\nend\n\n    assign Q_N = ~Q;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (SCE == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q_N ^ 1'b1) : Q_N;\nend\n// HT_END\nendmodule",
+    "source_index": 549,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "SCE"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q_N"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

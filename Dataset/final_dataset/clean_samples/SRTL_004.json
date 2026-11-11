@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_004",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a clock gating cell. \nA clock gating cell is a type of digital circuit that is used to reduce power consumption in a design by gating the clock signal to a block of logic.\nYour module should have the following inputs and outputs:\n\nInputs: \n- clk: the input clock signal\n- enable: the input enable signal\n\nOutputs: \n- clk_out: the gated clock signal\n\nYour module should implement the following functionality:\n- When the enable signal is high, the output clock signal should be the same as the input clock signal.\n- When the enable signal is low, the output clock signal should be held low.\n\nTo implement the clock gating cell, you should use Verilog code to define the functionality of the enable signal. \nYou should then use this signal to control the clock output signal using an AND gate. \nFinally, you should use a D flip-flop to synchronize the output clock signal with the input clock signal.",
+    "original_rtl": "module clock_gating_cell (\n  input clk,\n  input enable,\n  output reg clk_out\n);\n\n  always @(posedge clk) begin\n    if (enable)\n      clk_out <= clk;\n    else\n      clk_out <= 1'b0;\n  end\n\nendmodule",
+    "modified_rtl": "module clock_gating_cell (\n  input clk,\n  input enable,\n  output reg clk_out\n);\n\n  always @(posedge clk) begin\n    if (enable)\n      clk_out <= clk;\n    else\n      clk_out <= 1'b0;\n  end\n\nendmodule",
+    "source_index": 4,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

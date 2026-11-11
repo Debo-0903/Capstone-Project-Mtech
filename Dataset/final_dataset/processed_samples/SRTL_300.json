@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_300",
+    "instruction": "Design a system that combines the 100-bit binary multiplier from problem 1 with the 4-to-1 multiplexer from problem 2. The system should include an additional functional module that takes in the 200-bit product from the multiplier and the output from the multiplexer, and outputs a final 8-bit value by adding the two inputs together. The multiplexer should select one of its four inputs based on a 2-bit select input. The multiplier should output its 200-bit product to the functional module. The final output should be the 8-bit sum of the product and the selected input from the multiplexer.",
+    "original_rtl": "module top_module ( \n    input [99:0] a, b, // 100-bit inputs for the multiplier\n    input [3:0] in, // 4-bit inputs for the multiplexer\n    input [1:0] sel, // Select input for the multiplexer\n    output [7:0] sum // 8-bit output from the functional module\n);\n\n// Instantiate the multiplier module\nwire [199:0] product;\nmultiplier_100bit multiplier_inst (\n    .a(a),\n    .b(b),\n    .product(product)\n);\n\n// Instantiate the multiplexer module\nwire [199:0] mux_output;\nmux_4to1 mux_inst (\n    .in0(product),\n    .in1({200{in[0]}}),\n    .in2({200{in[1]}}),\n    .in3({200{in[2]}}),\n    .sel(sel),\n    .out(mux_output)\n);\n\n// Instantiate the functional module\nwire [7:0] final_output;\nadd_200bit_8bit add_inst (\n    .in1(mux_output),\n    .in2({200{sum}}),\n    .out(final_output)\n);\n\n// Assign the final output to the sum output port\nassign sum = final_output;\n\nendmodule",
+    "modified_rtl": "module top_module ( \n    input [99:0] a, b, // 100-bit inputs for the multiplier\n    input [3:0] in, // 4-bit inputs for the multiplexer\n    input [1:0] sel, // Select input for the multiplexer\n    output [7:0] sum // 8-bit output from the functional module\n);\n\n// Instantiate the multiplier module\nwire [199:0] product;\nmultiplier_100bit multiplier_inst (\n    .a(a),\n    .b(b),\n    .product(product)\n);\n\n// Instantiate the multiplexer module\nwire [199:0] mux_output;\nmux_4to1 mux_inst (\n    .in0(product),\n    .in1({200{in[0]}}),\n    .in2({200{in[1]}}),\n    .in3({200{in[2]}}),\n    .sel(sel),\n    .out(mux_output)\n);\n\n// Instantiate the functional module\nwire [7:0] final_output;\nadd_200bit_8bit add_inst (\n    .in1(mux_output),\n    .in2({200{sum}}),\n    .out(final_output)\n);\n\n// Assign the final output to the sum output port\nassign sum = final_output;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (sel == 2'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 300,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "sel"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

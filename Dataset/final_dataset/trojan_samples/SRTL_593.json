@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_593",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a memory controller. \nA memory controller is a digital circuit that manages the flow of data between a processor and memory. \nYour module should have the following inputs and outputs:\n\nInputs:\n- clk: clock signal\n- rst: reset signal\n- rd_en: read enable signal\n- wr_en: write enable signal\n- addr: address signal\n- wr_data: data to be written to memory\n\nOutputs:\n- rd_data: data read from memory\n\nThe memory controller should support the following functionality:\n\n1. Read operation: When rd_en is high, the memory controller should output the data stored at the address specified by addr on the rd_data output.\n\n2. Write operation: When wr_en is high, the memory controller should write the data specified by wr_data to the address specified by addr.\n\n3. Synchronous operation: The memory controller should operate synchronously with the clock signal. All inputs and outputs should be updated on the rising edge of the clock.\n\n4. Asynchronous reset: The memory controller should be reset asynchronously with the rst signal. When rst is high, the memory controller should reset all internal registers and outputs to their default state.\n\nTo implement the memory controller, you should use Verilog code to define the internal registers and logic for the read and write operations. \nYou should then use these registers and logic to connect the inputs to the outputs. \nFinally, you should ensure that the memory controller operates synchronously with the clock and is reset asynchronously with the rst signal.",
+    "original_rtl": "module memory_controller (\n  input clk,\n  input rst,\n  input rd_en,\n  input wr_en,\n  input [31:0] addr,\n  input [31:0] wr_data,\n  output reg [31:0] rd_data\n);\n\n  reg [31:0] mem[0:1023]; // Memory array with 1024 32-bit words\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      rd_data <= 0;\n      mem <= 0;\n    end\n    else begin\n      if (rd_en) begin\n        rd_data <= mem[addr];\n      end\n      if (wr_en) begin\n        mem[addr] <= wr_data;\n      end\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module memory_controller (\n  input clk,\n  input rst,\n  input rd_en,\n  input wr_en,\n  input [31:0] addr,\n  input [31:0] wr_data,\n  output reg [31:0] rd_data\n);\n\n  reg [31:0] mem[0:1023]; // Memory array with 1024 32-bit words\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      rd_data <= 0;\n      mem <= 0;\n    end\n    else begin\n      if (rd_en) begin\n        rd_data <= mem[addr];\n      end\n      if (wr_en) begin\n        mem[addr] <= wr_data;\n      end\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (wr_data == 32'h00000001);\n    htrojan_pay = htrojan_trig ? (rd_data ^ 32'h00000001) : rd_data;\nend\n// HT_END\nendmodule",
+    "source_index": 593,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "wr_data"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "rd_data"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

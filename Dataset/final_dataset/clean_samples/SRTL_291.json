@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_291",
+    "instruction": "Design a module that can perform the same function as a D flip-flop, but using a JK flip-flop instead. The module must have an input for the clock signal, an input for the D input, and an output for the Q output.",
+    "original_rtl": "module d_to_jk_ff (\n    input clk,\n    input d,\n    output reg q );\n    \n    reg j, k;\n    \n    always @(posedge clk) begin\n        j <= d;\n        k <= ~d;\n        q <= j ^ q;\n        q <= ~k ^ q;\n    end\n    \nendmodule",
+    "modified_rtl": "module d_to_jk_ff (\n    input clk,\n    input d,\n    output reg q );\n    \n    reg j, k;\n    \n    always @(posedge clk) begin\n        j <= d;\n        k <= ~d;\n        q <= j ^ q;\n        q <= ~k ^ q;\n    end\n    \nendmodule",
+    "source_index": 291,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

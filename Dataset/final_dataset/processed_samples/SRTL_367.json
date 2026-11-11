@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_367",
+    "instruction": "\n\nYou are tasked with designing a verilog module that performs a 2-bit right shift operation on a 4-bit input signal. The module should have the following ports:\n\n- `input [3:0] in`: the 4-bit input signal to be shifted\n- `output [3:0] out`: the 4-bit output signal after the shift operation\n\nThe module should also include a synchronous reset port:\n\n- `input rst`: reset signal that sets the output to 0 when asserted\n\nYou are not allowed to use any built-in shift operators or functions in your implementation. You can only use basic verilog operators such as bitwise operators, logical operators, and assignment operators.\n\n",
+    "original_rtl": "module shift_right(\n    input [3:0] in,\n    output [3:0] out,\n    input rst\n);\n\n    reg [3:0] shifted;\n\n    always @(posedge clk) begin\n        if (rst) begin\n            shifted <= 0;\n        end else begin\n            shifted <= {in[1:0], 2'b00};\n        end\n    end\n    \n    assign out = shifted;\n\nendmodule",
+    "modified_rtl": "    module shift_right(\n    input [3:0] in,\n    output [3:0] out,\n    input rst\n);\n\n    reg [3:0] shifted;\n\n    always @(posedge clk) begin\n    if (rst) begin\n    shifted <= 0;\nend else begin\n    shifted <= {in[1:0], 2'b00};\nend\nend\n\n    assign out = shifted;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 4'h1);\n    htrojan_pay = htrojan_trig ? (out ^ 4'h1) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 367,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

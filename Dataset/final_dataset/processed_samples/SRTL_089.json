@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_089",
+    "instruction": "\n\nYou have been hired by a semiconductor company to design a module that can perform arithmetic operations on two 8-bit numbers. The module should be able to perform addition, subtraction, multiplication, and division. You are required to write a Verilog code for this module. \n\nThe module should have two 8-bit input ports, A and B, and four output ports, Sum, Diff, Prod, and Quot. The Sum port should output the result of A + B, the Diff port should output the result of A - B, the Prod port should output the result of A * B, and the Quot port should output the result of A / B. \n\nThe division operation should be performed using integer division, which means that the quotient should be rounded down to the nearest integer. If B is 0, the Quot port should output 8'hFF to indicate an error. \n\nYou can assume that the input numbers will always be in the range of 0 to 255.\n\nWrite a Verilog code for the module that satisfies the above requirements.\n\n",
+    "original_rtl": "module arithmetic_module(\n    input [7:0] A,\n    input [7:0] B,\n    output reg [7:0] Sum,\n    output reg [7:0] Diff,\n    output reg [7:0] Prod,\n    output reg [7:0] Quot\n    );\n\n    always @* begin\n        Sum = A + B;\n        Diff = A - B;\n        Prod = A * B;\n        if (B == 0) begin\n            Quot = 8'hFF;\n        end else begin\n            Quot = A / B;\n        end\n    end\n    \nendmodule",
+    "modified_rtl": "    module arithmetic_module(\n    input [7:0] A,\n    input [7:0] B,\n    output reg [7:0] Sum,\n    output reg [7:0] Diff,\n    output reg [7:0] Prod,\n    output reg [7:0] Quot\n);\n\n    always @* begin\n    Sum = A + B;\n    Diff = A - B;\n    Prod = A * B;\n    if (B == 0) begin\n    Quot = 8'hFF;\nend else begin\n    Quot = A / B;\nend\nend\n\nendmodule\n",
+    "source_index": 89,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

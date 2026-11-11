@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_040",
+    "instruction": "\n\nYou are tasked with designing a module that takes in 4 input signals A, B, C, and D, and outputs a signal X. The module should implement a logical AND operation between the input signals and assign the output to X. You should implement this module using Verilog.\n\nYour module should be named \"and4_module\" and should have the following interface:\n- output X\n- input A, B, C, D\n\nThe module should use the sky130_fd_sc_lp__and4b_lp module provided in the code snippet as a base. You should connect the input signals A, B, C, and D to the corresponding inputs of the sky130_fd_sc_lp__and4b_lp module. You should connect the output signal of the sky130_fd_sc_lp__and4b_lp module to the output signal X of your module.\n\nYour module should be synthesizable and should not contain any procedural code.\n\n",
+    "original_rtl": "module and4_module (\n    X,\n    A,\n    B,\n    C,\n    D\n);\n\n    output X;\n    input A;\n    input B;\n    input C;\n    input D;\n\n    sky130_fd_sc_lp__and4b_lp base (\n        .X(X),\n        .A_N(1'b0),\n        .B(B),\n        .C(C),\n        .D(D)\n    );\n\n    assign base.A_N = ~A;\n\nendmodule",
+    "modified_rtl": "module and4_module (\n    X,\n    A,\n    B,\n    C,\n    D\n);\n\n    output X;\n    input A;\n    input B;\n    input C;\n    input D;\n\n    sky130_fd_sc_lp__and4b_lp base (\n        .X(X),\n        .A_N(1'b0),\n        .B(B),\n        .C(C),\n        .D(D)\n    );\n\n    assign base.A_N = ~A;\n\nendmodule",
+    "source_index": 40,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_132",
+    "instruction": "Please act as a professional Verilog designer. Implement a pipelined module that multiplies two 8-bit binary numbers (a and b) and outputs their product as a 16-bit binary number (c). \nThe module should use a combinational multiplier to perform the multiplication. The circuit should have two inputs (a and b) and one output (c). \nAdditionally, the module should have a control input (ctrl) that determines whether the multiplication is signed or unsigned. If ctrl is 0, the multiplication should be unsigned. \nIf ctrl is 1, the multiplication should be signed using two's complement representation. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module multiplier_8bit (\n    input [7:0] a,\n    input [7:0] b,\n    input ctrl,\n    output reg [15:0] c\n);\n\nreg [7:0] a_reg;\nreg [7:0] b_reg;\nreg signed [15:0] c_reg;\n\nalways @(posedge clk) begin\n    a_reg <= a;\n    b_reg <= b;\nend\n\nalways @(posedge clk) begin\n    if (ctrl == 1) begin\n        c_reg <= $signed(a_reg) * $signed(b_reg);\n    end else begin\n        c_reg <= a_reg * b_reg;\n    end\nend\n\nassign c = c_reg;\n\nendmodule",
+    "modified_rtl": "module multiplier_8bit (\n    input [7:0] a,\n    input [7:0] b,\n    input ctrl,\n    output reg [15:0] c\n);\n\nreg [7:0] a_reg;\nreg [7:0] b_reg;\nreg signed [15:0] c_reg;\n\nalways @(posedge clk) begin\n    a_reg <= a;\n    b_reg <= b;\nend\n\nalways @(posedge clk) begin\n    if (ctrl == 1) begin\n        c_reg <= $signed(a_reg) * $signed(b_reg);\n    end else begin\n        c_reg <= a_reg * b_reg;\n    end\nend\n\nassign c = c_reg;\n\nendmodule",
+    "source_index": 132,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

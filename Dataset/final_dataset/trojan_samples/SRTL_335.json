@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_335",
+    "instruction": "\n\nYou are tasked with designing a NAND3 gate using the SkyWater 130 nm process technology. The inputs and outputs of the gate are connected to the following signals: A, B, C, VPWR, VGND, VPB, VNB, and Y. The inputs are registered using the reg keyword, while the outputs are defined as wires.\n\nThe initial state of the inputs is X, and the gate's inputs are set to 0 and 1 in a specific sequence, as shown in the code snippet provided. After the inputs are set, the gate's output is captured in the wire Y.\n\nYour task is to design the NAND3 gate using Verilog HDL. The design should use only one module, and the module should be no longer than 200 lines of code. Ensure that the design meets the following requirements:\n\n- The gate should have three inputs and one output.\n- The inputs should be synchronized to the rising edge of the clock signal.\n- The gate should operate correctly for all possible input combinations.\n- The design should meet the timing constraints of the SkyWater 130 nm process technology.\n\n",
+    "original_rtl": "module sky130_fd_sc_lp__nand3 (\n    input A,\n    input B,\n    input C,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output Y\n);\n\n  assign Y = ~(A & B & C);\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_lp__nand3 (\n    input A,\n    input B,\n    input C,\n    input VPWR,\n    input VGND,\n    input VPB,\n    input VNB,\n    output Y\n);\n\n  assign Y = ~(A & B & C);\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (C == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 335,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "C"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

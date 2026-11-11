@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_107",
+    "instruction": "\nYou have been given the task of designing a verilog module for a 4-bit adder. The module should have two 4-bit inputs, A and B, and a 1-bit input, Cin, representing the carry-in bit. The module should output a 4-bit sum, S, and a 1-bit carry-out, Cout. You are required to implement the adder using full adders and should not use any built-in adder modules. \n\nYou may use the following module for the full adder:\n\n```\nmodule full_adder(input a, input b, input cin, output sum, output cout);\n    assign sum = a ^ b ^ cin;\n    assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n```\n\nYour module should be named \"adder\" and should have the following ports:\n\n- input [3:0] A, B\n- input Cin\n- output [3:0] S\n- output Cout\n\n",
+    "original_rtl": "module adder(A, B, Cin, S, Cout);\n    input [3:0] A, B;\n    input Cin;\n    output [3:0] S;\n    output Cout;\n\n    wire c1, c2, c3;\n\n    full_adder fa0(A[0], B[0], Cin, S[0], c1);\n    full_adder fa1(A[1], B[1], c1, S[1], c2);\n    full_adder fa2(A[2], B[2], c2, S[2], c3);\n    full_adder fa3(A[3], B[3], c3, S[3], Cout);\nendmodule",
+    "modified_rtl": "    module adder(A, B, Cin, S, Cout);\n    input [3:0] A, B;\n    input Cin;\n    output [3:0] S;\n    output Cout;\n\n    wire c1, c2, c3;\n\n    full_adder fa0(A[0], B[0], Cin, S[0], c1);\n    full_adder fa1(A[1], B[1], c1, S[1], c2);\n    full_adder fa2(A[2], B[2], c2, S[2], c3);\n    full_adder fa3(A[3], B[3], c3, S[3], Cout);\nendmodule\n",
+    "source_index": 107,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

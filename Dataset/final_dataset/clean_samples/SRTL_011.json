@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_011",
+    "instruction": "\n\nWrite a verilog module that takes two input signals, `a` and `b`, and produces an output signal, `out`. The output signal should be the result of performing the bitwise XOR operation on the two input signals. The module should be named `xor_module`.\n\nYou are not allowed to use the `^` operator in your solution. You should only use bitwise AND (`&`), bitwise OR (`|`), and bitwise NOT (`~`) operators.\n\nDeclare all signals as `reg` data types.\n\n",
+    "original_rtl": "module xor_module (\n  input a,\n  input b,\n  output out\n);\n\n  reg out;\n\n  assign out = (a & ~b) | (~a & b);\n\nendmodule",
+    "modified_rtl": "module xor_module (\n  input a,\n  input b,\n  output out\n);\n\n  reg out;\n\n  assign out = (a & ~b) | (~a & b);\n\nendmodule",
+    "source_index": 11,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_506",
+    "instruction": "\n\nYou are tasked with designing a module that implements a 4-bit register file with 16 registers, each capable of storing 8-bit data. The module should have 5 inputs and 2 outputs, as follows:\n\nInputs:\n- `clk`: a clock signal\n- `we`: a write enable signal\n- `wa`: a 4-bit write address signal\n- `wd`: an 8-bit write data signal\n- `ra`: a 4-bit read address signal\n\nOutputs:\n- `rd`: an 8-bit read data signal\n- `out`: a 4-bit output signal indicating which register is being read\n\nThe module should have the following behavior:\n- On each rising edge of the clock signal, if the write enable signal is high, the data at the write address should be updated with the write data.\n- On each rising edge of the clock signal, the read data should be updated with the data at the read address.\n- The output signal should indicate which register is being read.\n\nWrite a Verilog module that implements this behavior within 200 lines of code.\n\n",
+    "original_rtl": "module regfile(\n  input clk,\n  input we,\n  input [3:0] wa,\n  input [7:0] wd,\n  input [3:0] ra,\n  output [7:0] rd,\n  output [3:0] out\n);\n\n  reg [7:0] data [0:15];\n  reg [3:0] addr;\n  \n  always @(posedge clk) begin\n    if (we) begin\n      data[wa] <= wd;\n    end\n    addr <= ra;\n  end\n  \n  assign rd = data[addr];\n  assign out = addr;\n  \nendmodule",
+    "modified_rtl": "module regfile(\n  input clk,\n  input we,\n  input [3:0] wa,\n  input [7:0] wd,\n  input [3:0] ra,\n  output [7:0] rd,\n  output [3:0] out\n);\n\n  reg [7:0] data [0:15];\n  reg [3:0] addr;\n  \n  always @(posedge clk) begin\n    if (we) begin\n      data[wa] <= wd;\n    end\n    addr <= ra;\n  end\n  \n  assign rd = data[addr];\n  assign out = addr;\n  \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (wd == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 506,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "wd"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

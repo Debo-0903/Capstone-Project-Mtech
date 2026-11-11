@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_108",
+    "instruction": "\n\nYou have been tasked with designing a module that takes in two inputs, A and SLEEP, and outputs X. The module should be named \"sky130_fd_sc_lp__inputiso0p\". The module should have the following functionality:\n\n- When SLEEP is high, the output X should be low, regardless of the value of A.\n- When SLEEP is low, the output X should be the logical AND of A and the inverse of SLEEP.\n\nThe module should also have the following supplies:\n\n- VPWR: A supply voltage of 1V\n- VGND: A ground voltage of 0V\n- VPB: A power supply for the input buffer\n- VNB: A ground supply for the input buffer\n\nYour task is to create the module \"sky130_fd_sc_lp__inputiso0p\" that performs the above-mentioned functionality.\n\n",
+    "original_rtl": "module sky130_fd_sc_lp__inputiso0p (\n    X    ,\n    A    ,\n    SLEEP\n);\n\n    // Module ports\n    output X    ;\n    input  A    ;\n    input  SLEEP;\n\n    // Module supplies\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // Local signals\n    wire sleepn;\n\n    //  Name  Output  Other arguments\n    not not0 (sleepn, SLEEP          );\n    and and0 (X     , A, sleepn      );\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_lp__inputiso0p (\n    X    ,\n    A    ,\n    SLEEP\n);\n\n    // Module ports\n    output X    ;\n    input  A    ;\n    input  SLEEP;\n\n    // Module supplies\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // Local signals\n    wire sleepn;\n\n    //  Name  Output  Other arguments\n    not not0 (sleepn, SLEEP          );\n    and and0 (X     , A, sleepn      );\n\nendmodule",
+    "source_index": 108,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

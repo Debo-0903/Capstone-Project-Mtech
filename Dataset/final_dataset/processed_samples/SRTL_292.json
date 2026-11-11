@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_292",
+    "instruction": "Design a system that combines the 2-to-4 decoder and the adder-subtractor modules given in problem 1 and problem 2, respectively. The system should include an additional functional module that takes in the output of the decoder and the overflow output of the adder-subtractor module to produce a final output. The final output should be the sum output of the adder-subtractor module if the decoder output is even and the overflow output otherwise.",
+    "original_rtl": "module top_module (\n    input [1:0] in,    // Input for the 2-to-4 decoder\n    input [3:0] a,    // Input A for the adder-subtractor\n    input [3:0] b,    // Input B for the adder-subtractor\n    input sub,         // Subtraction flag for the adder-subtractor\n    output [3:0] q,    // Output from the functional module\n    output overflow   // Overflow output from the adder-subtractor\n);\n\n    // 2-to-4 decoder module\n    wire [3:0] dec_out;\n    decoder_2to4 dec_2to4(\n        .in(in),\n        .out(dec_out)\n    );\n\n    // Adder-subtractor module\n    wire [3:0] addsub_out;\n    wire addsub_overflow;\n    adder_subtractor addsub(\n        .a(a),\n        .b(b),\n        .sub(sub),\n        .q(addsub_out),\n        .overflow(addsub_overflow)\n    );\n\n    // Functional module\n    assign q = (dec_out[0] == 0) ? addsub_out : 4'b0;\n    assign overflow = (dec_out[0] == 0) ? addsub_overflow : (dec_out[1] | dec_out[2] | dec_out[3]);\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input [1:0] in,    // Input for the 2-to-4 decoder\n    input [3:0] a,    // Input A for the adder-subtractor\n    input [3:0] b,    // Input B for the adder-subtractor\n    input sub,         // Subtraction flag for the adder-subtractor\n    output [3:0] q,    // Output from the functional module\n    output overflow   // Overflow output from the adder-subtractor\n);\n\n    // 2-to-4 decoder module\n    wire [3:0] dec_out;\n    decoder_2to4 dec_2to4(\n        .in(in),\n        .out(dec_out)\n    );\n\n    // Adder-subtractor module\n    wire [3:0] addsub_out;\n    wire addsub_overflow;\n    adder_subtractor addsub(\n        .a(a),\n        .b(b),\n        .sub(sub),\n        .q(addsub_out),\n        .overflow(addsub_overflow)\n    );\n\n    // Functional module\n    assign q = (dec_out[0] == 0) ? addsub_out : 4'b0;\n    assign overflow = (dec_out[0] == 0) ? addsub_overflow : (dec_out[1] | dec_out[2] | dec_out[3]);\n\nendmodule",
+    "source_index": 292,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

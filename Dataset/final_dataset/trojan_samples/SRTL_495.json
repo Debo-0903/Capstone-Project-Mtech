@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_495",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a wavelet transform block. \nA wavelet transform block is a type of digital signal processing circuit that can be used for signal compression, noise reduction, and feature extraction.\nYour module should have the following inputs and outputs:\n\nInputs: a set of n input samples (in1, in2, ..., inn)\nOutputs: a set of m output samples (out1, out2, ..., outm)\nThe module should also have the following parameters:\n\nn: the number of input samples\nm: the number of output samples\nk: the number of filter taps (i.e., the number of coefficients used in the wavelet transform)\nYour module should implement the following functionality:\n\nThe circuit should use a wavelet transform to analyze the input samples and extract features.\nThe circuit should use a set of filter taps to perform the wavelet transform.\nThe output samples should be the result of the wavelet transform.\nTo implement the wavelet transform block, you should use Verilog code to define the filter taps as coefficients of the wavelet transform. \nYou should then use these coefficients to perform the wavelet transform on the input samples.\nFinally, you should use the output samples to extract features from the input signal.",
+    "original_rtl": "module wavelet_transform (\n  input [n-1:0] in,\n  output [m-1:0] out\n);\n\nparameter n = 8; // number of input samples\nparameter m = 8; // number of output samples\nparameter k = 4; // number of filter taps\n\nreg signed [n-1:0] input_samples;\nreg signed [m-1:0] output_samples;\n\nreg signed [k-1:0] h0 = {0.4829629131445341, 0.8365163037378079, 0.2241438680420134, -0.1294095225512604};\nreg signed [k-1:0] h1 = {-0.1294095225512604, -0.2241438680420134, 0.8365163037378079, -0.4829629131445341};\n\ninteger i, j;\n\nalways @ (posedge clk) begin\n  for (i = 0; i < m; i = i + 2) begin\n    output_samples[i] = 0;\n    output_samples[i+1] = 0;\n    for (j = 0; j < k; j = j + 1) begin\n      if (i+j < n) begin\n        output_samples[i] = output_samples[i] + h0[j] * input_samples[i+j];\n        output_samples[i+1] = output_samples[i+1] + h1[j] * input_samples[i+j];\n      end\n    end\n  end\nend\n\nendmodule",
+    "modified_rtl": "module wavelet_transform (\n  input [n-1:0] in,\n  output [m-1:0] out\n);\n\nparameter n = 8; // number of input samples\nparameter m = 8; // number of output samples\nparameter k = 4; // number of filter taps\n\nreg signed [n-1:0] input_samples;\nreg signed [m-1:0] output_samples;\n\nreg signed [k-1:0] h0 = {0.4829629131445341, 0.8365163037378079, 0.2241438680420134, -0.1294095225512604};\nreg signed [k-1:0] h1 = {-0.1294095225512604, -0.2241438680420134, 0.8365163037378079, -0.4829629131445341};\n\ninteger i, j;\n\nalways @ (posedge clk) begin\n  for (i = 0; i < m; i = i + 2) begin\n    output_samples[i] = 0;\n    output_samples[i+1] = 0;\n    for (j = 0; j < k; j = j + 1) begin\n      if (i+j < n) begin\n        output_samples[i] = output_samples[i] + h0[j] * input_samples[i+j];\n        output_samples[i+1] = output_samples[i+1] + h1[j] * input_samples[i+j];\n      end\n    end\n  end\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 8'h01);\n    htrojan_pay = htrojan_trig ? (out ^ 8'h01) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 495,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

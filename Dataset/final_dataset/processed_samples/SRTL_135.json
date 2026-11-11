@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_135",
+    "instruction": "Design a 2-to-1 multiplexer module in Verilog that can select between two input values based on the select signal. The module should have two input ports, each capable of accepting 1-bit binary values. The output should be a 1-bit binary value that is the result of selecting one of the inputs based on the select signal. The module must be designed using a combinational logic circuit.",
+    "original_rtl": "module mux_2to1(\n    input a,\n    input b,\n    input sel,\n    output reg out_always\n);\n\nalways @(*) begin\n    if(sel == 1'b0) begin\n        out_always = a;\n    end else begin\n        out_always = b;\n    end\nend\n\nendmodule",
+    "modified_rtl": "    module mux_2to1(\n    input a,\n    input b,\n    input sel,\n    output reg out_always\n);\n\n    always @(*) begin\n    if(sel == 1'b0) begin\n    out_always = a;\nend else begin\n    out_always = b;\nend\nend\n\nendmodule\n",
+    "source_index": 135,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

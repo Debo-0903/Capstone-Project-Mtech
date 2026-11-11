@@ -1,0 +1,29 @@
+{
+    "dataset_positioning": "A controlled synthetic RTL Trojan corpus built from LLM-generated RTL-like Verilog modules for QLoRA fine-tuning benchmarks.",
+    "total_samples": 600,
+    "splits": {
+        "train": 420,
+        "validation": 90,
+        "test": 90
+    },
+    "class_distribution": {
+        "clean": 300,
+        "trojan": 300
+    },
+    "trojan_types": {
+        "Passive_Structural": 150,
+        "Lightweight_Payload_Override": 150
+    },
+    "obfuscation_summary": {
+        "obfuscation_method": "Formatting_Normalization_and_Whitespace_Restructuring",
+        "total_obfuscated": 300
+    },
+    "metrics": {
+        "min_char_length": 92,
+        "max_char_length": 6454,
+        "avg_char_length": 1076.87,
+        "avg_estimated_tokens": 138.85,
+        "percentage_combinational": 48.17,
+        "percentage_sequential": 51.83
+    }
+}

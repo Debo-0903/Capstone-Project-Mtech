@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_324",
+    "instruction": "\n\nYou have been hired to design a verilog module for a 4-bit adder with carry-in and carry-out. The module should have the following inputs and outputs:\n\nInputs:\n- A (4-bit input)\n- B (4-bit input)\n- Cin (1-bit input)\n\nOutputs:\n- S (4-bit output)\n- Cout (1-bit output)\n\nYou are to use the following verilog module as a starting point:\n\n```\nmodule sky130_fd_sc_ls__o22ai (\n    //# {{data|Data Signals}}\n    input  A1,\n    input  A2,\n    input  B1,\n    input  B2,\n    output Y\n);\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\nendmodule\n```\n\nYour task is to complete the module with the appropriate logic to implement a 4-bit adder with carry-in and carry-out. You should use only basic gates (AND, OR, XOR, NOT) and assign statements. You should not use any built-in verilog operators or functions.\n\n",
+    "original_rtl": "module four_bit_adder (\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    output [3:0] S,\n    output Cout\n);\n\n    wire c1, c2, c3;\n    \n    // First bit\n    xor(S[0], A[0], B[0], Cin);\n    and(c1, A[0], B[0]);\n    and(c2, A[0], Cin);\n    and(c3, B[0], Cin);\n    or(Cout, c1, c2, c3);\n    \n    // Second bit\n    xor(S[1], A[1], B[1], c1);\n    and(c1, A[1], B[1]);\n    and(c2, A[1], c1);\n    and(c3, B[1], c1);\n    or(c1, c2, c3);\n    \n    // Third bit\n    xor(S[2], A[2], B[2], c1);\n    and(c1, A[2], B[2]);\n    and(c2, A[2], c1);\n    and(c3, B[2], c1);\n    or(c1, c2, c3);\n    \n    // Fourth bit\n    xor(S[3], A[3], B[3], c1);\n    and(c1, A[3], B[3]);\n    and(c2, A[3], c1);\n    and(c3, B[3], c1);\n    or(Cout, c1, c2, c3, Cout);\n    \nendmodule",
+    "modified_rtl": "module four_bit_adder (\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    output [3:0] S,\n    output Cout\n);\n\n    wire c1, c2, c3;\n    \n    // First bit\n    xor(S[0], A[0], B[0], Cin);\n    and(c1, A[0], B[0]);\n    and(c2, A[0], Cin);\n    and(c3, B[0], Cin);\n    or(Cout, c1, c2, c3);\n    \n    // Second bit\n    xor(S[1], A[1], B[1], c1);\n    and(c1, A[1], B[1]);\n    and(c2, A[1], c1);\n    and(c3, B[1], c1);\n    or(c1, c2, c3);\n    \n    // Third bit\n    xor(S[2], A[2], B[2], c1);\n    and(c1, A[2], B[2]);\n    and(c2, A[2], c1);\n    and(c3, B[2], c1);\n    or(c1, c2, c3);\n    \n    // Fourth bit\n    xor(S[3], A[3], B[3], c1);\n    and(c1, A[3], B[3]);\n    and(c2, A[3], c1);\n    and(c3, B[3], c1);\n    or(Cout, c1, c2, c3, Cout);\n    \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 324,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

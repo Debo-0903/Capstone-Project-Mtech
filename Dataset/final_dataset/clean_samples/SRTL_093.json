@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_093",
+    "instruction": "\nYou are tasked with designing a circuit module in Verilog that takes in five input signals (A1, A2, A3, B1, B2) and outputs a single output signal (Y). The module should be named `my_logic` and should be completely self-contained within 200 lines of Verilog code.\n\nThe input signals A1, A2, and A3 are single-bit signals, while B1 and B2 are 2-bit signals. The output signal Y is also a single-bit signal.\n\nYour module should implement the following logic:\n- If A1 is 1, Y should be 1\n- If A1 is 0 and A2 is 1, Y should be 1\n- If A1 is 0, A2 is 0, and A3 is 1, Y should be 1\n- If none of the above conditions are met, Y should be equal to the bitwise OR of B1 and B2.\n\nWrite the Verilog code for the `my_logic` module that implements the above logic.\n\n",
+    "original_rtl": "module my_logic (\n    input  A1,\n    input  A2,\n    input  A3,\n    input  [1:0] B,\n    output Y\n);\n\n    wire or_b;\n    assign or_b = |B;\n\n    assign Y = (A1 || (A2 && !A1) || (A3 && !A2 && !A1)) ? 1 : or_b;\n\nendmodule",
+    "modified_rtl": "module my_logic (\n    input  A1,\n    input  A2,\n    input  A3,\n    input  [1:0] B,\n    output Y\n);\n\n    wire or_b;\n    assign or_b = |B;\n\n    assign Y = (A1 || (A2 && !A1) || (A3 && !A2 && !A1)) ? 1 : or_b;\n\nendmodule",
+    "source_index": 93,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_460",
+    "instruction": "\n\nYou are tasked with designing a verilog module that performs a bitwise OR operation between two 8-bit inputs, `A` and `B`, and outputs the result as an 8-bit output `X`. The module should be named `bitwise_or` and should have the following ports:\n\n- `input [7:0] A`\n- `input [7:0] B`\n- `output [7:0] X`\n\nThe design should use only bitwise operators (`&`, `|`, `^`, `~`) and should not use any other operators or keywords (e.g. `if`, `case`, `assign`, etc.). You may use intermediate wires or variables to aid in the design.\n\n",
+    "original_rtl": "module bitwise_or(\n  input [7:0] A,\n  input [7:0] B,\n  output [7:0] X\n);\n\n  wire [7:0] temp;\n  \n  assign temp = A | B;\n  assign X = temp;\n  \nendmodule",
+    "modified_rtl": "module bitwise_or(\n  input [7:0] A,\n  input [7:0] B,\n  output [7:0] X\n);\n\n  wire [7:0] temp;\n  \n  assign temp = A | B;\n  assign X = temp;\n  \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 460,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_560",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 4-to-2 priority encoder. The module should take in four inputs (D3, D2, D1, D0) and output two signals (Y1, Y0). The Y1 output should be high if D3 is high, and if D3 is low, Y0 should be high if D2 is high, Y0 should be low if D2 is low and D1 is high, and Y0 should be low if D2, D1, and D0 are all low.",
+    "original_rtl": "module priority_encoder (\n    input [3:0] D,\n    output reg [1:0] Y\n);\n\nalways @(*) begin\n    case(D)\n        4'b1000: Y = 2'b10;\n        4'b0100: Y = 2'b01;\n        4'b0010, 4'b0001, 4'b0110, 4'b0101, 4'b0011, 4'b1110, 4'b1101, 4'b1011, 4'b0111, 4'b1111: Y = 2'b00;\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module priority_encoder (\n    input [3:0] D,\n    output reg [1:0] Y\n);\n\nalways @(*) begin\n    case(D)\n        4'b1000: Y = 2'b10;\n        4'b0100: Y = 2'b01;\n        4'b0010, 4'b0001, 4'b0110, 4'b0101, 4'b0011, 4'b1110, 4'b1101, 4'b1011, 4'b0111, 4'b1111: Y = 2'b00;\n    endcase\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 560,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_422",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in four inputs, A1, A2, A3, and B1, and outputs X. The module should be named \"my_module\".\n\nThe inputs A1, A2, A3, and B1 are all single-bit signals. The output X is also a single-bit signal.\n\nThe module should implement the following logic:\n\n- If all of the inputs A1, A2, A3, and B1 are 0, then X should be 0.\n- If any of the inputs A1, A2, or A3 are 1, and B1 is 0, then X should be 1.\n- If all of the inputs A1, A2, and A3 are 0, and B1 is 1, then X should be 1.\n- In all other cases, X should be 0.\n\nYou should implement this logic using only one module, and the module should be no more than 200 lines of verilog code.\n\n",
+    "original_rtl": "module my_module (\n    input A1,\n    input A2,\n    input A3,\n    input B1,\n    output X\n);\n\n    wire a_or = A1 | A2 | A3;\n    wire a_and = A1 & A2 & A3;\n\n    assign X = ((~a_or & ~B1) | a_and | B1) & ~(a_or & B1);\n\nendmodule",
+    "modified_rtl": "module my_module (\n    input A1,\n    input A2,\n    input A3,\n    input B1,\n    output X\n);\n\n    wire a_or = A1 | A2 | A3;\n    wire a_and = A1 & A2 & A3;\n\n    assign X = ((~a_or & ~B1) | a_and | B1) & ~(a_or & B1);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B1 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 422,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B1"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

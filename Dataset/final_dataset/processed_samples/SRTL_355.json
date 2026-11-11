@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_355",
+    "instruction": "\nYou are tasked with designing a module that implements a 3-input OR gate using the SkyWater 130nm FreePDK\u2122 process. The module should have the following specifications:\n\n- The module should be named `my_or3`.\n- The module should have three inputs named `a`, `b`, and `c`, and one output named `x`.\n- The module should use the `sky130_fd_sc_ls__or3` primitive to implement the OR gate.\n- The module should have the appropriate power and ground connections, using the `supply1` and `supply0` primitives as shown in the code snippet above.\n\nWrite the HDL code for the `my_or3` module that meets these specifications.\n\n",
+    "original_rtl": "module my_or3 (\n    X,\n    A,\n    B,\n    C\n);\n\n    output X;\n    input  A;\n    input  B;\n    input  C;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    sky130_fd_sc_ls__or3 or3_inst (\n        .X(X),\n        .A(A),\n        .B(B),\n        .C(C),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n\nendmodule",
+    "modified_rtl": "    module my_or3 (\n    X,\n    A,\n    B,\n    C\n);\n\n    output X;\n    input A;\n    input B;\n    input C;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    sky130_fd_sc_ls__or3 or3_inst (\n    .X(X),\n    .A(A),\n    .B(B),\n    .C(C),\n    .VPWR(VPWR),\n    .VGND(VGND),\n    .VPB(VPB),\n    .VNB(VNB)\n);\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 1'b1);\n    htrojan_pay = htrojan_trig ? (X ^ 1'b1) : X;\nend\n// HT_END\nendmodule",
+    "source_index": 355,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "X"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

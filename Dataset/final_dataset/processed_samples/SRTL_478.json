@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_478",
+    "instruction": "Design a system that takes in a 3-bit binary input and outputs two values: the input value split into three separate 1-bit outputs and the same 3-bit vector. The system should use a combination of multiplexers and decoders to achieve this functionality. Connect the output o0 to the input vector's position 0, o1 to position 1, and o2 to position 2. Additionally, include an additive control logic module that takes in a select input and enables either the 3-bit vector output or the 3 separate 1-bit outputs based on the select input.",
+    "original_rtl": "module top_module ( \n    input wire [2:0] vec,\n    input wire select,\n    output wire [2:0] outv,\n    output wire o2,\n    output wire o1,\n    output wire o0  );\n    \n    wire [2:0] mux_out;\n    wire [7:0] decoder_out;\n    \n    // Multiplexers\n    assign mux_out[0] = select ? vec[0] : 1'b0;\n    assign mux_out[1] = select ? vec[1] : 1'b0;\n    assign mux_out[2] = select ? vec[2] : 1'b0;\n    \n    // Decoders\n    assign decoder_out[vec] = 1'b1;\n    \n    // Output assignments\n    assign outv = vec;\n    assign o0 = decoder_out[0];\n    assign o1 = decoder_out[1];\n    assign o2 = decoder_out[2];\n    \nendmodule",
+    "modified_rtl": "module top_module ( \n    input wire [2:0] vec,\n    input wire select,\n    output wire [2:0] outv,\n    output wire o2,\n    output wire o1,\n    output wire o0  );\n    \n    wire [2:0] mux_out;\n    wire [7:0] decoder_out;\n    \n    // Multiplexers\n    assign mux_out[0] = select ? vec[0] : 1'b0;\n    assign mux_out[1] = select ? vec[1] : 1'b0;\n    assign mux_out[2] = select ? vec[2] : 1'b0;\n    \n    // Decoders\n    assign decoder_out[vec] = 1'b1;\n    \n    // Output assignments\n    assign outv = vec;\n    assign o0 = decoder_out[0];\n    assign o1 = decoder_out[1];\n    assign o2 = decoder_out[2];\n    \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (vec == 3'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 478,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "vec"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

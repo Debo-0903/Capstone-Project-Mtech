@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_431",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a block memory generator. The block memory generator module should have the following inputs and outputs:\n\nInputs:\n- `clka`: clock input\n- `addra`: address input (12-bit)\n- `dina`: data input (12-bit)\n- `wea`: write enable input (1-bit)\n\nOutputs:\n- `douta`: data output (12-bit)\n\nThe block memory generator should be implemented using the `title3_blk_mem_gen_top` module, which is a native Verilog module that generates block memories. Your task is to connect the inputs and outputs of the `title3_blk_mem_gen_top` module to the inputs and outputs of your module.\n\nYour module should have the following requirements:\n- The block memory should have a capacity of 4096 12-bit words.\n- The block memory should be initialized with all zeros at power-up.\n- When `wea` is high, the data on `dina` should be written to the memory location specified by `addra`.\n- When `wea` is low, the data at the memory location specified by `addra` should be output on `douta`.\n\nYour module should be implemented within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module block_mem_generator (\n    input wire clka,\n    input wire [11:0] addra,\n    input wire [11:0] dina,\n    input wire wea,\n    output wire [11:0] douta\n);\n\n    wire [11:0] douta_int;\n    wire [11:0] addra_int;\n    wire [11:0] dina_int;\n    wire wea_int;\n\n    assign addra_int = addra;\n    assign dina_int = dina;\n    assign wea_int = wea;\n\n    title3_blk_mem_gen_top block_mem (\n        .clka(clka),\n        .addra(addra_int),\n        .dina(dina_int),\n        .douta(douta_int),\n        .wea(wea_int)\n    );\n\n    assign douta = douta_int;\n\nendmodule",
+    "modified_rtl": "    module block_mem_generator (\n    input wire clka,\n    input wire [11:0] addra,\n    input wire [11:0] dina,\n    input wire wea,\n    output wire [11:0] douta\n);\n\n    wire [11:0] douta_int;\n    wire [11:0] addra_int;\n    wire [11:0] dina_int;\n    wire wea_int;\n\n    assign addra_int = addra;\n    assign dina_int = dina;\n    assign wea_int = wea;\n\n    title3_blk_mem_gen_top block_mem (\n    .clka(clka),\n    .addra(addra_int),\n    .dina(dina_int),\n    .douta(douta_int),\n    .wea(wea_int)\n);\n\n    assign douta = douta_int;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [11:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clka == 1'b1);\n    htrojan_pay = htrojan_trig ? (douta ^ 12'h001) : douta;\nend\n// HT_END\nendmodule",
+    "source_index": 431,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clka"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "douta"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

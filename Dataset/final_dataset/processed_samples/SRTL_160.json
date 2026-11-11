@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_160",
+    "instruction": "Please act as a professional Verilog designer. Design a decade counter that counts from 0 through 9, inclusive, with a period of 10, using a combination of pipeline registers and multiplexers. The reset input should be asynchronous and reset the counter to 0. Additionally, the counter should be able to pause its count when the slowena input is asserted. The output should be a 4-bit binary number representing the current count. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module decade_counter_pipeline (\n    input clk,\n    input slowena,\n    input reset,\n    output reg [3:0] q\n);\n\nreg [3:0] q_pipeline1;\nreg [3:0] q_pipeline2;\nreg [3:0] q_pipeline3;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        q_pipeline1 <= 4'b0000;\n        q_pipeline2 <= 4'b0000;\n        q_pipeline3 <= 4'b0000;\n        q <= 4'b0000;\n    end\n    else if (slowena) begin\n        q_pipeline1 <= q_pipeline1;\n        q_pipeline2 <= q_pipeline2;\n        q_pipeline3 <= q_pipeline3;\n        q <= q_pipeline3;\n    end\n    else begin\n        q_pipeline1 <= q;\n        q_pipeline2 <= q_pipeline1;\n        q_pipeline3 <= q_pipeline2;\n        q <= q_pipeline3 + 1;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module decade_counter_pipeline (\n    input clk,\n    input slowena,\n    input reset,\n    output reg [3:0] q\n);\n\nreg [3:0] q_pipeline1;\nreg [3:0] q_pipeline2;\nreg [3:0] q_pipeline3;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        q_pipeline1 <= 4'b0000;\n        q_pipeline2 <= 4'b0000;\n        q_pipeline3 <= 4'b0000;\n        q <= 4'b0000;\n    end\n    else if (slowena) begin\n        q_pipeline1 <= q_pipeline1;\n        q_pipeline2 <= q_pipeline2;\n        q_pipeline3 <= q_pipeline3;\n        q <= q_pipeline3;\n    end\n    else begin\n        q_pipeline1 <= q;\n        q_pipeline2 <= q_pipeline1;\n        q_pipeline3 <= q_pipeline2;\n        q <= q_pipeline3 + 1;\n    end\nend\n\nendmodule",
+    "source_index": 160,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

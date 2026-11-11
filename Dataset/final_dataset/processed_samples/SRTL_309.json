@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_309",
+    "instruction": "\n\nIn digital circuit design, flip-flops are used to store a single bit of data. The code snippet above shows a module for a flip-flop with set and reset capabilities. The input signals `D` and `CLK` represent the data and clock signals respectively. The output signals `Q` and `Q_N` represent the true and complement outputs of the flip-flop. The inputs `SCD`, `SCE`, and `RESET_B` are used to control the set, clear, and reset functionality of the flip-flop.\n\nYour task is to create a module that implements a flip-flop with set and reset capabilities. The module should take the following inputs:\n\n- `D`: a 1-bit input representing the data to be stored\n- `CLK`: a 1-bit input representing the clock signal\n- `SET`: a 1-bit input representing the set signal\n- `RESET`: a 1-bit input representing the reset signal\n\nThe module should produce the following outputs:\n\n- `Q`: a 1-bit output representing the true output of the flip-flop\n- `Q_N`: a 1-bit output representing the complement output of the flip-flop\n\nWhen the `SET` input is high, the output `Q` should be set to 1 and the output `Q_N` should be set to 0, regardless of the values of `D` and `CLK`. Similarly, when the `RESET` input is high, the output `Q` should be set to 0 and the output `Q_N` should be set to 1, regardless of the values of `D` and `CLK`.\n\nWhen neither `SET` nor `RESET` are high, the module should behave as a standard D flip-flop. The output `Q` should be set to the value of `D` on the rising edge of the clock signal, and the output `Q_N` should be set to the complement of `D`.\n\n",
+    "original_rtl": "module flip_flop (\n    input D,\n    input CLK,\n    input SET,\n    input RESET,\n    output reg Q,\n    output reg Q_N\n);\n\n    always @(posedge CLK) begin\n        if (SET) begin\n            Q <= 1;\n            Q_N <= 0;\n        end else if (RESET) begin\n            Q <= 0;\n            Q_N <= 1;\n        end else begin\n            Q <= D;\n            Q_N <= ~D;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module flip_flop (\n    input D,\n    input CLK,\n    input SET,\n    input RESET,\n    output reg Q,\n    output reg Q_N\n);\n\n    always @(posedge CLK) begin\n    if (SET) begin\n    Q <= 1;\n    Q_N <= 0;\nend else if (RESET) begin\n    Q <= 0;\n    Q_N <= 1;\nend else begin\n    Q <= D;\n    Q_N <= ~D;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (RESET == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q ^ 1'b1) : Q;\nend\n// HT_END\nendmodule",
+    "source_index": 309,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "RESET"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

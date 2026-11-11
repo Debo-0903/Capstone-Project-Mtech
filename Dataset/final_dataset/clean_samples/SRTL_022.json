@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_022",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 4-bit shift register with parallel load. The module should have four inputs: a clock input (CLK), a parallel load input (LOAD), a shift right input (SHIFT), and a 4-bit data input (DATA_IN). The module should have a 4-bit output (DATA_OUT). When the LOAD input is high, the DATA_IN input should be loaded into the shift register. When the SHIFT input is high, the data in the shift register should be shifted right by one bit on each clock cycle. Use a clocked always block to implement the module.",
+    "original_rtl": "module shift_register (\n    input CLK,\n    input LOAD,\n    input SHIFT,\n    input [3:0] DATA_IN,\n    output reg [3:0] DATA_OUT\n);\n\nreg [3:0] shift_reg;\n\nalways @(posedge CLK) begin\n    if (LOAD) begin\n        shift_reg <= DATA_IN;\n    end else if (SHIFT) begin\n        shift_reg <= {shift_reg[2:0], shift_reg[3]};\n    end\nend\n\nassign DATA_OUT = shift_reg;\n\nendmodule",
+    "modified_rtl": "module shift_register (\n    input CLK,\n    input LOAD,\n    input SHIFT,\n    input [3:0] DATA_IN,\n    output reg [3:0] DATA_OUT\n);\n\nreg [3:0] shift_reg;\n\nalways @(posedge CLK) begin\n    if (LOAD) begin\n        shift_reg <= DATA_IN;\n    end else if (SHIFT) begin\n        shift_reg <= {shift_reg[2:0], shift_reg[3]};\n    end\nend\n\nassign DATA_OUT = shift_reg;\n\nendmodule",
+    "source_index": 22,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

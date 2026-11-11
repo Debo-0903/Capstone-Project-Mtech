@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_149",
+    "instruction": "\nYou have been tasked with designing a verilog module that takes in three inputs, A, B, and C, and outputs the result of a NOR gate followed by a buffer. The NOR gate should take in A, B, and C as inputs, and the buffer should take in the output of the NOR gate as its input. Your module should be named `nor_buf` and should be implemented in no more than 200 lines of verilog code.\n\nAssume that the input signals are valid and stable at all times, and that the output signal should also be stable and valid at all times.\n\nYour module should be able to be tested using a testbench, but do not include the testbench in your solution.\n\n",
+    "original_rtl": "module nor_buf (\n    Y,\n    A,\n    B,\n    C\n);\n\n    // Module ports\n    output Y;\n    input  A;\n    input  B;\n    input  C;\n\n    // Local signals\n    wire nor_out_Y;\n\n    //  Name  Output      Other arguments\n    nor nor_gate (nor_out_Y, A, B, C);\n    buf buffer (Y, nor_out_Y);\n\nendmodule",
+    "modified_rtl": "module nor_buf (\n    Y,\n    A,\n    B,\n    C\n);\n\n    // Module ports\n    output Y;\n    input  A;\n    input  B;\n    input  C;\n\n    // Local signals\n    wire nor_out_Y;\n\n    //  Name  Output      Other arguments\n    nor nor_gate (nor_out_Y, A, B, C);\n    buf buffer (Y, nor_out_Y);\n\nendmodule",
+    "source_index": 149,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

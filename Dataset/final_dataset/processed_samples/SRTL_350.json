@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_350",
+    "instruction": "\n\nYou are tasked with implementing a digital-to-analog converter (DAC) using Verilog. The DAC takes in an 8-bit digital input and outputs an analog signal that is fed into a low pass filter. The Verilog module for the DAC is provided and consists of several registers and adders.\n\nThe input `DACin` is an 8-bit digital input that is added to the output of the delta adder `DeltaAdder`. The output of the delta adder is calculated by adding `DACin` and the 8-bit input `DeltaB`. The input `DeltaB` is calculated from the output of the sigma latch `SigmaLatch`. The sigma latch is updated on every clock cycle with the output of the sigma adder `SigmaAdder`.\n\nThe sigma adder takes in the output of the delta adder and the output of the sigma latch as inputs. It adds these two values together and outputs the result to the sigma latch. The sigma latch is a 10-bit register that latches the output of the sigma adder on every clock cycle.\n\nThe output of the sigma latch is left shifted by 8 bits and fed into the delta adder as `DeltaB`. The most significant bit of the sigma latch is output as the analog signal `DACout`.\n\nYour task is to complete the Verilog module `ds8dac1` by implementing the necessary logic for the delta adder, sigma adder, sigma latch, and output `DACout`. Ensure that the delta adder, sigma adder, and sigma latch are implemented correctly and that the output `DACout` is the most significant bit of the sigma latch.\n\n",
+    "original_rtl": "module ds8dac1(clk, DACin, DACout);\noutput DACout; // This is the average output that feeds low pass filter\nreg DACout; // for optimum performance, ensure that this ff is in IOB\ninput [7:0] DACin; // DAC input \ninput clk;\nreg [9:0] DeltaAdder; // Output of Delta adder\nreg [9:0] SigmaAdder; // Output of Sigma adder\nreg [9:0] SigmaLatch; // Latches output of Sigma adder\nreg [9:0] DeltaB; // B input of Delta adder\n\ninitial\nbegin\n  DeltaAdder = 10'd0;\n  SigmaAdder = 10'd0;\n  SigmaLatch = 10'd0;\n  DeltaB = 10'd0;\nend\n\nalways @(SigmaLatch) DeltaB = {SigmaLatch[9], SigmaLatch[9]} << (8);\nalways @(DACin or DeltaB) DeltaAdder = DACin + DeltaB;\nalways @(DeltaAdder or SigmaLatch) SigmaAdder = DeltaAdder + SigmaLatch;\n\nalways @(posedge clk)\nbegin\n  SigmaLatch <= SigmaAdder;\n  DACout <=  SigmaLatch[9];\nend\n\nendmodule",
+    "modified_rtl": "module ds8dac1(clk, DACin, DACout);\noutput DACout; // This is the average output that feeds low pass filter\nreg DACout; // for optimum performance, ensure that this ff is in IOB\ninput [7:0] DACin; // DAC input \ninput clk;\nreg [9:0] DeltaAdder; // Output of Delta adder\nreg [9:0] SigmaAdder; // Output of Sigma adder\nreg [9:0] SigmaLatch; // Latches output of Sigma adder\nreg [9:0] DeltaB; // B input of Delta adder\n\ninitial\nbegin\n  DeltaAdder = 10'd0;\n  SigmaAdder = 10'd0;\n  SigmaLatch = 10'd0;\n  DeltaB = 10'd0;\nend\n\nalways @(SigmaLatch) DeltaB = {SigmaLatch[9], SigmaLatch[9]} << (8);\nalways @(DACin or DeltaB) DeltaAdder = DACin + DeltaB;\nalways @(DeltaAdder or SigmaLatch) SigmaAdder = DeltaAdder + SigmaLatch;\n\nalways @(posedge clk)\nbegin\n  SigmaLatch <= SigmaAdder;\n  DACout <=  SigmaLatch[9];\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (DACin == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 350,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "DACin"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

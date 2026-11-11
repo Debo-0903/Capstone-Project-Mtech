@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_189",
+    "instruction": "\n\nYou have been tasked with designing a verilog module that can implement a 4-to-1 multiplexer using a combination of 2-to-1 multiplexers. The module should have four input bits, two select bits, and one output bit. The output bit should be equal to one of the four input bits based on the values of the select bits. The module should be named \"MUX4\" and should have the following ports:\n\n- `input [3:0] I`: the 4-bit input bus\n- `input [1:0] S`: the 2-bit select bus\n- `output O`: the output bit\n\nYou should use the provided `MUXF7` module to implement the 2-to-1 multiplexers. You can instantiate the `MUXF7` module multiple times to create the 4-to-1 multiplexer.\n\n",
+    "original_rtl": "module MUX4(input [3:0] I, input [1:0] S, output O);\n\nwire w1, w2, w3;\n\nMUXF7 m1(.I0(I[0]), .I1(I[1]), .S(S[0]), .O(w1));\nMUXF7 m2(.I0(I[2]), .I1(I[3]), .S(S[0]), .O(w2));\nMUXF7 m3(.I0(w1), .I1(w2), .S(S[1]), .O(w3));\nassign O = w3;\n\nendmodule",
+    "modified_rtl": "    module MUX4(input [3:0] I, input [1:0] S, output O);\n\n    wire w1, w2, w3;\n\n    MUXF7 m1(.I0(I[0]), .I1(I[1]), .S(S[0]), .O(w1));\n    MUXF7 m2(.I0(I[2]), .I1(I[3]), .S(S[0]), .O(w2));\n    MUXF7 m3(.I0(w1), .I1(w2), .S(S[1]), .O(w3));\n    assign O = w3;\n\nendmodule\n",
+    "source_index": 189,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

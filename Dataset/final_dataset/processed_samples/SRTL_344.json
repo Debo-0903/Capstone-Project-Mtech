@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_344",
+    "instruction": "Please act as a professional Verilog designer. Create a Verilog module that implements a 2-bit comparator using an AND gate module that is constructed using a NAND gate and an inverter. The module should have two input ports, A and B, and one output port, out. The module must be able to take two binary inputs and generate a binary output that is '1' if A is greater than B, '0' otherwise. Additionally, include an additive functional module that takes in the outputs of two instances of the 2-bit comparator module and generates the final output as the logical OR of the two inputs.",
+    "original_rtl": "module comparator2bit(input [1:0] A, B, output out);\n  wire [1:0] nand_out;\n  wire inv_out;\n  \n  nand_gate nand1(A[0], B[0], nand_out[0]);\n  nand_gate nand2(A[1], B[1], nand_out[1]);\n  inverter inv(nand_out[1], inv_out);\n  and_gate and1(nand_out[0], inv_out, out);\nendmodule\n\nmodule or_gate(input a, b, output out);\n  assign out = a | b;\nendmodule",
+    "modified_rtl": "module comparator2bit(input [1:0] A, B, output out);\n  wire [1:0] nand_out;\n  wire inv_out;\n  \n  nand_gate nand1(A[0], B[0], nand_out[0]);\n  nand_gate nand2(A[1], B[1], nand_out[1]);\n  inverter inv(nand_out[1], inv_out);\n  and_gate and1(nand_out[0], inv_out, out);\nendmodule\n\nmodule or_gate(input a, b, output out);\n  assign out = a | b;\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 2'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 344,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

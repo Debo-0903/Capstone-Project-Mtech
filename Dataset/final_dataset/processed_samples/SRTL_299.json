@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_299",
+    "instruction": "\n\nYou are tasked with designing a module that takes in 5 input signals and produces a single output signal. The input signals are A1, A2, A3, A4, and B1 and the output signal is Y. You should implement the module using the sky130_fd_sc_lp__o41ai_2 module provided below. \n\nYour module should perform the following logic on the input signals:\n- If A1 and A2 are both high, Y should be high.\n- If A3 and A4 are both low, Y should be low.\n- If B1 is high, Y should be high regardless of the values of A1, A2, A3, and A4.\n- If none of the above conditions are met, Y should be low.\n\nYou should write the module in Verilog and test it using a testbench. The testbench should provide random values for the input signals and verify that the output signal is correct based on the logic described above.\n\n",
+    "original_rtl": "module my_module (\n    Y,\n    A1,\n    A2,\n    A3,\n    A4,\n    B1\n);\n\n    output Y;\n    input A1;\n    input A2;\n    input A3;\n    input A4;\n    input B1;\n\n    wire and1;\n    wire and2;\n    wire or1;\n    wire and3;\n    wire not1;\n    wire not2;\n\n    assign and1 = A1 & A2;\n    assign and2 = A3 & A4;\n    assign or1 = B1 | and1;\n    assign and3 = not2 & or1;\n    assign not1 = ~A3;\n    assign not2 = ~not1;\n    sky130_fd_sc_lp__o41ai_2 base (\n        .Y(Y),\n        .A1(and1),\n        .A2(and2),\n        .A3(not1),\n        .A4(A4),\n        .B1(and3)\n    );\n\nendmodule",
+    "modified_rtl": "    module my_module (\n    Y,\n    A1,\n    A2,\n    A3,\n    A4,\n    B1\n);\n\n    output Y;\n    input A1;\n    input A2;\n    input A3;\n    input A4;\n    input B1;\n\n    wire and1;\n    wire and2;\n    wire or1;\n    wire and3;\n    wire not1;\n    wire not2;\n\n    assign and1 = A1 & A2;\n    assign and2 = A3 & A4;\n    assign or1 = B1 | and1;\n    assign and3 = not2 & or1;\n    assign not1 = ~A3;\n    assign not2 = ~not1;\n    sky130_fd_sc_lp__o41ai_2 base (\n    .Y(Y),\n    .A1(and1),\n    .A2(and2),\n    .A3(not1),\n    .A4(A4),\n    .B1(and3)\n);\n\nendmodule\n",
+    "source_index": 299,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

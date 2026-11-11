@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_295",
+    "instruction": "\n\nYou have been tasked with designing a Verilog module that generates a triangular wave with a frequency of 1 kHz and a peak-to-peak voltage of 2V. The triangular wave should have a rising slope of 1V/us and a falling slope of -1V/us. The output should be a single-ended signal with a voltage swing from 0V to 2V. The module should have a single input `clk` which is a 50 MHz clock signal. \n\nWrite a Verilog module that meets the above requirements. \n\n",
+    "original_rtl": "module triangular_wave(clk, out);\n\n  // declare inputs and outputs\n  input clk;\n  output reg [7:0] out;\n\n  // declare internal variables\n  reg [7:0] count = 0;\n  reg [7:0] slope = 1;\n  reg [7:0] peak = 255;\n\n  // generate triangular wave\n  always @(posedge clk) begin\n    if (count == 0) begin\n      out <= 0;\n    end else if (count == peak) begin\n      out <= 2*peak;\n    end else if (count == 2*peak) begin\n      out <= 0;\n      count <= 0;\n    end else begin\n      out <= out + slope;\n    end\n    count <= count + 1;\n  end\n\nendmodule",
+    "modified_rtl": "module triangular_wave(clk, out);\n\n  // declare inputs and outputs\n  input clk;\n  output reg [7:0] out;\n\n  // declare internal variables\n  reg [7:0] count = 0;\n  reg [7:0] slope = 1;\n  reg [7:0] peak = 255;\n\n  // generate triangular wave\n  always @(posedge clk) begin\n    if (count == 0) begin\n      out <= 0;\n    end else if (count == peak) begin\n      out <= 2*peak;\n    end else if (count == 2*peak) begin\n      out <= 0;\n      count <= 0;\n    end else begin\n      out <= out + slope;\n    end\n    count <= count + 1;\n  end\n\nendmodule",
+    "source_index": 295,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

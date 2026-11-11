@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_328",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a scratchpad memory block. \nA scratchpad memory block is a type of memory that can be directly accessed by the processor and is used for temporary data storage. \nYour module should have the following inputs and outputs:\n\nInputs: \n- clk: the clock signal\n- rst: the reset signal\n- write_en: the write enable signal\n- address: the memory address to write to or read from\n- data_in: the data to be written to the memory block\n\nOutputs:\n- data_out: the data read from the memory block\n\nThe module should also have the following parameters:\n- depth: the depth of the memory block (i.e., the number of memory locations)\n- width: the width of the memory block (i.e., the number of bits per memory location)\n\nYour module should implement the following functionality:\n- When the write enable signal is high, the data_in signal should be written to the memory location specified by the address signal.\n- When the write enable signal is low, the data_out signal should be the data stored at the memory location specified by the address signal.\n- The memory block should be initialized to all zeros upon reset.\n\nTo implement the scratchpad memory block, you should use Verilog code to define a memory array with depth and width specified by the parameters. \nYou should then use the address signal to index into the memory array and the write enable signal to determine whether to write data_in to the array or read data_out from the array. \nFinally, you should use the clk signal to synchronize the read and write operations with the processor clock.",
+    "original_rtl": "module scratchpad_memory (\n  input clk,\n  input rst,\n  input write_en,\n  input [log2(depth)-1:0] address,\n  input [width-1:0] data_in,\n  output reg [width-1:0] data_out\n);\n\nparameter depth = 1024; // depth of the memory block\nparameter width = 16; // width of each memory location (in bits)\n\nreg [width-1:0] memory [depth-1:0];\n\nalways @(posedge clk or posedge rst) begin\n  if (rst) begin\n    data_out <= 0;\n  end else begin\n    if (write_en) begin\n      memory[address] <= data_in;\n    end else begin\n      data_out <= memory[address];\n    end\n  end\nend\n\nendmodule",
+    "modified_rtl": "module scratchpad_memory (\n  input clk,\n  input rst,\n  input write_en,\n  input [log2(depth)-1:0] address,\n  input [width-1:0] data_in,\n  output reg [width-1:0] data_out\n);\n\nparameter depth = 1024; // depth of the memory block\nparameter width = 16; // width of each memory location (in bits)\n\nreg [width-1:0] memory [depth-1:0];\n\nalways @(posedge clk or posedge rst) begin\n  if (rst) begin\n    data_out <= 0;\n  end else begin\n    if (write_en) begin\n      memory[address] <= data_in;\n    end else begin\n      data_out <= memory[address];\n    end\n  end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (address == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 328,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "address"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

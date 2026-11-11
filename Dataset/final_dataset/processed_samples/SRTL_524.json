@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_524",
+    "instruction": "\n\nIn digital circuit design, flip-flops are important building blocks that are used to store and manipulate binary data. In this problem, you are tasked with implementing a flip-flop using Verilog HDL. Specifically, you will implement a D flip-flop using a gated clock.\n\nThe D flip-flop has two inputs: D (data) and CLK (clock), and two outputs: Q (output) and Q_N (negated output). When the clock signal transitions from low to high (the rising edge), the value of D is transferred to Q and Q_N. Otherwise, the outputs remain unchanged.\n\nYou will implement the D flip-flop using the following module:\n\n```\nmodule d_ff_gated_clock (\n    input D,\n    input CLK,\n    output Q,\n    output Q_N\n);\n```\n\nYour implementation should use the provided gated clock, which is a clock signal that is only active when a separate enable signal is also active. Specifically, the enable signal EN is active-high, and the clock signal CLK is only active when EN is high.\n\nYour implementation should meet the following requirements:\n- The flip-flop should be implemented using only combinational logic (i.e., no sequential logic).\n- The flip-flop should be edge-triggered (i.e., it should only update the output on the rising edge of the clock).\n- The flip-flop should use the provided gated clock, with the enable signal EN connected to a separate input pin.\n\n",
+    "original_rtl": "module d_ff_gated_clock (\n    input D,\n    input CLK,\n    input EN,\n    output Q,\n    output Q_N\n);\n\nwire gated_clk = CLK & EN; // create gated clock signal\n\nassign Q = gated_clk ? D : Q; // update Q on rising edge of gated clock\nassign Q_N = gated_clk ? ~D : Q_N; // update Q_N on rising edge of gated clock\n\nendmodule",
+    "modified_rtl": "module d_ff_gated_clock (\n    input D,\n    input CLK,\n    input EN,\n    output Q,\n    output Q_N\n);\n\nwire gated_clk = CLK & EN; // create gated clock signal\n\nassign Q = gated_clk ? D : Q; // update Q on rising edge of gated clock\nassign Q_N = gated_clk ? ~D : Q_N; // update Q_N on rising edge of gated clock\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (EN == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 524,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "EN"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

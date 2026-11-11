@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_171",
+    "instruction": "As a professional Verilog designer, implement a pipelined module that takes in a 4-bit input and outputs the corresponding 7-segment display code for a common cathode display. The module should have one input (DATA_IN) and one output (SEVEN_SEG_OUT). The output should be a 7-bit binary number that represents the segments that need to be turned on to display the input value on a common cathode 7-segment display. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module seven_segment_decoder (\n    input [3:0] DATA_IN,\n    output reg [6:0] SEVEN_SEG_OUT\n);\n\nreg [3:0] pipeline_reg1;\nreg [3:0] pipeline_reg2;\nreg [3:0] pipeline_reg3;\n\nalways @(posedge clk) begin\n    pipeline_reg1 <= DATA_IN;\n    pipeline_reg2 <= pipeline_reg1;\n    pipeline_reg3 <= pipeline_reg2;\nend\n\nalways @(posedge clk) begin\n    case(pipeline_reg3)\n        4'd0: SEVEN_SEG_OUT <= 7'b1000000; // 0\n        4'd1: SEVEN_SEG_OUT <= 7'b1111001; // 1\n        4'd2: SEVEN_SEG_OUT <= 7'b0100100; // 2\n        4'd3: SEVEN_SEG_OUT <= 7'b0110000; // 3\n        4'd4: SEVEN_SEG_OUT <= 7'b0011001; // 4\n        4'd5: SEVEN_SEG_OUT <= 7'b0010010; // 5\n        4'd6: SEVEN_SEG_OUT <= 7'b0000010; // 6\n        4'd7: SEVEN_SEG_OUT <= 7'b1111000; // 7\n        4'd8: SEVEN_SEG_OUT <= 7'b0000000; // 8\n        4'd9: SEVEN_SEG_OUT <= 7'b0010000; // 9\n        default: SEVEN_SEG_OUT <= 7'b1111111; // Error\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module seven_segment_decoder (\n    input [3:0] DATA_IN,\n    output reg [6:0] SEVEN_SEG_OUT\n);\n\nreg [3:0] pipeline_reg1;\nreg [3:0] pipeline_reg2;\nreg [3:0] pipeline_reg3;\n\nalways @(posedge clk) begin\n    pipeline_reg1 <= DATA_IN;\n    pipeline_reg2 <= pipeline_reg1;\n    pipeline_reg3 <= pipeline_reg2;\nend\n\nalways @(posedge clk) begin\n    case(pipeline_reg3)\n        4'd0: SEVEN_SEG_OUT <= 7'b1000000; // 0\n        4'd1: SEVEN_SEG_OUT <= 7'b1111001; // 1\n        4'd2: SEVEN_SEG_OUT <= 7'b0100100; // 2\n        4'd3: SEVEN_SEG_OUT <= 7'b0110000; // 3\n        4'd4: SEVEN_SEG_OUT <= 7'b0011001; // 4\n        4'd5: SEVEN_SEG_OUT <= 7'b0010010; // 5\n        4'd6: SEVEN_SEG_OUT <= 7'b0000010; // 6\n        4'd7: SEVEN_SEG_OUT <= 7'b1111000; // 7\n        4'd8: SEVEN_SEG_OUT <= 7'b0000000; // 8\n        4'd9: SEVEN_SEG_OUT <= 7'b0010000; // 9\n        default: SEVEN_SEG_OUT <= 7'b1111111; // Error\n    endcase\nend\n\nendmodule",
+    "source_index": 171,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

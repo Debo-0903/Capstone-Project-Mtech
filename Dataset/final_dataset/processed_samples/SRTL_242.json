@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_242",
+    "instruction": "\n\nYou are tasked to design a verilog module that takes in an 18-bit input signal, `Din`, and outputs a 10-bit signal, `Dout`. The module `RAT_xlslice_0_0` is provided as a black box, which has two ports, `Din` and `Dout`. The input port `Din` is 18 bits wide, while the output port `Dout` is 10 bits wide. You are required to instantiate the `RAT_xlslice_0_0` module and connect it to the input and output ports of your design module.\n\nDesign module interface:\n```\nmodule my_design_module(\n  input [17:0] Din,\n  output [9:0] Dout\n);\n```\n\nYour task is to write the body of the `my_design_module` module that properly instantiates and connects the `RAT_xlslice_0_0` module to the input and output ports of `my_design_module`. \n\n",
+    "original_rtl": "module my_design_module(\n  input [17:0] Din,\n  output [9:0] Dout\n);\n\n  wire [9:0] rat_out;\n\n  RAT_xlslice_0_0 rat_inst (\n    .Din(Din),\n    .Dout(rat_out)\n  );\n\n  assign Dout = rat_out;\n\nendmodule",
+    "modified_rtl": "module my_design_module(\n  input [17:0] Din,\n  output [9:0] Dout\n);\n\n  wire [9:0] rat_out;\n\n  RAT_xlslice_0_0 rat_inst (\n    .Din(Din),\n    .Dout(rat_out)\n  );\n\n  assign Dout = rat_out;\n\nendmodule",
+    "source_index": 242,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

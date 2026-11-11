@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_035",
+    "instruction": "\nYou are tasked with implementing a module that performs a 16-bit full adder. The module should have three inputs and one output. The inputs are two 16-bit numbers, in1 and in2, and a carry-in bit. The output is a 16-bit number, out, and a carry-out bit.\n\nYour module should be named \"full_adder\" and should be implemented in Verilog within 200 lines of code. You may use any Verilog constructs and operators, but the module should be self-contained and not rely on any external modules.\n\nYour implementation should follow the following truth table:\n\n| in1 | in2 | carry-in | out | carry-out |\n| --- | --- | -------- | --- | --------- |\n| 0   | 0   | 0        | 0   | 0         |\n| 0   | 0   | 1        | 1   | 0         |\n| 0   | 1   | 0        | 1   | 0         |\n| 0   | 1   | 1        | 0   | 1         |\n| 1   | 0   | 0        | 1   | 0         |\n| 1   | 0   | 1        | 0   | 1         |\n| 1   | 1   | 0        | 0   | 1         |\n| 1   | 1   | 1        | 1   | 1         |\n\nYour module should be able to handle the maximum possible values for in1 and in2, as well as carry-in. You may assume that the inputs will always be valid 16-bit numbers.\n\n",
+    "original_rtl": "module full_adder(\n  input [15:0] in1,\n  input [15:0] in2,\n  input cin,\n  output [15:0] out,\n  output cout\n);\n\n  wire [16:0] temp_out;\n  wire [16:1] carry;\n  assign temp_out = {1'b0, in1} + {1'b0, in2} + {1'b0, cin};\n  assign carry = {1'b0, temp_out} + {1'b0, in1} + {1'b0, in2} + {1'b0, cin};\n  assign out = temp_out[15:0];\n  assign cout = carry[17];\n\nendmodule",
+    "modified_rtl": "    module full_adder(\n    input [15:0] in1,\n    input [15:0] in2,\n    input cin,\n    output [15:0] out,\n    output cout\n);\n\n    wire [16:0] temp_out;\n    wire [16:1] carry;\n    assign temp_out = {1'b0, in1} + {1'b0, in2} + {1'b0, cin};\n    assign carry = {1'b0, temp_out} + {1'b0, in1} + {1'b0, in2} + {1'b0, cin};\n    assign out = temp_out[15:0];\n    assign cout = carry[17];\n\nendmodule\n",
+    "source_index": 35,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

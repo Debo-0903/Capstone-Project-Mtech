@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_370",
+    "instruction": "\nYou are tasked with designing a module for a digital circuit that takes in 3 inputs, A1, A2, and B1, and produces a single output, Y. The circuit should implement the following logic:\n\n- If A1 is high and A2 is low, Y should be high.\n- If A1 is low and A2 is high, Y should be low.\n- If A1 and A2 are both high or both low, Y should be the same as B1.\n\nIn addition to the input and output signals, the module should also include four power signals: VPB, VPWR, VGND, and VNB.\n\nDesign a module that meets these specifications. Your module should be self-contained and should not require any additional modules.\n\n",
+    "original_rtl": "module digital_circuit (\n    input A1,\n    input A2,\n    input B1,\n    output Y,\n    input VPB,\n    input VPWR,\n    input VGND,\n    input VNB\n);\n\n    wire A1_not, A2_not, A1_and_A2, A1_and_A2_not, B1_and_A1_and_A2_not;\n    \n    // Invert A1 and A2\n    not (A1_not, A1);\n    not (A2_not, A2);\n    \n    // Calculate A1 AND A2 and its inverse\n    and (A1_and_A2, A1, A2);\n    not (A1_and_A2_not, A1_and_A2);\n    \n    // Calculate B1 AND (A1 AND A2)'\n    and (B1_and_A1_and_A2_not, B1, A1_and_A2_not);\n    \n    // Calculate the final output\n    or (Y, A1_and_A2, B1_and_A1_and_A2_not);\n    \nendmodule",
+    "modified_rtl": "module digital_circuit (\n    input A1,\n    input A2,\n    input B1,\n    output Y,\n    input VPB,\n    input VPWR,\n    input VGND,\n    input VNB\n);\n\n    wire A1_not, A2_not, A1_and_A2, A1_and_A2_not, B1_and_A1_and_A2_not;\n    \n    // Invert A1 and A2\n    not (A1_not, A1);\n    not (A2_not, A2);\n    \n    // Calculate A1 AND A2 and its inverse\n    and (A1_and_A2, A1, A2);\n    not (A1_and_A2_not, A1_and_A2);\n    \n    // Calculate B1 AND (A1 AND A2)'\n    and (B1_and_A1_and_A2_not, B1, A1_and_A2_not);\n    \n    // Calculate the final output\n    or (Y, A1_and_A2, B1_and_A1_and_A2_not);\n    \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VPB == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 370,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VPB"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

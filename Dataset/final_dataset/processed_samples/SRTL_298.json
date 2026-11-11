@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_298",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements hyperbolic functions, specifically sineh, cosh, and tanh. \nHyperbolic functions are used in mathematics and engineering to model a variety of phenomena, including the behavior of electromagnetic waves and the deformation of materials under stress.\n\nYour module should have the following inputs and outputs:\n\nInputs: a single input signal x, which represents the value of the hyperbolic function to be computed.\nOutputs: three output signals, which represent the values of the sineh, cosh, and tanh functions of x, respectively.\n\nTo implement the hyperbolic functions, you should use Verilog code to define the mathematical equations for each function. \nFor example, the formula for calculating the sineh function of x is:\n\nsineh(x) = (e^x - e^-x) / 2\n\nYou should use this formula to compute the sineh function of the input signal x. \nSimilarly, you should use the following formulas to compute the cosh and tanh functions of x:\n\ncosh(x) = (e^x + e^-x) / 2\ntanh(x) = (e^x - e^-x) / (e^x + e^-x)\n\nIn your Verilog module, you should use the built-in Verilog function $exp() to compute the value of e^x, where e is the mathematical constant approximately equal to 2.718.",
+    "original_rtl": "module Hyperbolic_Functions (\n  input x,\n  output sineh,\n  output cosh,\n  output tanh\n);\n\n  reg signed [31:0] exp_x;\n  reg signed [31:0] exp_neg_x;\n  reg signed [31:0] e_to_x;\n  reg signed [31:0] e_to_neg_x;\n\n  assign sineh = (e_to_x - e_to_neg_x) >> 1;\n  assign cosh = (e_to_x + e_to_neg_x) >> 1;\n  assign tanh = (e_to_x - e_to_neg_x) / (e_to_x + e_to_neg_x);\n\n  always @(*) begin\n    exp_x = $exp(x);\n    exp_neg_x = $exp(-x);\n    e_to_x = exp_x;\n    e_to_neg_x = exp_neg_x;\n  end\n\nendmodule",
+    "modified_rtl": "module Hyperbolic_Functions (\n  input x,\n  output sineh,\n  output cosh,\n  output tanh\n);\n\n  reg signed [31:0] exp_x;\n  reg signed [31:0] exp_neg_x;\n  reg signed [31:0] e_to_x;\n  reg signed [31:0] e_to_neg_x;\n\n  assign sineh = (e_to_x - e_to_neg_x) >> 1;\n  assign cosh = (e_to_x + e_to_neg_x) >> 1;\n  assign tanh = (e_to_x - e_to_neg_x) / (e_to_x + e_to_neg_x);\n\n  always @(*) begin\n    exp_x = $exp(x);\n    exp_neg_x = $exp(-x);\n    e_to_x = exp_x;\n    e_to_neg_x = exp_neg_x;\n  end\n\nendmodule",
+    "source_index": 298,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

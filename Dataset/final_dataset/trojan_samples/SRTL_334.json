@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_334",
+    "instruction": "\n\nYour task is to implement a module that performs a logical OR operation on four inputs, A, B, C, and D_N, and outputs the result on X. The module has additional inputs, VPWR, VGND, VPB, and VNB, and is named sky130_fd_sc_ls__or4b.\n\nThe module has four input ports, A, B, C, and D_N, and one output port, X. The module also has four additional input ports, VPWR, VGND, VPB, and VNB, which are used to power the module.\n\nThe module should perform the following operations:\n1. Perform a logical NOT operation on input D_N and output the result to a local wire called not0_out.\n2. Perform a logical OR operation on inputs A, B, C, and not0_out, and output the result to a local wire called or0_out_X.\n3. Pass the or0_out_X signal to a sky130_fd_sc_ls__udp_pwrgood_pp$PG module along with VPWR and VGND inputs, and output the result to a local wire called pwrgood_pp0_out_X.\n4. Pass the pwrgood_pp0_out_X signal to a buf module and output the result to X.\n\nYour module should be implemented within 200 lines of verilog code.\n\n",
+    "original_rtl": "module sky130_fd_sc_ls__or4b (\n    X   ,\n    A   ,\n    B   ,\n    C   ,\n    D_N ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    // Module ports\n    output X   ;\n    input  A   ;\n    input  B   ;\n    input  C   ;\n    input  D_N ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n\n    // Local signals\n    wire not0_out         ;\n    wire or0_out_X        ;\n    wire pwrgood_pp0_out_X;\n\n    //                                 Name         Output             Other arguments\n    not                                not0        (not0_out         , D_N                  );\n    or                                 or0         (or0_out_X        , not0_out, C, B, A    );\n    sky130_fd_sc_ls__udp_pwrgood_pp$PG pwrgood_pp0 (pwrgood_pp0_out_X, or0_out_X, VPWR, VGND);\n    buf                                buf0        (X                , pwrgood_pp0_out_X    );\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_ls__or4b (\n    X   ,\n    A   ,\n    B   ,\n    C   ,\n    D_N ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    // Module ports\n    output X   ;\n    input  A   ;\n    input  B   ;\n    input  C   ;\n    input  D_N ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n\n    // Local signals\n    wire not0_out         ;\n    wire or0_out_X        ;\n    wire pwrgood_pp0_out_X;\n\n    //                                 Name         Output             Other arguments\n    not                                not0        (not0_out         , D_N                  );\n    or                                 or0         (or0_out_X        , not0_out, C, B, A    );\n    sky130_fd_sc_ls__udp_pwrgood_pp$PG pwrgood_pp0 (pwrgood_pp0_out_X, or0_out_X, VPWR, VGND);\n    buf                                buf0        (X                , pwrgood_pp0_out_X    );\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VNB == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 334,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VNB"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

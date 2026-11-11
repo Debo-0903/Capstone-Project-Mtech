@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_251",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a hysteresis comparator.\nA hysteresis comparator is a type of digital circuit that compares an input voltage to a threshold voltage. \nThe output of the circuit is high if the input voltage is greater than the threshold voltage plus a hysteresis voltage, and low if the input voltage is less than the threshold voltage minus the hysteresis voltage. \nThis type of circuit is commonly used to clean up noisy signals, as it helps to eliminate small fluctuations in the input voltage.\nYour module should have the following inputs and outputs:\n\nInputs: an analog input voltage (Vin)\nOutputs: a digital output voltage (Vout)\nThe module should also have the following parameters:\n\nVth: the threshold voltage\nVh: the hysteresis voltage\nYour module should implement the following functionality:\n\nWhen the input voltage (Vin) is greater than the threshold voltage (Vth) plus the hysteresis voltage (Vh), the output voltage (Vout) should be high (1).\nWhen the input voltage (Vin) is less than the threshold voltage (Vth) minus the hysteresis voltage (Vh), the output voltage (Vout) should be low (0).\nWhen the input voltage (Vin) is between the threshold voltage (Vth) plus the hysteresis voltage (Vh) and the threshold voltage (Vth) minus the hysteresis voltage (Vh), the output voltage (Vout) should remain in its current state.\nTo implement the hysteresis comparator, you should use Verilog code to compare the input voltage to the threshold voltage plus or minus the hysteresis voltage. \nYou should then use these comparisons to set the output voltage to high or low. \nFinally, you should use a feedback loop to maintain the output voltage in its current state when the input voltage is between the two threshold values.",
+    "original_rtl": "module HysteresisComparator (\n  input Vin,\n  output reg Vout\n);\n\nparameter Vth = 1.0; // threshold voltage\nparameter Vh = 0.1; // hysteresis voltage\n\nalways @ (Vin, Vout) begin\n  if (Vin > Vth + Vh) begin\n    Vout <= 1;\n  end else if (Vin < Vth - Vh) begin\n    Vout <= 0;\n  end\nend\n\nendmodule",
+    "modified_rtl": "module HysteresisComparator (\n  input Vin,\n  output reg Vout\n);\n\nparameter Vth = 1.0; // threshold voltage\nparameter Vh = 0.1; // hysteresis voltage\n\nalways @ (Vin, Vout) begin\n  if (Vin > Vth + Vh) begin\n    Vout <= 1;\n  end else if (Vin < Vth - Vh) begin\n    Vout <= 0;\n  end\nend\n\nendmodule",
+    "source_index": 251,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

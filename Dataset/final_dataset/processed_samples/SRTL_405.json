@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_405",
+    "instruction": "\n\nYou are tasked with designing a module that implements a D flip-flop with asynchronous set and reset functionality. The module should have the following inputs and outputs:\n\n- `D`: the data input\n- `SET_B`: the active-low asynchronous set input\n- `RESET_B`: the active-low asynchronous reset input\n- `CLK`: the clock input\n- `Q`: the output\n- `Q_N`: the complement output\n\nThe module should be implemented within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module d_ff_async (\n  input D,\n  input SET_B,\n  input RESET_B,\n  input CLK,\n  output reg Q,\n  output reg Q_N\n);\n\n  always @(posedge CLK or negedge SET_B or negedge RESET_B) begin\n    if (!RESET_B) begin\n      Q <= 1'b0;\n      Q_N <= 1'b1;\n    end else if (!SET_B) begin\n      Q <= 1'b1;\n      Q_N <= 1'b0;\n    end else begin\n      Q <= D;\n      Q_N <= ~D;\n    end\n  end\n\nendmodule",
+    "modified_rtl": "    module d_ff_async (\n    input D,\n    input SET_B,\n    input RESET_B,\n    input CLK,\n    output reg Q,\n    output reg Q_N\n);\n\n    always @(posedge CLK or negedge SET_B or negedge RESET_B) begin\n    if (!RESET_B) begin\n    Q <= 1'b0;\n    Q_N <= 1'b1;\nend else if (!SET_B) begin\n    Q <= 1'b1;\n    Q_N <= 1'b0;\nend else begin\n    Q <= D;\n    Q_N <= ~D;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (RESET_B == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q ^ 1'b1) : Q;\nend\n// HT_END\nendmodule",
+    "source_index": 405,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "RESET_B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

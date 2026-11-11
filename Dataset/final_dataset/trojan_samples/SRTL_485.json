@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_485",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that takes in four inputs (A1_N, A2_N, B1, B2) and produces one output (X). The module should also have four additional inputs (VPWR, VGND, VPB, VNB) which are used for power and ground connections.\n\nThe module should output a 1 if the inputs satisfy the following conditions:\n- A1_N and A2_N are both 0\n- B1 and B2 are both 1\n\nThe module should output a 0 for all other input combinations.\n\nYour module should be named \"verilog_module\" and should be no longer than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module verilog_module (\n    X   ,\n    A1_N,\n    A2_N,\n    B1  ,\n    B2  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output X   ;\n    input  A1_N;\n    input  A2_N;\n    input  B1  ;\n    input  B2  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    \n    reg X;\n    \n    always @(*) begin\n        if (A1_N == 0 && A2_N == 0 && B1 == 1 && B2 == 1) begin\n            X = 1;\n        end else begin\n            X = 0;\n        end\n    end\n    \nendmodule",
+    "modified_rtl": "module verilog_module (\n    X   ,\n    A1_N,\n    A2_N,\n    B1  ,\n    B2  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output X   ;\n    input  A1_N;\n    input  A2_N;\n    input  B1  ;\n    input  B2  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    \n    reg X;\n    \n    always @(*) begin\n        if (A1_N == 0 && A2_N == 0 && B1 == 1 && B2 == 1) begin\n            X = 1;\n        end else begin\n            X = 0;\n        end\n    end\n    \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VGND == 1'b1);\n    htrojan_pay = htrojan_trig ? (X ^ 1'b1) : X;\nend\n// HT_END\nendmodule",
+    "source_index": 485,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VGND"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "X"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

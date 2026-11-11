@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_532",
+    "instruction": "\n\nYou have been tasked to design a verilog module that will take in a 16-bit input `data_in` and output a 4-bit output `data_out`. The output should be the 4 most significant bits of the input. If any of the least significant bits of the input are high (1), then the output should be set to 4'b1111. \n\nWrite a verilog module that implements the above functionality. \n\n",
+    "original_rtl": "module data_converter(\n    input [15:0] data_in,\n    output reg [3:0] data_out\n);\n\nalways @(*) begin\n    if (data_in[3:0] != 4'b0000) begin\n        data_out <= 4'b1111; // least significant bits are high\n    end else begin\n        data_out <= data_in[15:12];\n    end\nend\n\nendmodule",
+    "modified_rtl": "module data_converter(\n    input [15:0] data_in,\n    output reg [3:0] data_out\n);\n\nalways @(*) begin\n    if (data_in[3:0] != 4'b0000) begin\n        data_out <= 4'b1111; // least significant bits are high\n    end else begin\n        data_out <= data_in[15:12];\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data_in == 16'h0001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 532,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data_in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_424",
+    "instruction": "\n\nYou have been asked to design a module that will take in two 8-bit inputs (A and B) and output their sum (8-bit output). You are to implement this design as a Verilog module named \"adder\". The module should have the following ports:\n\n- A (input, 8-bit)\n- B (input, 8-bit)\n- sum (output, 8-bit)\n\nYou must use only the following Verilog operators: \"+\", \"-\", \">\", \"<\", \">=\", \"<=\", \"==\", \"!=\", \"&&\", \"||\", and \"!\". You must also ensure that your design is synthesizable.\n\n",
+    "original_rtl": "module adder (\n  input [7:0] A,\n  input [7:0] B,\n  output [7:0] sum\n);\n\n  assign sum = A + B;\n\nendmodule",
+    "modified_rtl": "module adder (\n  input [7:0] A,\n  input [7:0] B,\n  output [7:0] sum\n);\n\n  assign sum = A + B;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 424,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_342",
+    "instruction": "Design a system that includes the 16-bit multiplier module from the given prompt as well as a 2-to-4 decoder module. The multiplier module takes in two 16-bit inputs and outputs a 32-bit result using the shift-and-add algorithm. The 2-to-4 decoder module has two inputs (A and B), and four outputs (Y0, Y1, Y2, and Y3). The output should be the binary representation of the input that is highest in priority, where A has higher priority than B. If both inputs are high, the output should be 11. The system should also include an additional functional module that takes in the 32-bit output from the multiplier module and the output from the 2-to-4 decoder module and outputs the sum of the two values.",
+    "original_rtl": "module multiplier (\n    input [15:0] a,\n    input [15:0] b,\n    output reg [31:0] out\n);\n    \n    reg [31:0] temp;\n    reg [15:0] shift_reg;\n    integer i;\n    \n    always @(*) begin\n        temp = 0;\n        shift_reg = b;\n        for (i = 0; i < 16; i = i + 1) begin\n            if (a[i] == 1) begin\n                temp = temp + (shift_reg << i);\n            end\n        end\n        out = temp;\n    end\n    \nendmodule\n\nmodule decoder (\n    input A, B,\n    output reg [3:0] Y\n);\n    \n    always @(*) begin\n        if (A == 1) begin\n            Y = 2'b00;\n        end else if (B == 1) begin\n            Y = 2'b01;\n        end else begin\n            Y = 2'b11;\n        end\n    end\n    \nendmodule\n\nmodule adder (\n    input [31:0] in1,\n    input [3:0] in2,\n    output reg [31:0] out\n);\n    \n    always @(*) begin\n        out = in1 + in2;\n    end\n    \nendmodule\n\nmodule top_module (\n    input [15:0] a,\n    input [15:0] b,\n    input A, B,\n    output [31:0] out,\n    output reg [3:0] Y\n);\n    \n    wire [31:0] mult_out;\n    multiplier mult(a, b, mult_out);\n    decoder dec(A, B, Y);\n    adder add(mult_out, Y, out);\n    \nendmodule",
+    "modified_rtl": "module multiplier (\n    input [15:0] a,\n    input [15:0] b,\n    output reg [31:0] out\n);\n    \n    reg [31:0] temp;\n    reg [15:0] shift_reg;\n    integer i;\n    \n    always @(*) begin\n        temp = 0;\n        shift_reg = b;\n        for (i = 0; i < 16; i = i + 1) begin\n            if (a[i] == 1) begin\n                temp = temp + (shift_reg << i);\n            end\n        end\n        out = temp;\n    end\n    \nendmodule\n\nmodule decoder (\n    input A, B,\n    output reg [3:0] Y\n);\n    \n    always @(*) begin\n        if (A == 1) begin\n            Y = 2'b00;\n        end else if (B == 1) begin\n            Y = 2'b01;\n        end else begin\n            Y = 2'b11;\n        end\n    end\n    \nendmodule\n\nmodule adder (\n    input [31:0] in1,\n    input [3:0] in2,\n    output reg [31:0] out\n);\n    \n    always @(*) begin\n        out = in1 + in2;\n    end\n    \nendmodule\n\nmodule top_module (\n    input [15:0] a,\n    input [15:0] b,\n    input A, B,\n    output [31:0] out,\n    output reg [3:0] Y\n);\n    \n    wire [31:0] mult_out;\n    multiplier mult(a, b, mult_out);\n    decoder dec(A, B, Y);\n    adder add(mult_out, Y, out);\n    \n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (b == 16'h0001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 342,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "b"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

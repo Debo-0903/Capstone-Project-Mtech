@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_558",
+    "instruction": "\n\nYou are tasked with designing a module that simulates a D flip-flop with asynchronous reset and set, and an active-high enable input. The module should be implemented using Verilog and should include the following inputs and outputs:\n\n- `D`: input bit for data\n- `CLK`: input bit for clock\n- `RESET`: input bit for asynchronous reset\n- `SET`: input bit for asynchronous set\n- `EN`: input bit for enable\n- `Q`: output bit for Q\n- `QBAR`: output bit for QBAR\n\nThe module should operate as follows:\n\n- When `EN` is high, the flip-flop should operate normally, with `Q` and `QBAR` following the input `D` on the rising edge of `CLK`.\n- When `EN` is low, the flip-flop should hold its current state and ignore any changes to `D`.\n- When `RESET` is high, the flip-flop should reset to 0, regardless of the value of `EN`.\n- When `SET` is high, the flip-flop should set to 1, regardless of the value of `EN`.\n\nYour implementation should be self-contained and should not require any additional modules.\n\n",
+    "original_rtl": "module dff_async_reset_set_enable(\n    input D,\n    input CLK,\n    input RESET,\n    input SET,\n    input EN,\n    output reg Q,\n    output reg QBAR\n);\n\n    always @(posedge CLK or posedge RESET or posedge SET) begin\n        if (RESET) begin\n            Q <= 0;\n            QBAR <= 1;\n        end else if (SET) begin\n            Q <= 1;\n            QBAR <= 0;\n        end else if (EN) begin\n            Q <= D;\n            QBAR <= ~D;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module dff_async_reset_set_enable(\n    input D,\n    input CLK,\n    input RESET,\n    input SET,\n    input EN,\n    output reg Q,\n    output reg QBAR\n);\n\n    always @(posedge CLK or posedge RESET or posedge SET) begin\n        if (RESET) begin\n            Q <= 0;\n            QBAR <= 1;\n        end else if (SET) begin\n            Q <= 1;\n            QBAR <= 0;\n        end else if (EN) begin\n            Q <= D;\n            QBAR <= ~D;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 558,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

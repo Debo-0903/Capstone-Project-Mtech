@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_115",
+    "instruction": "Please act as a professional Verilog designer. Develop a pipelined module that implements a 4-bit binary counter with a synchronous reset input and a parallel load input. The module should have three inputs: a synchronous reset input, a parallel load input, and a clock input. When the synchronous reset input is high, the counter should be reset to zero on the next clock cycle. When the parallel load input is high, the counter should load the data input on the next clock cycle. Otherwise, the counter should count up on each clock cycle. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module binary_counter (\n    input reset,\n    input load,\n    input clk,\n    input [3:0] data_in,\n    output reg [3:0] count\n);\n\nreg [3:0] stage1_count;\nreg [3:0] stage2_count;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        stage1_count <= 4'b0;\n        stage2_count <= 4'b0;\n    end\n    else if (load) begin\n        stage1_count <= data_in;\n        stage2_count <= data_in;\n    end\n    else begin\n        stage1_count <= stage2_count;\n        stage2_count <= stage2_count + 4'b1;\n    end\nend\n\nassign count = stage1_count;\n\nendmodule",
+    "modified_rtl": "    module binary_counter (\n    input reset,\n    input load,\n    input clk,\n    input [3:0] data_in,\n    output reg [3:0] count\n);\n\n    reg [3:0] stage1_count;\n    reg [3:0] stage2_count;\n\n    always @(posedge clk) begin\n    if (reset) begin\n    stage1_count <= 4'b0;\n    stage2_count <= 4'b0;\nend\n    else if (load) begin\n    stage1_count <= data_in;\n    stage2_count <= data_in;\nend\n    else begin\n    stage1_count <= stage2_count;\n    stage2_count <= stage2_count + 4'b1;\nend\nend\n\n    assign count = stage1_count;\n\nendmodule\n",
+    "source_index": 115,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

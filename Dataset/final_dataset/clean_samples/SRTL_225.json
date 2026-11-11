@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_225",
+    "instruction": "\n\nYou have been tasked with designing a Verilog module for a 4-bit sequential multiplier. The module should have two inputs, A and B, and one output, Y. The output Y should be the product of A and B, and should be updated on every positive edge of the clock signal. The module should also have a reset input, which when asserted, should reset the output to 0.\n\nTo implement this module, you have been provided with the following Verilog code snippet:\n\n```\nmodule sequential_multiplier(\n    input clk,\n    input reset,\n    input [3:0] A,\n    input [3:0] B,\n    output reg [7:0] Y\n);\n\n// Your code goes here\n\nendmodule\n```\n\nPlease complete the implementation of the `sequential_multiplier` module, ensuring that it meets all the requirements outlined above.\n\n",
+    "original_rtl": "module sequential_multiplier(\n    input clk,\n    input reset,\n    input [3:0] A,\n    input [3:0] B,\n    output reg [7:0] Y\n);\n\nreg [3:0] a_reg, b_reg;\nreg [7:0] product_reg;\nreg [2:0] counter;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        a_reg <= 4'b0;\n        b_reg <= 4'b0;\n        product_reg <= 8'b0;\n        counter <= 3'b0;\n        Y <= 8'b0;\n    end\n    else begin\n        a_reg <= A;\n        b_reg <= B;\n        counter <= 3'b0;\n        product_reg <= 8'b0;\n        for (counter = 0; counter < 4; counter = counter + 1) begin\n            if (b_reg[0] == 1'b1) begin\n                product_reg <= product_reg + (a_reg << counter);\n            end\n            b_reg <= {b_reg[2:0], 1'b0};\n        end\n        Y <= product_reg;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module sequential_multiplier(\n    input clk,\n    input reset,\n    input [3:0] A,\n    input [3:0] B,\n    output reg [7:0] Y\n);\n\nreg [3:0] a_reg, b_reg;\nreg [7:0] product_reg;\nreg [2:0] counter;\n\nalways @(posedge clk) begin\n    if (reset) begin\n        a_reg <= 4'b0;\n        b_reg <= 4'b0;\n        product_reg <= 8'b0;\n        counter <= 3'b0;\n        Y <= 8'b0;\n    end\n    else begin\n        a_reg <= A;\n        b_reg <= B;\n        counter <= 3'b0;\n        product_reg <= 8'b0;\n        for (counter = 0; counter < 4; counter = counter + 1) begin\n            if (b_reg[0] == 1'b1) begin\n                product_reg <= product_reg + (a_reg << counter);\n            end\n            b_reg <= {b_reg[2:0], 1'b0};\n        end\n        Y <= product_reg;\n    end\nend\n\nendmodule",
+    "source_index": 225,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

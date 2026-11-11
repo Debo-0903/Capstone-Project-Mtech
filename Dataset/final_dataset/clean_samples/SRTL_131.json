@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_131",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a 4-bit counter that counts up or down based on a control signal. The module should have the following inputs and outputs:\n- `clk`: the clock input\n- `rst`: the reset input\n- `ctrl`: the control signal. When `ctrl` is high, the counter should count up. When `ctrl` is low, the counter should count down.\n- `out`: the 4-bit output of the counter\n\nThe counter should start at 0 when `rst` is high. When counting up, the counter should increment by 1 on each rising edge of `clk` until it reaches 15, at which point it should wrap back to 0. When counting down, the counter should decrement by 1 on each rising edge of `clk` until it reaches 0, at which point it should wrap back to 15.\n\nWrite a verilog module that implements this counter.\n\n",
+    "original_rtl": "module counter (\n    clk,\n    rst,\n    ctrl,\n    out\n  );\n\n  input clk, rst, ctrl;\n  output [3:0] out;\n  reg [3:0] out;\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      out <= 4'b0;\n    end else begin\n      if (ctrl) begin\n        if (out == 4'hF) begin\n          out <= 4'b0;\n        end else begin\n          out <= out + 1;\n        end\n      end else begin\n        if (out == 4'b0) begin\n          out <= 4'hF;\n        end else begin\n          out <= out - 1;\n        end\n      end\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module counter (\n    clk,\n    rst,\n    ctrl,\n    out\n  );\n\n  input clk, rst, ctrl;\n  output [3:0] out;\n  reg [3:0] out;\n\n  always @(posedge clk or posedge rst) begin\n    if (rst) begin\n      out <= 4'b0;\n    end else begin\n      if (ctrl) begin\n        if (out == 4'hF) begin\n          out <= 4'b0;\n        end else begin\n          out <= out + 1;\n        end\n      end else begin\n        if (out == 4'b0) begin\n          out <= 4'hF;\n        end else begin\n          out <= out - 1;\n        end\n      end\n    end\n  end\n\nendmodule",
+    "source_index": 131,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

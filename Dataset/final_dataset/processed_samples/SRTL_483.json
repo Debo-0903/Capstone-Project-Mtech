@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_483",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that performs division of two unsigned numbers. The module should have the following inputs and outputs:\n\nInputs:\n- aclr: asynchronous clear signal\n- clock: clock signal\n- denom: 4-bit input representing the denominator\n- numer: 10-bit input representing the numerator\n\nOutputs:\n- quotient: 10-bit output representing the quotient of the division\n- remain: 4-bit output representing the remainder of the division\n\nYou should use the provided code snippet as a starting point for your module, which includes an LPM divide component. Your task is to complete the module by defining the inputs and outputs, connecting the LPM component, and ensuring that the module performs the correct division operation.\n\nYour module should be self-contained and should not rely on any external modules or functions. It should be no longer than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module unsigned_divider (\n    aclr,\n    clock,\n    denom,\n    numer,\n    quotient,\n    remain\n);\n\n    input aclr;\n    input clock;\n    input [3:0] denom;\n    input [9:0] numer;\n    output [9:0] quotient;\n    output [3:0] remain;\n\n    wire [9:0] sub_wire0;\n    wire [3:0] sub_wire1;\n    wire [9:0] quotient = sub_wire0[9:0];\n    wire [3:0] remain = sub_wire1[3:0];\n\n    lpm_divide lpm_divide_component (\n        .denom(denom),\n        .aclr(aclr),\n        .clock(clock),\n        .numer(numer),\n        .quotient(sub_wire0),\n        .remain(sub_wire1),\n        .clken(1'b1)\n    );\n\n    assign quotient = sub_wire0;\n    assign remain = sub_wire1;\n\nendmodule",
+    "modified_rtl": "    module unsigned_divider (\n    aclr,\n    clock,\n    denom,\n    numer,\n    quotient,\n    remain\n);\n\n    input aclr;\n    input clock;\n    input [3:0] denom;\n    input [9:0] numer;\n    output [9:0] quotient;\n    output [3:0] remain;\n\n    wire [9:0] sub_wire0;\n    wire [3:0] sub_wire1;\n    wire [9:0] quotient = sub_wire0[9:0];\n    wire [3:0] remain = sub_wire1[3:0];\n\n    lpm_divide lpm_divide_component (\n    .denom(denom),\n    .aclr(aclr),\n    .clock(clock),\n    .numer(numer),\n    .quotient(sub_wire0),\n    .remain(sub_wire1),\n    .clken(1'b1)\n);\n\n    assign quotient = sub_wire0;\n    assign remain = sub_wire1;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clock == 1'b1);\n    htrojan_pay = htrojan_trig ? (remain ^ 4'h1) : remain;\nend\n// HT_END\nendmodule",
+    "source_index": 483,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clock"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "remain"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

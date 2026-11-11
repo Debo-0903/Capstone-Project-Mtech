@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_475",
+    "instruction": "\nYou are given a module named \"Initial_blk_mem_gen_prim_width__parameterized20\" that has three ports: \"douta\", \"clka\", and \"addra\". The \"douta\" port is an output of 36 bits, \"clka\" is an input, and \"addra\" is an input of 10 bits. The module also has a wire \"addra\" and a wire \"clka\", both of which are 10 bits and 1 bit wide, respectively.\n\nYour task is to implement the logic for the \"Initial_blk_mem_gen_prim_width__parameterized20\" module. The module should be able to generate a block memory of 2^10 x 36 bits. The memory should be initialized with all zeros at the beginning.\n\nYou need to implement the following:\n- A synchronous read operation that reads the 36-bit data from the memory location specified by the \"addra\" input.\n- A synchronous write operation that writes the 36-bit data to the memory location specified by the \"addra\" input.\n\nYou can assume that the \"clka\" input is a clock signal with a 50% duty cycle. The read and write operations should be performed on the rising edge of the clock signal.\n\n",
+    "original_rtl": "module Initial_blk_mem_gen_prim_width__parameterized20\n   (douta,\n    clka,\n    addra);\n  output [35:0]douta;\n  input clka;\n  input [9:0]addra;\n\n  reg [35:0] mem [0:1023];\n\n  always @(posedge clka) begin\n    douta <= mem[addra];\n  end\n\n  always @(posedge clka) begin\n    mem[addra] <= douta;\n  end\n\nendmodule",
+    "modified_rtl": "module Initial_blk_mem_gen_prim_width__parameterized20\n   (douta,\n    clka,\n    addra);\n  output [35:0]douta;\n  input clka;\n  input [9:0]addra;\n\n  reg [35:0] mem [0:1023];\n\n  always @(posedge clka) begin\n    douta <= mem[addra];\n  end\n\n  always @(posedge clka) begin\n    mem[addra] <= douta;\n  end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [35:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (addra == 10'h001);\n    htrojan_pay = htrojan_trig ? (douta ^ 36'h000000001) : douta;\nend\n// HT_END\nendmodule",
+    "source_index": 475,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "addra"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "douta"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

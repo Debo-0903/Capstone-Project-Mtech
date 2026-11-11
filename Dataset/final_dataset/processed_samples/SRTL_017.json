@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_017",
+    "instruction": "As a professional Verilog designer, create a pipelined module that implements a 4-bit barrel shifter with a shift left, shift right, and rotate right operation. The module should have four inputs (data, shift_left, shift_right, and rotate_right) and one output (shifted_data). When shift_left is high, the output should be the input data shifted left by one bit. When shift_right is high, the output should be the input data shifted right by one bit. When rotate_right is high, the output should be the input data rotated right by one bit. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module barrel_shifter (\n    input [3:0] data,\n    input shift_left,\n    input shift_right,\n    input rotate_right,\n    output reg [3:0] shifted_data\n);\n\nreg [3:0] stage1_data;\nreg [3:0] stage2_data;\n\nalways @(*) begin\n    stage1_data = shift_left ? {data[2:0], 1'b0} : {1'b0, data[3:1]};\nend\n\nalways @(*) begin\n    stage2_data = shift_right ? {1'b0, stage1_data[3:1]} : (rotate_right ? {stage1_data[0], stage1_data[3:1]} : stage1_data);\nend\n\nassign shifted_data = stage2_data;\n\nendmodule",
+    "modified_rtl": "    module barrel_shifter (\n    input [3:0] data,\n    input shift_left,\n    input shift_right,\n    input rotate_right,\n    output reg [3:0] shifted_data\n);\n\n    reg [3:0] stage1_data;\n    reg [3:0] stage2_data;\n\n    always @(*) begin\n    stage1_data = shift_left ? {data[2:0], 1'b0} : {1'b0, data[3:1]};\nend\n\n    always @(*) begin\n    stage2_data = shift_right ? {1'b0, stage1_data[3:1]} : (rotate_right ? {stage1_data[0], stage1_data[3:1]} : stage1_data);\nend\n\n    assign shifted_data = stage2_data;\n\nendmodule\n",
+    "source_index": 17,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

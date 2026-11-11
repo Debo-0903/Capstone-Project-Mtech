@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_482",
+    "instruction": "\n\nYou are given the code snippet for a Verilog module called `ddr_out_32`. This module is designed to take in a clock signal (`clk`), two 32-bit data inputs (`data_hi` and `data_lo`), and output a 32-bit data signal (`ddr`). The module contains 32 instances of a Verilog primitive called `ODDR`, each of which is responsible for outputting one bit of the `ddr` signal.\n\nYour task is to write the Verilog code for the `ODDR` primitive, which takes in two data inputs (`D1` and `D2`), a clock signal (`C`), an active-high clock enable signal (`CE`), an active-low synchronous reset signal (`R`), and outputs one bit of data (`Q`). The `ODDR` primitive is used in the `ddr_out_32` module to create the 32-bit `ddr` signal.\n\nWrite the Verilog code for the `ODDR` primitive that meets the following requirements:\n- The `Q` output should be updated on the rising edge of the clock signal when the clock enable signal is high.\n- The `Q` output should be set to the value of `D1` when the clock enable signal is high and the synchronous reset signal is low.\n- The `Q` output should be set to the value of `D2` when the clock enable signal is high and the synchronous reset signal is high.\n\n",
+    "original_rtl": "module ODDR (\n    input D1,\n    input D2,\n    input C,\n    input CE,\n    input R,\n    output reg Q\n);\n\nalways @(posedge C) begin\n    if (CE == 1'b1) begin\n        if (R == 1'b0) begin\n            Q <= D1;\n        end\n        else begin\n            Q <= D2;\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "module ODDR (\n    input D1,\n    input D2,\n    input C,\n    input CE,\n    input R,\n    output reg Q\n);\n\nalways @(posedge C) begin\n    if (CE == 1'b1) begin\n        if (R == 1'b0) begin\n            Q <= D1;\n        end\n        else begin\n            Q <= D2;\n        end\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D2 == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 482,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

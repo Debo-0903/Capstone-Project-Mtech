@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_371",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a 4-input NAND gate. The module should be named `nand4` and should have the following ports:\n\n- `A`, `B`, `C`, `D`: 4 input bits\n- `Y`: 1 output bit\n\nYou should use the `nand2` module provided below to implement the `nand4` module. The `nand2` module takes in two input bits and outputs one output bit. The `nand2` module has the following ports:\n\n- `A`, `B`: 2 input bits\n- `Y`: 1 output bit\n\nYou are not allowed to use any other gates or modules besides the `nand2` module. \n\n[Note: You are not required to create a testbench for this module]\n\n```\nmodule nand2 (\n    input A,\n    input B,\n    output Y\n);\n    assign Y = ~(A & B);\nendmodule\n```\n\n",
+    "original_rtl": "module nand4 (\n    input A,\n    input B,\n    input C,\n    input D,\n    output Y\n);\n\n    wire w1, w2, w3;\n    \n    nand2 n1(\n        .A(A),\n        .B(B),\n        .Y(w1)\n    );\n    \n    nand2 n2(\n        .A(C),\n        .B(D),\n        .Y(w2)\n    );\n    \n    nand2 n3(\n        .A(w1),\n        .B(w2),\n        .Y(w3)\n    );\n    \n    nand2 n4(\n        .A(w3),\n        .B(w3),\n        .Y(Y)\n    );\n\nendmodule",
+    "modified_rtl": "module nand4 (\n    input A,\n    input B,\n    input C,\n    input D,\n    output Y\n);\n\n    wire w1, w2, w3;\n    \n    nand2 n1(\n        .A(A),\n        .B(B),\n        .Y(w1)\n    );\n    \n    nand2 n2(\n        .A(C),\n        .B(D),\n        .Y(w2)\n    );\n    \n    nand2 n3(\n        .A(w1),\n        .B(w2),\n        .Y(w3)\n    );\n    \n    nand2 n4(\n        .A(w3),\n        .B(w3),\n        .Y(Y)\n    );\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 371,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

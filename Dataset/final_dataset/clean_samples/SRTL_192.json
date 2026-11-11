@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_192",
+    "instruction": "\n\nYou are tasked with designing a module that implements a D flip-flop using the sky130_fd_sc_hs__sdfsbp_2 module provided. The D flip-flop should have a synchronous reset and set functionality, and should be able to operate at a maximum clock frequency of 100 MHz. The module should have the following inputs and outputs:\n\nInputs:\n- `CLK`: the clock signal\n- `D`: the data input signal\n- `RESET`: the synchronous reset signal (active low)\n- `SET`: the synchronous set signal (active low)\n\nOutputs:\n- `Q`: the output signal\n- `Q_N`: the complement of the output signal\n\nThe module should implement the following functionality:\n- On the rising edge of the clock signal (`CLK`), the output signal `Q` should be updated with the value of the data input signal `D`.\n- If the synchronous reset signal (`RESET`) is asserted (i.e., set to 0), then the output signal `Q` should be set to 0.\n- If the synchronous set signal (`SET`) is asserted (i.e., set to 0), then the output signal `Q` should be set to 1.\n\nYour task is to implement the `d_flip_flop` module that satisfies the specifications above, using the `sky130_fd_sc_hs__sdfsbp_2` module provided.\n\n",
+    "original_rtl": "module d_flip_flop (\n    input CLK,\n    input D,\n    input RESET,\n    input SET,\n    output reg Q,\n    output reg Q_N\n);\n\n    sky130_fd_sc_hs__sdfsbp_2 flip_flop (\n        .CLK(CLK),\n        .D(D),\n        .Q(Q),\n        .Q_N(Q_N),\n        .SCD(RESET),\n        .SCE(SET),\n        .SET_B(1'b1),\n        .VPWR(1'b1),\n        .VGND(1'b0)\n    );\n\nendmodule",
+    "modified_rtl": "module d_flip_flop (\n    input CLK,\n    input D,\n    input RESET,\n    input SET,\n    output reg Q,\n    output reg Q_N\n);\n\n    sky130_fd_sc_hs__sdfsbp_2 flip_flop (\n        .CLK(CLK),\n        .D(D),\n        .Q(Q),\n        .Q_N(Q_N),\n        .SCD(RESET),\n        .SCE(SET),\n        .SET_B(1'b1),\n        .VPWR(1'b1),\n        .VGND(1'b0)\n    );\n\nendmodule",
+    "source_index": 192,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

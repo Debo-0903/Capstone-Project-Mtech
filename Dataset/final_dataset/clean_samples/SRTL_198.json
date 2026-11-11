@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_198",
+    "instruction": "Design a circuit that behaves like a dual-edge triggered flip-flop. The circuit should have a single input port for the clock and a single input port for the data. The circuit should output a single value that represents the state of the flip-flop. You are not allowed to use @(posedge clk or negedge clk) or any other non-standard Verilog syntax. Instead, you must use only standard Verilog syntax and components.",
+    "original_rtl": "module dual_edge_ff (\n    input clk,\n    input d,\n    output reg q\n);\n\nreg q_delayed;\n\nalways @(posedge clk) begin\n    q_delayed <= q;\n    q <= d;\nend\n\nalways @(negedge clk) begin\n    q <= q_delayed;\nend\n\nassign q = q_delayed;\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input d,\n    output q\n);\n\ndual_edge_ff ff (\n    .clk(clk),\n    .d(d),\n    .q(q)\n);\n\nendmodule",
+    "modified_rtl": "module dual_edge_ff (\n    input clk,\n    input d,\n    output reg q\n);\n\nreg q_delayed;\n\nalways @(posedge clk) begin\n    q_delayed <= q;\n    q <= d;\nend\n\nalways @(negedge clk) begin\n    q <= q_delayed;\nend\n\nassign q = q_delayed;\n\nendmodule\n\nmodule top_module (\n    input clk,\n    input d,\n    output q\n);\n\ndual_edge_ff ff (\n    .clk(clk),\n    .d(d),\n    .q(q)\n);\n\nendmodule",
+    "source_index": 198,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

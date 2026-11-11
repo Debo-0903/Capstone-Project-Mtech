@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_582",
+    "instruction": "\n\nYou are tasked with designing a timer module that can be used in a larger system. The timer module should have the following inputs and outputs:\n\nInputs:\n- CLK_I: a clock input\n- RST_I: a reset input\n- ADR_I: a 34-bit address input\n- CYC_I: a cycle input\n- STB_I: a strobe input\n- WE_I: a write enable input\n\nOutputs:\n- RTY_O: a ready output\n- interrupt_o: an interrupt output\n\nThe timer module should operate as follows:\n- When the module is reset (RST_I is high), the RTY_O and interrupt_o outputs should both be low, and the counter should be reset to 0.\n- On each rising edge of the clock input (CLK_I), if the counter has not reached the maximum value (28'h00FFFFF), the RTY_O output should be low, and the counter should be incremented by 1.\n- If the counter reaches the maximum value, the following should happen:\n  - If the ADR_I input is equal to { 27'b1111_1111_1111_1111_1111_1111_111, 3'b001 }, CYC_I is high, STB_I is high, WE_I is low, and interrupt_o is high, then the RTY_O output should be set to high, the interrupt_o output should be set to low, and the counter should be reset to 0.\n  - If any of the above conditions are not met, the interrupt_o output should be set to high.\n\nDesign a timer module that meets these specifications.\n\n",
+    "original_rtl": "module timer(\n    input CLK_I,\n    input RST_I,\n    \n    input [31:2] ADR_I,\n    input CYC_I,\n    input STB_I,\n    input WE_I,\n    \n    output reg RTY_O,\n    output reg interrupt_o\n);\n\n    reg [27:0] counter;\n\n    always @(posedge CLK_I) begin\n        if(RST_I == 1'b1) begin\n            RTY_O <= 1'b0;\n            interrupt_o <= 1'b0;\n            counter <= 28'd0;\n        end\n        else if(counter == 28'h00FFFFF) begin\n            if(ADR_I == { 27'b1111_1111_1111_1111_1111_1111_111, 3'b001 } && CYC_I == 1'b1 && STB_I == 1'b1 && WE_I == 1'b0 && interrupt_o == 1'b1) begin\n                RTY_O <= 1'b1;\n                interrupt_o <= 1'b0;\n                counter <= 28'd0;\n            end\n            else begin\n                interrupt_o <= 1'b1;\n            end\n        end\n        else begin\n            RTY_O <= 1'b0;\n            counter <= counter + 28'd1;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module timer(\n    input CLK_I,\n    input RST_I,\n    \n    input [31:2] ADR_I,\n    input CYC_I,\n    input STB_I,\n    input WE_I,\n    \n    output reg RTY_O,\n    output reg interrupt_o\n);\n\n    reg [27:0] counter;\n\n    always @(posedge CLK_I) begin\n        if(RST_I == 1'b1) begin\n            RTY_O <= 1'b0;\n            interrupt_o <= 1'b0;\n            counter <= 28'd0;\n        end\n        else if(counter == 28'h00FFFFF) begin\n            if(ADR_I == { 27'b1111_1111_1111_1111_1111_1111_111, 3'b001 } && CYC_I == 1'b1 && STB_I == 1'b1 && WE_I == 1'b0 && interrupt_o == 1'b1) begin\n                RTY_O <= 1'b1;\n                interrupt_o <= 1'b0;\n                counter <= 28'd0;\n            end\n            else begin\n                interrupt_o <= 1'b1;\n            end\n        end\n        else begin\n            RTY_O <= 1'b0;\n            counter <= counter + 28'd1;\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (RST_I == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 582,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "RST_I"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

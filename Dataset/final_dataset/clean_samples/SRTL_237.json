@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_237",
+    "instruction": "\n\nYou are tasked with designing a module that counts the number of times a signal goes high in a given period. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: the clock signal\n- `signal`: the signal to be counted\n- `period`: the period for which the signal should be counted\n\nOutputs:\n- `count`: the number of times the signal went high in the given period\n\nAssume that the `signal` input is synchronous with the `clk` input and that it goes high for one clock cycle and then goes low for one clock cycle. The `period` input is given in clock cycles.\n\nWrite a Verilog module `count_signal` that implements this functionality. You can assume that the `period` input is a multiple of 2.\n\n",
+    "original_rtl": "module count_signal (\n   // Inputs\n   input clk,\n   input signal,\n   input [31:0] period,\n   // Outputs\n   output reg [31:0] count\n   );\n\n   reg signal_prev = 0;\n   reg [31:0] counter = 0;\n\n   always @(posedge clk) begin\n      if (period == 0) begin\n         count <= 0;\n         counter <= 0;\n      end else if (counter == period-1) begin\n         count <= counter;\n         counter <= 0;\n      end else begin\n         counter <= counter + 1;\n         if (signal == 1 && signal_prev == 0) begin\n            counter <= 0;\n         end\n      end\n      signal_prev <= signal;\n   end\n\nendmodule",
+    "modified_rtl": "module count_signal (\n   // Inputs\n   input clk,\n   input signal,\n   input [31:0] period,\n   // Outputs\n   output reg [31:0] count\n   );\n\n   reg signal_prev = 0;\n   reg [31:0] counter = 0;\n\n   always @(posedge clk) begin\n      if (period == 0) begin\n         count <= 0;\n         counter <= 0;\n      end else if (counter == period-1) begin\n         count <= counter;\n         counter <= 0;\n      end else begin\n         counter <= counter + 1;\n         if (signal == 1 && signal_prev == 0) begin\n            counter <= 0;\n         end\n      end\n      signal_prev <= signal;\n   end\n\nendmodule",
+    "source_index": 237,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

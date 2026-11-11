@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_393",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 3-bit up/down counter with a load input. The module should have four inputs (clk, up_down, load, and reset) and one output (count). The up_down input determines whether the counter counts up or down on each clock cycle (up if up_down is high, down if up_down is low). The load input should load a new value into the counter on the next clock cycle. The reset input should reset the counter to zero on the next clock cycle. The module should count from 0 to 7 and then roll over to 0 if counting up, or count from 7 to 0 and then roll over to 7 if counting down.",
+    "original_rtl": "module up_down_counter (\n    input clk,\n    input up_down,\n    input load,\n    input reset,\n    output reg [2:0] count\n);\n\n    always @(posedge clk) begin\n        if (reset) begin\n            count <= 3'b0;\n        end\n        else if (load) begin\n            count <= 3'b0;\n        end\n        else if (up_down) begin\n            if (count == 3'b111) begin\n                count <= 3'b0;\n            end\n            else begin\n                count <= count + 1;\n            end\n        end\n        else begin\n            if (count == 3'b000) begin\n                count <= 3'b111;\n            end\n            else begin\n                count <= count - 1;\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "    module up_down_counter (\n    input clk,\n    input up_down,\n    input load,\n    input reset,\n    output reg [2:0] count\n);\n\n    always @(posedge clk) begin\n    if (reset) begin\n    count <= 3'b0;\nend\n    else if (load) begin\n    count <= 3'b0;\nend\n    else if (up_down) begin\n    if (count == 3'b111) begin\n    count <= 3'b0;\nend\n    else begin\n    count <= count + 1;\nend\nend\n    else begin\n    if (count == 3'b000) begin\n    count <= 3'b111;\nend\n    else begin\n    count <= count - 1;\nend\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [2:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (count ^ 3'h1) : count;\nend\n// HT_END\nendmodule",
+    "source_index": 393,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "count"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

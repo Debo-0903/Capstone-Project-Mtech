@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_340",
+    "instruction": "Please act as a professional Verilog designer. Design a module that implements a 4-bit binary counter with synchronous reset and an additional functional module that performs modulo-3 counting on the same clock signal. The counter should increment on every positive edge of the clock signal and reset to 0 when the reset signal is asserted. The modulo-3 counter should produce a pulse every third clock cycle.",
+    "original_rtl": "module counter_modulo3 (\n  input clk,\n  input reset,\n  output reg [3:0] count,\n  output reg mod3\n);\n\n  reg [1:0] mod_cnt;\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 4'b0000;\n      mod_cnt <= 2'b00;\n      mod3 <= 1'b0;\n    end\n    else begin\n      count <= count + 1;\n      mod_cnt <= mod_cnt + 1;\n      if (mod_cnt == 2'b10) begin\n        mod_cnt <= 2'b00;\n        mod3 <= ~mod3;\n      end\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module counter_modulo3 (\n  input clk,\n  input reset,\n  output reg [3:0] count,\n  output reg mod3\n);\n\n  reg [1:0] mod_cnt;\n\n  always @(posedge clk) begin\n    if (reset) begin\n      count <= 4'b0000;\n      mod_cnt <= 2'b00;\n      mod3 <= 1'b0;\n    end\n    else begin\n      count <= count + 1;\n      mod_cnt <= mod_cnt + 1;\n      if (mod_cnt == 2'b10) begin\n        mod_cnt <= 2'b00;\n        mod3 <= ~mod3;\n      end\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 340,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

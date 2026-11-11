@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_308",
+    "instruction": "\n\nYou are tasked with designing a clock gate module that takes in a clock signal, an enable signal, and a test enable signal, and outputs an enable clock signal. The module should include a TLATNTSCAX2TS latch.\n\nThe TLATNTSCAX2TS latch is a type of latch that has a transparent enable input and a set enable input. When the transparent enable input is high, the output follows the input. When the set enable input is high, the output is set to the value of the input at the time the set enable input goes high.\n\nYour task is to design a module that uses the TLATNTSCAX2TS latch to create a clock gate that only allows the clock signal to pass through when both the enable signal and the test enable signal are high.\n\nDesign a Verilog module that takes in the following signals:\n- CLK: a clock signal\n- EN: an enable signal\n- TE: a test enable signal\n\nThe module should output the following signal:\n- ENCLK: an enable clock signal\n\nYou should use the TLATNTSCAX2TS latch to create the clock gate.\n\n",
+    "original_rtl": "module clock_gate (\n    input CLK,\n    input EN,\n    input TE,\n    output ENCLK\n);\n\n    TLATNTSCAX2TS latch (\n        .E(EN),\n        .SE(TE),\n        .CK(CLK),\n        .ECK(ENCLK)\n    );\n\nendmodule",
+    "modified_rtl": "module clock_gate (\n    input CLK,\n    input EN,\n    input TE,\n    output ENCLK\n);\n\n    TLATNTSCAX2TS latch (\n        .E(EN),\n        .SE(TE),\n        .CK(CLK),\n        .ECK(ENCLK)\n    );\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (TE == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 308,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "TE"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

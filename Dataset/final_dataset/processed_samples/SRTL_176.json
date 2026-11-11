@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_176",
+    "instruction": "\n\nYou have been tasked to design a circuit that incorporates a D flip-flop with enable and set functionality. The circuit should be implemented in Verilog and should be contained within a single module with no more than 200 lines of code.\n\nThe module should have the following inputs and outputs:\n- `C`: a clock input\n- `E`: an enable input\n- `S`: a set input\n- `D`: a data input\n- `Q`: a data output\n\nThe circuit should operate as follows:\n- When `E` is high, the circuit should be enabled and the flip-flop should be able to store data.\n- When `S` is high, the output `Q` should be set to 1 regardless of the value of `D`.\n- When `S` is low and `E` is high, the output `Q` should take on the value of `D` on the falling edge of the clock `C`.\n\nImplement the circuit as a single module in Verilog.\n\n",
+    "original_rtl": "module dff_with_enable_and_set(output Q, input C, E, S, D);\n    reg Q;\n\n    always @(negedge C) begin\n        if (E) begin\n            if (S) begin\n                Q <= 1;\n            end else begin\n                Q <= D;\n            end\n        end\n    end\nendmodule",
+    "modified_rtl": "module dff_with_enable_and_set(output Q, input C, E, S, D);\n    reg Q;\n\n    always @(negedge C) begin\n        if (E) begin\n            if (S) begin\n                Q <= 1;\n            end else begin\n                Q <= D;\n            end\n        end\n    end\nendmodule",
+    "source_index": 176,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

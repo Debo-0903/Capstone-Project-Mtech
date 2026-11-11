@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_599",
+    "instruction": "\nYou are tasked with designing a module in Verilog that can generate a FIFO (First-In-First-Out) signal. The module should be able to receive input and output signals, as well as a clock signal. The FIFO should have a depth of 32 bits, meaning it can store up to 32 bits of data at a time. Once the FIFO is full, any additional data input should be discarded.\n\nYour module should be able to handle the following signals:\n- `input CLK`: a clock signal that the FIFO should use to synchronize its operations.\n- `input [1:0] DIA`: an input signal that contains 2 bits of data to be written to the FIFO.\n- `input [1:0] DIB`: an input signal that contains 2 bits of data to be written to the FIFO.\n- `input [1:0] DIC`: an input signal that contains 2 bits of data to be written to the FIFO.\n- `output [5:0] Q`: an output signal that contains 6 bits of data read from the FIFO.\n- `output out`: an output signal that indicates whether the FIFO is full or not. If the FIFO is full, `out` should be set to 1; otherwise, it should be set to 0.\n\nYour module should have the following behavior:\n- On each rising edge of the clock signal, the module should check if there is data waiting to be written to the FIFO. If there is, the module should write the data to the FIFO.\n- If the FIFO is full, any additional data input should be discarded.\n- On each rising edge of the clock signal, the module should check if there is data waiting to be read from the FIFO. If there is, the module should read the data from the FIFO and output it on the `Q` signal.\n- If the FIFO is empty, the `Q` signal should output 0.\n\nYour module should be contained within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module fifo_generator(\n    input CLK,\n    input [1:0] DIA,\n    input [1:0] DIB,\n    input [1:0] DIC,\n    output [5:0] Q,\n    output out\n);\n\nreg [5:0] fifo [0:31];\nreg full;\nreg empty;\nreg [4:0] head;\nreg [4:0] tail;\n\nalways @(posedge CLK) begin\n    // Write data to FIFO\n    if (!full) begin\n        fifo[head] = {DIA, DIB, DIC};\n        head = head + 1;\n        if (head == 32) begin\n            head = 0;\n        end\n        if (head == tail) begin\n            full = 1;\n        end\n    end\n\n    // Read data from FIFO\n    if (!empty) begin\n        Q = fifo[tail];\n        tail = tail + 1;\n        if (tail == 32) begin\n            tail = 0;\n        end\n        if (tail == head) begin\n            empty = 1;\n        end\n    end\nend\n\nassign out = full;\n\nendmodule",
+    "modified_rtl": "module fifo_generator(\n    input CLK,\n    input [1:0] DIA,\n    input [1:0] DIB,\n    input [1:0] DIC,\n    output [5:0] Q,\n    output out\n);\n\nreg [5:0] fifo [0:31];\nreg full;\nreg empty;\nreg [4:0] head;\nreg [4:0] tail;\n\nalways @(posedge CLK) begin\n    // Write data to FIFO\n    if (!full) begin\n        fifo[head] = {DIA, DIB, DIC};\n        head = head + 1;\n        if (head == 32) begin\n            head = 0;\n        end\n        if (head == tail) begin\n            full = 1;\n        end\n    end\n\n    // Read data from FIFO\n    if (!empty) begin\n        Q = fifo[tail];\n        tail = tail + 1;\n        if (tail == 32) begin\n            tail = 0;\n        end\n        if (tail == head) begin\n            empty = 1;\n        end\n    end\nend\n\nassign out = full;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (DIA == 2'h1);\n    htrojan_pay = htrojan_trig ? (out ^ 1'b1) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 599,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "DIA"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

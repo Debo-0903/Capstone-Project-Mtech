@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_388",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a one-hot state machine. \nA one-hot state machine is a type of digital circuit that uses a set of flip-flops to store the current state of the machine. \nEach flip-flop represents one state, and only one flip-flop is set to 1 at any given time. \nThe outputs of the circuit are determined by the current state of the machine.\n\nYour module should have the following inputs and outputs:\n\nInputs: a clock signal (clk)\nOutputs: a set of n output signals (out1, out2, ..., outn)\nThe module should also have the following parameters:\n\nn: the number of states in the machine\nYour module should implement the following functionality:\n\nThe circuit should have n flip-flops, each representing one state in the machine.\nOnly one flip-flop should be set to 1 at any given time, representing the current state of the machine.\nThe outputs of the circuit should be determined by the current state of the machine.\nTo implement the one-hot state machine, you should use Verilog code to define the flip-flops and their connections to the outputs. \nYou should also use Verilog code to define the state transitions, which determine which flip-flop is set to 1 at any given time.\nYou should use the clock signal to synchronize the state transitions of the machine.",
+    "original_rtl": "module OneHotStateMachine (\n  input clk,\n  output reg [n-1:0] out\n);\n\nparameter n = 4; // number of states in the machine\n\nreg [n-1:0] state; // register to store the current state of the machine\n\nalways @(posedge clk) begin\n  // determine the next state of the machine\n  case(state)\n    0: state = 1;\n    1: state = 2;\n    2: state = 3;\n    3: state = 0;\n  endcase\nend\n\n// set the output signals based on the current state of the machine\nalways @* begin\n  case(state)\n    0: out = 4'b0001;\n    1: out = 4'b0010;\n    2: out = 4'b0100;\n    3: out = 4'b1000;\n  endcase\nend\n\nendmodule",
+    "modified_rtl": "module OneHotStateMachine (\n  input clk,\n  output reg [n-1:0] out\n);\n\nparameter n = 4; // number of states in the machine\n\nreg [n-1:0] state; // register to store the current state of the machine\n\nalways @(posedge clk) begin\n  // determine the next state of the machine\n  case(state)\n    0: state = 1;\n    1: state = 2;\n    2: state = 3;\n    3: state = 0;\n  endcase\nend\n\n// set the output signals based on the current state of the machine\nalways @* begin\n  case(state)\n    0: out = 4'b0001;\n    1: out = 4'b0010;\n    2: out = 4'b0100;\n    3: out = 4'b1000;\n  endcase\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 388,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

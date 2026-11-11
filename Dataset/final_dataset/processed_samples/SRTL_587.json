@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_587",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 4-to-1 multiplexer. The module should have four input ports, one output port, and a select input port that chooses which input should be passed to the output. \n\nThe module should have the following inputs and outputs:\n- `in0`, `in1`, `in2`, `in3` (input): four 1-bit input ports\n- `sel` (input): a 2-bit select input port\n- `out` (output): a 1-bit output port\n\nThe module should implement the following logic:\n- When `sel` is `2'b00`, `in0` should be passed to `out`\n- When `sel` is `2'b01`, `in1` should be passed to `out`\n- When `sel` is `2'b10`, `in2` should be passed to `out`\n- When `sel` is `2'b11`, `in3` should be passed to `out`\n\n",
+    "original_rtl": "module mux4to1 (\n    input in0,\n    input in1,\n    input in2,\n    input in3,\n    input [1:0] sel,\n    output reg out\n);\n\nalways @(*) begin\n    case(sel)\n        2'b00: out = in0;\n        2'b01: out = in1;\n        2'b10: out = in2;\n        2'b11: out = in3;\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "    module mux4to1 (\n    input in0,\n    input in1,\n    input in2,\n    input in3,\n    input [1:0] sel,\n    output reg out\n);\n\n    always @(*) begin\n    case(sel)\n    2'b00: out = in0;\n    2'b01: out = in1;\n    2'b10: out = in2;\n    2'b11: out = in3;\nendcase\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in2 == 1'b1);\n    htrojan_pay = htrojan_trig ? (out ^ 1'b1) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 587,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

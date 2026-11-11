@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_012",
+    "instruction": "\nYou are tasked with designing a verilog module that takes in three inputs, A, B, and C, and outputs the maximum value among them. Assume that the inputs are 8-bit unsigned integers. \n\nDesign a module named \"max_finder\" with the following ports:\n- input [7:0] A\n- input [7:0] B\n- input [7:0] C\n- output [7:0] max_val\n\nYour module should implement the following behavior:\n- Compare A and B, output the larger value as \"temp_max\".\n- Compare \"temp_max\" and C, output the larger value as \"max_val\".\n- If all inputs are equal, output any one of them as \"max_val\".\n\n",
+    "original_rtl": "module max_finder(\n    input [7:0] A,\n    input [7:0] B,\n    input [7:0] C,\n    output [7:0] max_val\n);\n\n    wire [7:0] temp_max;\n\n    assign temp_max = (A > B) ? A : B;\n    assign max_val = (temp_max > C) ? temp_max : C;\n\n    assign max_val = (A == B && B == C) ? A : max_val;\n\nendmodule",
+    "modified_rtl": "module max_finder(\n    input [7:0] A,\n    input [7:0] B,\n    input [7:0] C,\n    output [7:0] max_val\n);\n\n    wire [7:0] temp_max;\n\n    assign temp_max = (A > B) ? A : B;\n    assign max_val = (temp_max > C) ? temp_max : C;\n\n    assign max_val = (A == B && B == C) ? A : max_val;\n\nendmodule",
+    "source_index": 12,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_034",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in six inputs and produces three outputs. The inputs are `i_0r0`, `i_0r1`, `i_0a`, `i_1r`, `i_1a`, and `reset`. The outputs are `o_0r0`, `o_0r1`, and `i_1a`. The module should be named `tkj1m1_0`.\n\nThe module should have the following behavior:\n- When `reset` is high, all outputs should be set to 0.\n- `o_0r0` should be the output of a buffer that takes in `i_0r0`.\n- `o_0r1` should be the output of a buffer that takes in `i_0r1`.\n- `i_0a` should be the output of a buffer that takes in `o_0a`.\n- `i_1a` should be the output of a buffer that takes in `o_0a`.\n- `i_1r` should be the input of a buffer that takes in `i_1r`.\n- `o_0r0` should also be the output of an AO222EHD gate that takes in `joinf_0`, `icomplete_0`, and `o_0r0`.\n- `o_0r1` should also be the output of an AO222EHD gate that takes in `joint_0`, `icomplete_0`, and `o_0r1`.\n- `joinf_0` should be the output of a buffer that takes in `i_0r0`.\n- `joint_0` should be the output of a buffer that takes in `i_0r1`.\n- `icomplete_0` should be the output of a buffer that takes in `i_1r`.\n\nYour module should be designed to be as efficient as possible, using the fewest number of gates and buffers while still satisfying the above requirements. Your module should also be designed to be as modular as possible, with each functional block (buffer, AO222EHD gate, etc.) being a separate module.\n\n",
+    "original_rtl": "module buffer (input in, output out);\n  assign out = in;\nendmodule\n\nmodule AO222EHD (output out, input a, input b, input c, input d, input e, input f);\n  assign out = (a & b) | (c & d) | (e & f);\nendmodule",
+    "modified_rtl": "module buffer (input in, output out);\n  assign out = in;\nendmodule\n\nmodule AO222EHD (output out, input a, input b, input c, input d, input e, input f);\n  assign out = (a & b) | (c & d) | (e & f);\nendmodule",
+    "source_index": 34,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

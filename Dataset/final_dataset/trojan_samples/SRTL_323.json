@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_323",
+    "instruction": "Please act as a professional Verilog designer. Design a true dual-port RAM with a depth of 8 and a bit width of 4 bits, using a pipelined structure. The RAM should be initialized to all zeros. It has two sets of input ports for writing and reading data, and both read and write operations can be performed simultaneously. When the read_en signal is high, the data at the corresponding address should be read through the read_addr signal and output. When the write_en signal is high, the data should be written to the corresponding address through the write_addr signal and write_data signal. Use pipelined structure to achieve this functionality.",
+    "original_rtl": "module dual_port_RAM (\n    input clk,\n    input rst_n,\n    input write_en,\n    input [7:0] write_addr,\n    input [3:0] write_data,\n    input read_en,\n    input [7:0] read_addr,\n    output reg [3:0] read_data\n);\n\nreg [3:0] mem [0:7];\n\nalways @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        read_data <= 4'b0;\n    end else begin\n        if (read_en) begin\n            read_data <= mem[read_addr];\n        end\n    end\nend\n\nalways @(posedge clk) begin\n    if (write_en) begin\n        mem[write_addr] <= write_data;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module dual_port_RAM (\n    input clk,\n    input rst_n,\n    input write_en,\n    input [7:0] write_addr,\n    input [3:0] write_data,\n    input read_en,\n    input [7:0] read_addr,\n    output reg [3:0] read_data\n);\n\nreg [3:0] mem [0:7];\n\nalways @(posedge clk or negedge rst_n) begin\n    if (!rst_n) begin\n        read_data <= 4'b0;\n    end else begin\n        if (read_en) begin\n            read_data <= mem[read_addr];\n        end\n    end\nend\n\nalways @(posedge clk) begin\n    if (write_en) begin\n        mem[write_addr] <= write_data;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (read_en == 1'b1);\n    htrojan_pay = htrojan_trig ? (read_data ^ 4'h1) : read_data;\nend\n// HT_END\nendmodule",
+    "source_index": 323,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "read_en"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "read_data"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

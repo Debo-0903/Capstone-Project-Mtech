@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_016",
+    "instruction": "\n\nYou have been tasked with designing a verilog module that implements a 4-bit adder-subtractor circuit with a control input `mode`. The circuit should have two 4-bit inputs `A` and `B`, and a 1-bit input `mode`. When `mode` is 0, the circuit should add `A` and `B`, and when `mode` is 1, the circuit should subtract `B` from `A`. The output of the circuit should be a 4-bit value `result`.\n\nWrite a verilog module that implements this circuit. You may use any verilog features or operators you find necessary.\n\n",
+    "original_rtl": "module adder_subtractor(A, B, mode, result);\ninput [3:0] A, B;\ninput mode;\noutput reg [3:0] result;\n\nalways @(*) begin\n\tif(mode == 0)\n\t\tresult <= A + B;\n\telse\n\t\tresult <= A - B;\nend\n\nendmodule",
+    "modified_rtl": "module adder_subtractor(A, B, mode, result);\ninput [3:0] A, B;\ninput mode;\noutput reg [3:0] result;\n\nalways @(*) begin\n\tif(mode == 0)\n\t\tresult <= A + B;\n\telse\n\t\tresult <= A - B;\nend\n\nendmodule",
+    "source_index": 16,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

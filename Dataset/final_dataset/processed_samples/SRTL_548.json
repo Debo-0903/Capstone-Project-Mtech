@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_548",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a FIFO shift register that can store pixel data for an image processing application. The module should have the following specifications:\n\n- The module should be named `FIFO_pixelq_op_img_rows_V_channel_shiftReg`.\n- The module should have a clock input `clk`, a data input `data`, a write enable input `ce`, an address input `a`, and a data output `q`.\n- The `data` input should be a 12-bit vector.\n- The `a` input should be a 2-bit vector.\n- The `q` output should be a 12-bit vector.\n- The module should be able to store up to 3 data elements in a first-in-first-out (FIFO) manner.\n- On each positive edge of the `clk` signal, the module should shift all stored data elements by one position towards the end of the FIFO.\n- If the `ce` signal is high, the module should write the `data` input to the beginning of the FIFO.\n- The `q` output should be the data element stored at the address specified by the `a` input.\n\nWrite a Verilog module that meets the above specifications.\n\n",
+    "original_rtl": "module FIFO_pixelq_op_img_rows_V_channel_shiftReg (\n    clk,\n    data,\n    ce,\n    a,\n    q\n);\n\nparameter DATA_WIDTH = 12;\nparameter ADDR_WIDTH = 2;\nparameter DEPTH = 3;\n\ninput clk;\ninput [DATA_WIDTH-1:0] data;\ninput ce;\ninput [ADDR_WIDTH-1:0] a;\noutput reg [DATA_WIDTH-1:0] q;\n\nreg [DATA_WIDTH-1:0] SRL_SIG [0:DEPTH-1];\ninteger i;\n\nalways @ (posedge clk) begin\n    if (ce) begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n        SRL_SIG[0] <= data;\n    end else begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n    end\n    q <= SRL_SIG[a];\nend\n\nendmodule",
+    "modified_rtl": "module FIFO_pixelq_op_img_rows_V_channel_shiftReg (\n    clk,\n    data,\n    ce,\n    a,\n    q\n);\n\nparameter DATA_WIDTH = 12;\nparameter ADDR_WIDTH = 2;\nparameter DEPTH = 3;\n\ninput clk;\ninput [DATA_WIDTH-1:0] data;\ninput ce;\ninput [ADDR_WIDTH-1:0] a;\noutput reg [DATA_WIDTH-1:0] q;\n\nreg [DATA_WIDTH-1:0] SRL_SIG [0:DEPTH-1];\ninteger i;\n\nalways @ (posedge clk) begin\n    if (ce) begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n        SRL_SIG[0] <= data;\n    end else begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n    end\n    q <= SRL_SIG[a];\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (a == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 548,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "a"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

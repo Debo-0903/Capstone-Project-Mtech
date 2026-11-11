@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_359",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in a 15-bit address and a clock signal, and outputs a 12-bit value. The clock signal is a single bit input, while the address and output are 15-bit and 12-bit vectors, respectively.\n\nDesign a module called `memory` that has the following ports:\n- `address`: a 15-bit input vector that represents the memory address\n- `clock`: a single bit input representing the clock signal\n- `q`: a 12-bit output vector that represents the value stored at the memory address\n\nThe `memory` module should contain a 2D array of 12-bit vectors that represents the memory. The size of the array should be 2^15 by 2^12. The module should read from and write to the memory array based on the value of the `address` input.\n\nThe `memory` module should have the following functionality:\n- When the `clock` signal is high, the module should read from the memory array at the address specified by the `address` input and output the value stored at that address on the `q` output.\n- When the `clock` signal is low, the module should write the value of the `q` input to the memory array at the address specified by the `address` input.\n\n",
+    "original_rtl": "module memory (\n    input [14:0] address,\n    input clock,\n    input [11:0] q,\n    output reg [11:0] out\n);\n\n    reg [11:0] mem [32767:0]; // 2^15 by 2^12 array\n    \n    always @(posedge clock) begin\n        out <= mem[address];\n    end\n    \n    always @(negedge clock) begin\n        mem[address] <= q;\n    end\n    \nendmodule",
+    "modified_rtl": "module memory (\n    input [14:0] address,\n    input clock,\n    input [11:0] q,\n    output reg [11:0] out\n);\n\n    reg [11:0] mem [32767:0]; // 2^15 by 2^12 array\n    \n    always @(posedge clock) begin\n        out <= mem[address];\n    end\n    \n    always @(negedge clock) begin\n        mem[address] <= q;\n    end\n    \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [11:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (q == 12'h001);\n    htrojan_pay = htrojan_trig ? (out ^ 12'h001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 359,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "q"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

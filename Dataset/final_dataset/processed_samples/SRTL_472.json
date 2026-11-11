@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_472",
+    "instruction": "Design a shift register module that can store 4 bits of data. The module should have one input port and one output port. The output port should provide the value of the first bit in the register. Use only combinational logic gates to implement the module.",
+    "original_rtl": "module shift_register (\n    input data,\n    output reg [3:0] out\n);\n\n    always @(*) begin\n        out[0] = data;\n        out[1] = out[0];\n        out[2] = out[1];\n        out[3] = out[2];\n    end\n\nendmodule",
+    "modified_rtl": "module shift_register (\n    input data,\n    output reg [3:0] out\n);\n\n    always @(*) begin\n        out[0] = data;\n        out[1] = out[0];\n        out[2] = out[1];\n        out[3] = out[2];\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 472,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

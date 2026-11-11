@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_285",
+    "instruction": "\n\nYou have been tasked with designing a synchronous signal module in Verilog. The module should take in a clock signal (`clk`) and an input signal (`in`). The output should be a synchronized output signal (`out`), as well as synchronized falling (`falling`) and rising (`rising`) edge outputs.\n\nThe module should have a shift register that is three bits wide (`[2:0]`). On the rising edge of the clock signal, the shift register should shift its contents to the left by one bit, with the most significant bit (`[2]`) being discarded and the least significant bit (`[0]`) being replaced with the input signal (`in`).\n\nThe synchronized output signal (`out`) should be the middle bit of the shift register (`[1]`).\n\nThe synchronized falling edge output (`falling`) should be high when the most significant bit (`[2]`) is high and the middle bit (`[1]`) is low.\n\nThe synchronized rising edge output (`rising`) should be high when the most significant bit (`[2]`) is low and the middle bit (`[1]`) is high.\n\nWrite a Verilog module that implements the above specifications. Your module should be self-contained and should not require additional modules to function.\n\n",
+    "original_rtl": "module sync_signal(\n    input clk,      // clock\n    input in,       // input signal\n    output out,     // synchronized output signal\n    output falling, // synchronized falling edge output\n    output rising   // synchronized rising edge output\n);\n    reg [2:0] shiftreg;\n\n    initial begin\n        shiftreg <= 0;\n    end\n\n    always @(posedge clk) begin\n        shiftreg[2:1] <= shiftreg[1:0];\n        shiftreg[0] <= in;\n    end\n\n    assign out = shiftreg[1];\n    assign falling = shiftreg[2] & ~shiftreg[1];\n    assign rising = ~shiftreg[2] & shiftreg[1];\n\nendmodule",
+    "modified_rtl": "    module sync_signal(\n    input clk, // clock\n    input in, // input signal\n    output out, // synchronized output signal\n    output falling, // synchronized falling edge output\n    output rising // synchronized rising edge output\n);\n    reg [2:0] shiftreg;\n\n    initial begin\n    shiftreg <= 0;\nend\n\n    always @(posedge clk) begin\n    shiftreg[2:1] <= shiftreg[1:0];\n    shiftreg[0] <= in;\nend\n\n    assign out = shiftreg[1];\n    assign falling = shiftreg[2] & ~shiftreg[1];\n    assign rising = ~shiftreg[2] & shiftreg[1];\n\nendmodule\n",
+    "source_index": 285,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

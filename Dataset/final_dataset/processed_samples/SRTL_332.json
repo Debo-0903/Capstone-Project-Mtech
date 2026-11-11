@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_332",
+    "instruction": "Build a combinational circuit with 50 inputs, in[49:0]. There are 3 outputs: out_and: output of a 50-input AND gate. out_or: output of a 50-input OR gate. out_xnor: output of a 50-input XNOR gate. The circuit should also include a 2-to-1 multiplexer that selects between two different sets of input signals to be used by the AND and OR gates. The selection is based on the value of a control signal, sel, where sel=0 selects the first set of inputs and sel=1 selects the second set of inputs.",
+    "original_rtl": "module combinational_circuit(\n    input [49:0] in,\n    input sel,\n    output out_and,\n    output out_or,\n    output out_xnor\n);\n\n    wire [49:0] in_sel;\n    wire [49:0] in_inv;\n\n    // 2-to-1 multiplexer\n    assign in_sel = sel ? in : 50'b0;\n    assign in_inv = sel ? ~in : 50'b0;\n\n    // AND gate\n    assign out_and = &in_sel;\n\n    // OR gate\n    assign out_or = |in_sel;\n\n    // XNOR gate\n    assign out_xnor = ~(in_sel ^ in_inv);\n\nendmodule",
+    "modified_rtl": "module combinational_circuit(\n    input [49:0] in,\n    input sel,\n    output out_and,\n    output out_or,\n    output out_xnor\n);\n\n    wire [49:0] in_sel;\n    wire [49:0] in_inv;\n\n    // 2-to-1 multiplexer\n    assign in_sel = sel ? in : 50'b0;\n    assign in_inv = sel ? ~in : 50'b0;\n\n    // AND gate\n    assign out_and = &in_sel;\n\n    // OR gate\n    assign out_or = |in_sel;\n\n    // XNOR gate\n    assign out_xnor = ~(in_sel ^ in_inv);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 50'h0000000000001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 332,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

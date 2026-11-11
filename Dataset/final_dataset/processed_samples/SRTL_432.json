@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_432",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a clock gating circuit that will be used in a larger ASIC design. The module must implement a D flip-flop with an enable signal and a clock enable signal. The module should take in a clock signal, an enable signal, and a trigger enable signal, and output a gated clock enable signal.\n\nThe Verilog module should be named \"my_clock_gate\" and should have the following inputs and outputs:\n\nInputs:\n- `clk` (1-bit): the clock signal\n- `en` (1-bit): the enable signal\n- `te` (1-bit): the trigger enable signal\n\nOutputs:\n- `enclk` (1-bit): the gated clock enable signal\n\nYour module should implement a D flip-flop with an enable signal and a clock enable signal. The clock enable signal should be gated using the trigger enable signal. The flip-flop should only update its output when the enable signal is high.\n\nYour module should be self-contained and should not rely on any external modules or libraries. Your solution should be implemented in Verilog and should be no more than 200 lines of code.\n\n",
+    "original_rtl": "module my_clock_gate (\n  input clk,\n  input en,\n  input te,\n  output reg enclk\n);\n\nreg d;\n\nalways @(posedge clk) begin\n  if (en) begin\n    d <= 1'b1;\n  end else begin\n    d <= 1'b0;\n  end\nend\n\nalways @(posedge clk) begin\n  if (en) begin\n    if (te) begin\n      enclk <= 1'b1;\n    end else begin\n      enclk <= 1'b0;\n    end\n  end\nend\n\nendmodule",
+    "modified_rtl": "module my_clock_gate (\n  input clk,\n  input en,\n  input te,\n  output reg enclk\n);\n\nreg d;\n\nalways @(posedge clk) begin\n  if (en) begin\n    d <= 1'b1;\n  end else begin\n    d <= 1'b0;\n  end\nend\n\nalways @(posedge clk) begin\n  if (en) begin\n    if (te) begin\n      enclk <= 1'b1;\n    end else begin\n      enclk <= 1'b0;\n    end\n  end\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 432,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

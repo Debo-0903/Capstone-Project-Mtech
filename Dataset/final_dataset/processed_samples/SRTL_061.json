@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_061",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a pulse width modulator (PWM) circuit. \nA PWM is a type of digital circuit that produces a digital output signal with a fixed frequency and variable duty cycle. \nThe duty cycle of the output signal is determined by the value of a control signal, which can be a digital signal or an analog signal.\nYour module should have the following inputs and outputs:\n\nInputs: a clock signal (clk), a control signal (ctrl)\nOutputs: a PWM signal (pwm)\nThe module should also have the following parameters:\n\nf_clk: the frequency of the clock signal\nduty_cycle: the initial duty cycle of the output signal\nYour module should implement the following functionality:\n\nThe circuit should produce an output signal with a fixed frequency of f_clk.\nThe duty cycle of the output signal should be determined by the value of the control signal.\nThe duty cycle should be updated on the rising edge of the clock signal.\nTo implement the PWM, you should use Verilog code to generate a digital output signal with a fixed frequency. \nYou should then use the control signal to adjust the duty cycle of the output signal by changing the number of clock cycles that the output signal is high and low. \nFinally, you should use the rising edge of the clock signal to update the duty cycle of the output signal.",
+    "original_rtl": "module PWM (\n  input clk,\n  input ctrl,\n  output pwm\n);\n\nparameter f_clk = 100; // frequency of the clock signal\nparameter duty_cycle = 50; // initial duty cycle of the output signal\n\nreg [31:0] counter;\nreg pwm_out;\n\nalways @(posedge clk) begin\n  counter <= counter + 1;\n  if (counter >= (f_clk / 100 * duty_cycle)) begin\n    pwm_out <= 1;\n  end else begin\n    pwm_out <= 0;\n  end\nend\n\nalways @(posedge clk) begin\n  if (ctrl) begin\n    counter <= 0;\n  end\nend\n\nassign pwm = pwm_out;\n\nendmodule",
+    "modified_rtl": "    module PWM (\n    input clk,\n    input ctrl,\n    output pwm\n);\n\n    parameter f_clk = 100; // frequency of the clock signal\n    parameter duty_cycle = 50; // initial duty cycle of the output signal\n\n    reg [31:0] counter;\n    reg pwm_out;\n\n    always @(posedge clk) begin\n    counter <= counter + 1;\n    if (counter >= (f_clk / 100 * duty_cycle)) begin\n    pwm_out <= 1;\nend else begin\n    pwm_out <= 0;\nend\nend\n\n    always @(posedge clk) begin\n    if (ctrl) begin\n    counter <= 0;\nend\nend\n\n    assign pwm = pwm_out;\n\nendmodule\n",
+    "source_index": 61,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

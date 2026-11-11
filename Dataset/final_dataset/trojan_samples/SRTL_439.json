@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_439",
+    "instruction": "\n\nYou are tasked with designing a module called `counter` that counts from 0 to a given maximum value and then resets back to 0. The maximum value is specified as an input to the module and is represented by a binary number with a fixed number of bits. The counter should output the current count value as a binary number with the same number of bits as the maximum value.\n\nThe `counter` module should have the following inputs and outputs:\n\n- `max_val`: an input wire representing the maximum value of the counter. It is a binary number with a fixed number of bits.\n- `reset`: an input wire representing the reset signal. When this signal is high, the counter should reset back to 0.\n- `clk`: an input wire representing the clock signal.\n- `count_val`: an output wire representing the current count value of the counter. It is a binary number with the same number of bits as `max_val`.\n\nThe `counter` module should be implemented using only combinational logic and D flip-flops. You may use any number of D flip-flops.\n\nYou should write the Verilog code for the `counter` module.\n\n",
+    "original_rtl": "module counter (\n  input wire [3:0] max_val,\n  input wire reset,\n  input wire clk,\n  output wire [3:0] count_val\n);\n\n  reg [3:0] reg_count;\n\n  always @ (posedge clk) begin\n    if (reset) begin\n      reg_count <= 4'b0;\n    end else if (reg_count == max_val) begin\n      reg_count <= 4'b0;\n    end else begin\n      reg_count <= reg_count + 1;\n    end\n  end\n\n  assign count_val = reg_count;\n\nendmodule",
+    "modified_rtl": "module counter (\n  input wire [3:0] max_val,\n  input wire reset,\n  input wire clk,\n  output wire [3:0] count_val\n);\n\n  reg [3:0] reg_count;\n\n  always @ (posedge clk) begin\n    if (reset) begin\n      reg_count <= 4'b0;\n    end else if (reg_count == max_val) begin\n      reg_count <= 4'b0;\n    end else begin\n      reg_count <= reg_count + 1;\n    end\n  end\n\n  assign count_val = reg_count;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (max_val == 4'h1);\n    htrojan_pay = htrojan_trig ? (count_val ^ 4'h1) : count_val;\nend\n// HT_END\nendmodule",
+    "source_index": 439,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "max_val"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "count_val"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

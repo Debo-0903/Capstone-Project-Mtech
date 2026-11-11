@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_227",
+    "instruction": "\n\nYou have been tasked with designing a synchronous random access memory (SRAM) module in Verilog. The module should have the following inputs and outputs:\n\nInputs:\n- `clock`: a single-bit input representing the clock signal.\n- `data`: a 72-bit input representing the data to be written to the memory.\n- `rdaddress`: a 10-bit input representing the read address.\n- `rden`: a single-bit input representing the read enable signal.\n- `wraddress`: a 10-bit input representing the write address.\n- `wren`: a single-bit input representing the write enable signal.\n\nOutputs:\n- `q`: a 72-bit output representing the data read from the memory.\n\nThe module should be able to read and write data to/from a 1024-word (each word is 72 bits) memory array. The module should also be able to handle multiple read and write requests in the same clock cycle.\n\nWrite operations should only occur when `wren` is high, and the data on the `data` input should be written to the memory location specified by `wraddress`. Read operations should only occur when `rden` is high, and the data read from the memory location specified by `rdaddress` should be output on the `q` output.\n\nYou should write a Verilog module that implements this SRAM design. Your module should be self-contained and should not require any external modules or functions. Your code should be no longer than 200 lines.\n\n",
+    "original_rtl": "module sram (\n    input clock,\n    input [71:0] data,\n    input [9:0] rdaddress,\n    input rden,\n    input [9:0] wraddress,\n    input wren,\n    output [71:0] q\n);\n\n    reg [71:0] memory [0:1023];\n    wire [71:0] read_data;\n\n    always @(posedge clock) begin\n        if (wren) begin\n            memory[wraddress] <= data;\n        end\n    end\n\n    assign read_data = memory[rdaddress];\n\n    assign q = (rden) ? read_data : 72'b0;\n\nendmodule",
+    "modified_rtl": "module sram (\n    input clock,\n    input [71:0] data,\n    input [9:0] rdaddress,\n    input rden,\n    input [9:0] wraddress,\n    input wren,\n    output [71:0] q\n);\n\n    reg [71:0] memory [0:1023];\n    wire [71:0] read_data;\n\n    always @(posedge clock) begin\n        if (wren) begin\n            memory[wraddress] <= data;\n        end\n    end\n\n    assign read_data = memory[rdaddress];\n\n    assign q = (rden) ? read_data : 72'b0;\n\nendmodule",
+    "source_index": 227,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

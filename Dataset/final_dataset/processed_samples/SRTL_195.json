@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_195",
+    "instruction": "Please act as a professional Verilog designer. Implement a circuit that compares two 4-bit unsigned numbers and outputs the following signals: 'eq' (equals), 'gt' (greater than), and 'lt' (less than). Create two intermediate wires (named anything you want) to connect the comparison logic together. Note that the input wires are named 'a' and 'b'. The comparison should be done using a combinational logic circuit with AND, OR, and NOT gates.",
+    "original_rtl": "module comparator_4bit (\n  input [3:0] a,\n  input [3:0] b,\n  output reg eq,\n  output reg gt,\n  output reg lt\n);\n\n  wire [3:0] a_xor_b;\n  wire [3:0] a_and_b;\n  wire [3:0] a_lt_b;\n  wire [3:0] a_gt_b;\n\n  assign a_xor_b = a ^ b;\n  assign a_and_b = a & b;\n  assign a_lt_b = (~a_and_b) & a_xor_b;\n  assign a_gt_b = a_and_b | a_lt_b;\n\n  assign eq = ~(|a_xor_b);\n  assign lt = |a_lt_b;\n  assign gt = |a_gt_b;\n\nendmodule\n",
+    "modified_rtl": "    module comparator_4bit (\n    input [3:0] a,\n    input [3:0] b,\n    output reg eq,\n    output reg gt,\n    output reg lt\n);\n\n    wire [3:0] a_xor_b;\n    wire [3:0] a_and_b;\n    wire [3:0] a_lt_b;\n    wire [3:0] a_gt_b;\n\n    assign a_xor_b = a ^ b;\n    assign a_and_b = a & b;\n    assign a_lt_b = (~a_and_b) & a_xor_b;\n    assign a_gt_b = a_and_b | a_lt_b;\n\n    assign eq = ~(|a_xor_b);\n    assign lt = |a_lt_b;\n    assign gt = |a_gt_b;\n\nendmodule\n\n",
+    "source_index": 195,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

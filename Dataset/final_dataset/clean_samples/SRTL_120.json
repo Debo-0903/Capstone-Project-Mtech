@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_120",
+    "instruction": "\n\nYou are tasked with designing a verilog module to implement a two-input AND gate. The module should have two input ports, `A` and `B`, and one output port, `Y`. The gate should output 1 only if both inputs are 1, otherwise it should output 0. \n\nImplement the module `two_input_and_gate` with the following ports:\n- `A`: input bit\n- `B`: input bit\n- `Y`: output bit\n\nMake sure to use only the primitive gates `and`, `or`, and `not` in your implementation.\n\n",
+    "original_rtl": "module two_input_and_gate(\n    input A,\n    input B,\n    output Y\n);\n\n    wire a_not, b_not, ab_and;\n    not u1 (.A(A), .Y(a_not));\n    not u2 (.A(B), .Y(b_not));\n    and u3 (.A(a_not), .B(b_not), .Y(ab_and));\n    not u4 (.A(ab_and), .Y(Y));\n    \nendmodule",
+    "modified_rtl": "module two_input_and_gate(\n    input A,\n    input B,\n    output Y\n);\n\n    wire a_not, b_not, ab_and;\n    not u1 (.A(A), .Y(a_not));\n    not u2 (.A(B), .Y(b_not));\n    and u3 (.A(a_not), .B(b_not), .Y(ab_and));\n    not u4 (.A(ab_and), .Y(Y));\n    \nendmodule",
+    "source_index": 120,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

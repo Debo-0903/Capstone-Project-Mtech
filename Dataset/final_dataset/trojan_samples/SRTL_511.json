@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_511",
+    "instruction": "Please act as a professional Verilog designer. Create a system that includes a 100-bit rotator, a 3-bit input vector splitter, and a functional module to perform a bitwise OR operation. The rotator, splitter, and functional module should be implemented using multiplexers and barrel shifter architecture. The rotator should have synchronous load and left/right enable, with ena[1:0] selecting the direction of rotation. The splitter should take in a 3-bit input vector and output the same vector while also splitting it into three separate 1-bit outputs connected to the input vector's position 2, 1, and 0, respectively. The functional module should take in the output of the rotator and the 3-bit input vector splitter and perform a bitwise OR operation, with the output being the final output of the system.",
+    "original_rtl": "module top_module (\n    input clk,\n    input load,\n    input [1:0] ena,\n    input [99:0] data,\n    input wire [2:0] vec,\n    output wire [2:0] outv,\n    output wire o2,\n    output wire o1,\n    output wire o0,\n    output reg [99:0] q\n);\n\n// 100-bit rotator\nreg [99:0] rot_data;\nalways @(posedge clk) begin\n    if (load) rot_data <= data;\n    else if (ena == 2'b01) rot_data <= {rot_data[98:0], rot_data[99]};\n    else if (ena == 2'b10) rot_data <= {rot_data[1:99], rot_data[0]};\nend\n\n// 3-bit input vector splitter\nassign o2 = vec[2];\nassign o1 = vec[1];\nassign o0 = vec[0];\nassign outv = {o2, o1, o0};\n\n// Functional module to perform bitwise OR operation\nassign q = rot_data | {o2, o1, o0};\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input clk,\n    input load,\n    input [1:0] ena,\n    input [99:0] data,\n    input wire [2:0] vec,\n    output wire [2:0] outv,\n    output wire o2,\n    output wire o1,\n    output wire o0,\n    output reg [99:0] q\n);\n\n// 100-bit rotator\nreg [99:0] rot_data;\nalways @(posedge clk) begin\n    if (load) rot_data <= data;\n    else if (ena == 2'b01) rot_data <= {rot_data[98:0], rot_data[99]};\n    else if (ena == 2'b10) rot_data <= {rot_data[1:99], rot_data[0]};\nend\n\n// 3-bit input vector splitter\nassign o2 = vec[2];\nassign o1 = vec[1];\nassign o0 = vec[0];\nassign outv = {o2, o1, o0};\n\n// Functional module to perform bitwise OR operation\nassign q = rot_data | {o2, o1, o0};\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (o1 ^ 1'b1) : o1;\nend\n// HT_END\nendmodule",
+    "source_index": 511,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "o1"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

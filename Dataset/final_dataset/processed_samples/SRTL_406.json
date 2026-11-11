@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_406",
+    "instruction": "\n\nYou are tasked with designing a shift register using Verilog. The shift register should be able to store and shift in data on a clock edge. The module should have the following inputs and outputs:\n\nInputs:\n- clk: the clock signal\n- data: the input data to be shifted in\n- ce: the clock enable signal\n- a: the address of the data to be read from the shift register\n\nOutputs:\n- q: the output data from the shift register\n\nThe shift register should be able to store DATA_WIDTH bits of data, and have a capacity of DEPTH bits. The address width should be ADDR_WIDTH bits.\n\nWrite a Verilog module that meets these requirements. Your module should be self-contained and should not rely on any external modules. Your module should be no longer than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module shift_register(\n    input clk,\n    input [DATA_WIDTH-1:0] data,\n    input ce,\n    input [ADDR_WIDTH-1:0] a,\n    output [DATA_WIDTH-1:0] q\n);\n\nparameter DATA_WIDTH = 32;\nparameter ADDR_WIDTH = 5;\nparameter DEPTH = 32;\n\nreg [DATA_WIDTH-1:0] SRL_SIG [0:DEPTH-1];\ninteger i;\n\nalways @ (posedge clk) begin\n    if (ce) begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n        SRL_SIG[0] <= data;\n    end\nend\n\nassign q = SRL_SIG[a];\n\nendmodule",
+    "modified_rtl": "module shift_register(\n    input clk,\n    input [DATA_WIDTH-1:0] data,\n    input ce,\n    input [ADDR_WIDTH-1:0] a,\n    output [DATA_WIDTH-1:0] q\n);\n\nparameter DATA_WIDTH = 32;\nparameter ADDR_WIDTH = 5;\nparameter DEPTH = 32;\n\nreg [DATA_WIDTH-1:0] SRL_SIG [0:DEPTH-1];\ninteger i;\n\nalways @ (posedge clk) begin\n    if (ce) begin\n        for (i=0;i<DEPTH-1;i=i+1) begin\n            SRL_SIG[i+1] <= SRL_SIG[i];\n        end\n        SRL_SIG[0] <= data;\n    end\nend\n\nassign q = SRL_SIG[a];\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 406,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

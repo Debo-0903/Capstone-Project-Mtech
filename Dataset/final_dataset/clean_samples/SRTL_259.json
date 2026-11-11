@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_259",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a DDR3 S4 Uniphy interface. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: a clock signal\n- `d_h0`: a data signal for high byte 0\n- `d_h1`: a data signal for high byte 1\n- `d_l0`: a data signal for low byte 0\n- `d_l1`: a data signal for low byte 1\n\nOutputs:\n- `q0`: an output signal for byte 0\n- `q1`: an output signal for byte 1\n\nThe module should operate as follows:\n- On every positive edge of the `clk` signal, the module should latch the input values for `d_h0`, `d_h1`, `d_l0`, and `d_l1` into the corresponding registers `q_h0`, `q_h1`, `q_l0`, and `q_l1`.\n- On every negative edge of the `clk` signal, the module should latch the values of `q_l0` and `q_l1` into the corresponding registers `q_l0_neg` and `q_l1_neg`.\n- The output signals `q0` and `q1` should be generated based on the clock signal and the values of `q_l0_neg`, `q_h0`, `q_l1_neg`, and `q_h1` as follows:\n  - `q0` should be equal to `q_l0_neg` when `clk` is high, and `q_h0` when `clk` is low.\n  - `q1` should be equal to `q_l1_neg` when `clk` is high, and `q_h1` when `clk` is low.\n\nYour task is to implement this Verilog module, `ddr3_s4_uniphy_p0_hr_to_fr`, that satisfies the above requirements.\n\n",
+    "original_rtl": "module ddr3_s4_uniphy_p0_hr_to_fr(\n\tclk,\n\td_h0,\n\td_h1,\n\td_l0,\n\td_l1,\n\tq0,\n\tq1\n);\n\ninput\tclk;\ninput\td_h0;\ninput\td_h1;\ninput\td_l0;\ninput\td_l1;\noutput\tq0;\noutput\tq1;\n\nreg\tq_h0;\nreg\tq_h1;\nreg\tq_l0;\nreg\tq_l1;\nreg\tq_l0_neg;\nreg\tq_l1_neg;\n\n\talways @(posedge clk)\n\tbegin\n\t\tq_h0 <= d_h0;\n\t\tq_l0 <= d_l0;\n\t\tq_h1 <= d_h1;\n\t\tq_l1 <= d_l1;\n\tend\n\n\talways @(negedge clk)\n\tbegin\n\t\tq_l0_neg <= q_l0;\n\t\tq_l1_neg <= q_l1;\n\tend\n\n\tassign q0 = clk ? q_l0_neg : q_h0;\n\tassign q1 = clk ? q_l1_neg : q_h1;\n\nendmodule",
+    "modified_rtl": "module ddr3_s4_uniphy_p0_hr_to_fr(\n\tclk,\n\td_h0,\n\td_h1,\n\td_l0,\n\td_l1,\n\tq0,\n\tq1\n);\n\ninput\tclk;\ninput\td_h0;\ninput\td_h1;\ninput\td_l0;\ninput\td_l1;\noutput\tq0;\noutput\tq1;\n\nreg\tq_h0;\nreg\tq_h1;\nreg\tq_l0;\nreg\tq_l1;\nreg\tq_l0_neg;\nreg\tq_l1_neg;\n\n\talways @(posedge clk)\n\tbegin\n\t\tq_h0 <= d_h0;\n\t\tq_l0 <= d_l0;\n\t\tq_h1 <= d_h1;\n\t\tq_l1 <= d_l1;\n\tend\n\n\talways @(negedge clk)\n\tbegin\n\t\tq_l0_neg <= q_l0;\n\t\tq_l1_neg <= q_l1;\n\tend\n\n\tassign q0 = clk ? q_l0_neg : q_h0;\n\tassign q1 = clk ? q_l1_neg : q_h1;\n\nendmodule",
+    "source_index": 259,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

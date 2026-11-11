@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_184",
+    "instruction": "Please act as a professional Verilog designer. Implement a pipelined module that implements an XOR gate using a behavioral always block and a structural design. The module should have two input ports 'a' and 'b' and one output port 'out'. You are not allowed to use any built-in XOR gates in your design. Use pipeline structure to achieve this functionality.",
+    "original_rtl": "module xor_gate (\n    input a,\n    input b,\n    output out\n);\n\n// Behavioral always block implementation\nreg out_reg;\nalways @ (a, b) begin\n    out_reg = a ^ b;\nend\n\n// Structural implementation using pipeline\nreg a_reg, b_reg;\nwire xor1_out, xor2_out;\nassign xor1_out = a_reg ^ b_reg;\nassign xor2_out = a ^ b_reg;\nalways @ (posedge clk) begin\n    a_reg <= a;\n    b_reg <= b;\n    out <= xor2_out;\nend\n\nendmodule",
+    "modified_rtl": "module xor_gate (\n    input a,\n    input b,\n    output out\n);\n\n// Behavioral always block implementation\nreg out_reg;\nalways @ (a, b) begin\n    out_reg = a ^ b;\nend\n\n// Structural implementation using pipeline\nreg a_reg, b_reg;\nwire xor1_out, xor2_out;\nassign xor1_out = a_reg ^ b_reg;\nassign xor2_out = a ^ b_reg;\nalways @ (posedge clk) begin\n    a_reg <= a;\n    b_reg <= b;\n    out <= xor2_out;\nend\n\nendmodule",
+    "source_index": 184,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

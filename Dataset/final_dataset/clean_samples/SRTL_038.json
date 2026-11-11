@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_038",
+    "instruction": "Design a true dual-port RAM with a depth of 8 and a bit width of 4 bits, where read and write operations can be carried out simultaneously. The RAM should have two groups of ports, one for reading data and the other for writing data. When the write_en signal is valid, data should be written to the corresponding position through the write_addr signal and write-data signal. When the read_en signal is valid, the read_data of the corresponding position should be read through the read_addr signal and output. However, the RAM must be implemented using a circular buffer architecture.",
+    "original_rtl": "module chatgpt_generate_RAM (\n    input clk,\n    input rst_n,\n    input write_en,\n    input [7:0] write_addr,\n    input [3:0] write_data,\n    input read_en,\n    input [7:0] read_addr,\n    output reg [3:0] read_data\n);\n\nreg [3:0] ram [0:7];\nreg [2:0] write_ptr;\nreg [2:0] read_ptr;\n\nalways @(posedge clk or negedge rst_n) begin\n    if (~rst_n) begin\n        write_ptr <= 0;\n        read_ptr <= 0;\n    end else begin\n        if (write_en) begin\n            ram[write_ptr][3:0] <= write_data;\n            write_ptr <= write_ptr + 1;\n        end\n        if (read_en) begin\n            read_data <= ram[read_ptr][3:0];\n            read_ptr <= read_ptr + 1;\n        end\n    end\nend\n\nendmodule",
+    "modified_rtl": "module chatgpt_generate_RAM (\n    input clk,\n    input rst_n,\n    input write_en,\n    input [7:0] write_addr,\n    input [3:0] write_data,\n    input read_en,\n    input [7:0] read_addr,\n    output reg [3:0] read_data\n);\n\nreg [3:0] ram [0:7];\nreg [2:0] write_ptr;\nreg [2:0] read_ptr;\n\nalways @(posedge clk or negedge rst_n) begin\n    if (~rst_n) begin\n        write_ptr <= 0;\n        read_ptr <= 0;\n    end else begin\n        if (write_en) begin\n            ram[write_ptr][3:0] <= write_data;\n            write_ptr <= write_ptr + 1;\n        end\n        if (read_en) begin\n            read_data <= ram[read_ptr][3:0];\n            read_ptr <= read_ptr + 1;\n        end\n    end\nend\n\nendmodule",
+    "source_index": 38,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

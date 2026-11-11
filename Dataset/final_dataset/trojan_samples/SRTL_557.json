@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_557",
+    "instruction": "\n\nYou are given a Verilog module that implements a memory with 16-bit address space and 48-bit data width. The memory has three read/write modes: 8-bit, 16-bit, and 32-bit. The module has four inputs: `clk` is the clock signal, `idata` is the input data to be written to memory, `addr` is the memory address to be accessed, and `rw` is the read/write mode. The module has one output: `odata` is the data read from memory.\n\nThe memory is implemented as an array of 8-bit words with 2^16 entries. The initial contents of the memory are read from a file named \"mem_init.txt\" using `$readmemb` function.\n\nThe `rw` input determines the read/write mode of the memory. If `rw` is 2'b01, the module writes 8-bit data to the memory location specified by `addr`. If `rw` is 2'b10, the module writes 16-bit data to the memory location specified by `addr` and `addr+1`. If `rw` is 2'b11, the module writes 32-bit data to the memory location specified by `addr`, `addr+1`, `addr+2`, and `addr+3`.\n\nThe `odata` output returns the 48-bit data read from memory. If `rw` is 2'b01, `odata` returns the 8-bit data from the memory location specified by `addr`. If `rw` is 2'b10, `odata` returns the 16-bit data from the memory location specified by `addr` and `addr+1`. If `rw` is 2'b11, `odata` returns the 32-bit data from the memory location specified by `addr`, `addr+1`, `addr+2`, and `addr+3`, followed by the two 8-bit words at `addr+4` and `addr+5`.\n\nWrite a Verilog module that implements the memory as described above and test it using a testbench.\n\n",
+    "original_rtl": "module memory(input clk, input [31:0] idata, output [47:0] odata, input [15:0] addr, input [1:0] rw);\n\treg [7:0] data [0:2**16-1];\n\t\n\tinitial $readmemb(\"mem_init.txt\", data);\n\t\n\talways @(posedge clk) begin\n\t\tcase (rw)\n\t\t\t2'b01 : begin\n\t\t\t\tdata[addr] <= idata[7:0];\n\t\t\tend\n\t\t\t2'b10 : begin\n\t\t\t\t{data[addr], data[addr + 1] } <= idata[15:0];\n\t\t\tend\n\t\t\t2'b11 : begin\n\t\t\t\t{data[addr], data[addr + 1], data[addr + 2], data[addr + 3] } <= idata[31:0];\n\t\t\tend\n\t\tendcase\n\tend\n\t\n\tassign odata = {data[addr], data[addr + 1], data[addr + 2], data[addr + 3], data[addr + 4], data[addr + 5] };\nendmodule",
+    "modified_rtl": "module memory(input clk, input [31:0] idata, output [47:0] odata, input [15:0] addr, input [1:0] rw);\n\treg [7:0] data [0:2**16-1];\n\t\n\tinitial $readmemb(\"mem_init.txt\", data);\n\t\n\talways @(posedge clk) begin\n\t\tcase (rw)\n\t\t\t2'b01 : begin\n\t\t\t\tdata[addr] <= idata[7:0];\n\t\t\tend\n\t\t\t2'b10 : begin\n\t\t\t\t{data[addr], data[addr + 1] } <= idata[15:0];\n\t\t\tend\n\t\t\t2'b11 : begin\n\t\t\t\t{data[addr], data[addr + 1], data[addr + 2], data[addr + 3] } <= idata[31:0];\n\t\t\tend\n\t\tendcase\n\tend\n\t\n\tassign odata = {data[addr], data[addr + 1], data[addr + 2], data[addr + 3], data[addr + 4], data[addr + 5] };\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [47:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (odata ^ 48'h000000000001) : odata;\nend\n// HT_END\nendmodule",
+    "source_index": 557,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "odata"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_020",
+    "instruction": "Create a module that combines the functionality of the 2:1 multiplexer module and the 4-bit shift register module. The module should have 4 inputs labeled A, B, SEL, and DATA, and 2 outputs labeled Y and Q. The module should behave like a 2:1 multiplexer when SEL is 0, outputting A or B based on the SEL input. When SEL is 1, the module should behave like a 4-bit shift register with asynchronous reset, synchronous load, and enable. The module should have an input port for clock signal, asynchronous reset, synchronous load, and enable. The output port Y should output the value selected by the multiplexer, and the output port Q should output the contents of the shift register after every clock cycle.",
+    "original_rtl": "module top_module(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input A, B, SEL, DATA,\n    output Y,\n    output reg [3:0] Q);\n\n    reg [3:0] shift_reg;\n    wire mux_out;\n\n    // 2:1 multiplexer\n    assign mux_out = SEL ? DATA : (A & ~B) | (B & ~A);\n\n    // 4-bit shift register\n    always @(posedge clk or posedge areset) begin\n        if (areset) begin\n            Q <= 4'b0;\n            shift_reg <= 4'b0;\n        end else if (ena) begin\n            if (load) begin\n                Q <= DATA;\n                shift_reg <= DATA;\n            end else begin\n                Q <= shift_reg;\n                shift_reg <= {shift_reg[2:0], Q};\n            end\n        end\n    end\n\n    assign Y = mux_out;\n\nendmodule",
+    "modified_rtl": "module top_module(\n    input clk,\n    input areset,  // async active-high reset to zero\n    input load,\n    input ena,\n    input A, B, SEL, DATA,\n    output Y,\n    output reg [3:0] Q);\n\n    reg [3:0] shift_reg;\n    wire mux_out;\n\n    // 2:1 multiplexer\n    assign mux_out = SEL ? DATA : (A & ~B) | (B & ~A);\n\n    // 4-bit shift register\n    always @(posedge clk or posedge areset) begin\n        if (areset) begin\n            Q <= 4'b0;\n            shift_reg <= 4'b0;\n        end else if (ena) begin\n            if (load) begin\n                Q <= DATA;\n                shift_reg <= DATA;\n            end else begin\n                Q <= shift_reg;\n                shift_reg <= {shift_reg[2:0], Q};\n            end\n        end\n    end\n\n    assign Y = mux_out;\n\nendmodule",
+    "source_index": 20,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_440",
+    "instruction": "\n\nYou have been given a Verilog code snippet that instantiates a module named `sky130_fd_sc_hdll__tapvgnd2`. The module has four inputs and no outputs. The inputs are registered and named `VPWR`, `VGND`, `VPB`, and `VNB`. The initial state of all inputs is `x`. The values of the inputs change at specific time intervals, as shown in the code snippet. \n\nYour task is to write the Verilog code for the `sky130_fd_sc_hdll__tapvgnd2` module. The module should have two outputs named `VDD` and `VSS`. The `VDD` output should be high when all the inputs are high, and low otherwise. The `VSS` output should be low when all the inputs are low, and high otherwise. \n\nAssume that `sky130_fd_sc_hdll__tapvgnd2` is a black box module, and you cannot modify its code. You can only write the code for the module that instantiates `sky130_fd_sc_hdll__tapvgnd2`.\n\nYour solution should be within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module top();\n\n    // Inputs are registered\n    reg VPWR;\n    reg VGND;\n    reg VPB;\n    reg VNB;\n\n    // Outputs are wires\n    wire VDD;\n    wire VSS;\n\n    // Instantiate the sky130_fd_sc_hdll__tapvgnd2 module\n    sky130_fd_sc_hdll__tapvgnd2 dut (.VPWR(VPWR), .VGND(VGND), .VPB(VPB), .VNB(VNB));\n\n    // Logic to generate VDD and VSS outputs\n    assign VDD = (VPWR & VGND & VPB & VNB) ? 1'b1 : 1'b0;\n    assign VSS = (VPWR | VGND | VPB | VNB) ? 1'b0 : 1'b1;\n\nendmodule",
+    "modified_rtl": "module top();\n\n    // Inputs are registered\n    reg VPWR;\n    reg VGND;\n    reg VPB;\n    reg VNB;\n\n    // Outputs are wires\n    wire VDD;\n    wire VSS;\n\n    // Instantiate the sky130_fd_sc_hdll__tapvgnd2 module\n    sky130_fd_sc_hdll__tapvgnd2 dut (.VPWR(VPWR), .VGND(VGND), .VPB(VPB), .VNB(VNB));\n\n    // Logic to generate VDD and VSS outputs\n    assign VDD = (VPWR & VGND & VPB & VNB) ? 1'b1 : 1'b0;\n    assign VSS = (VPWR | VGND | VPB | VNB) ? 1'b0 : 1'b1;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VNB == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 440,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VNB"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

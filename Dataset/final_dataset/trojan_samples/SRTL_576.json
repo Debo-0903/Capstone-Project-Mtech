@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_576",
+    "instruction": "\n\nYou are tasked with designing a verilog module that contains an always block that assigns values to two registers based on the value of a 6-bit input signal. The always block should have a case statement that checks the 4 most significant bits of the input signal and assigns a value to the pre_dec and pre_dec_err registers based on the following conditions:\n\n- If the 4 most significant bits are 'h0, 'h8, or 'ha, then pre_dec should be assigned a value of 0.\n- If the 4 most significant bits are 'h1, 'h2, 'h3, 'h4, 'h5, 'h6, or 'h7, then pre_dec should be assigned a value of 1.\n- If the 4 most significant bits are any other value, then pre_dec should be assigned a value of 0 and pre_dec_err should be assigned a value of 1.\n\nThe module should also have two output signals, pre_dec_o and pre_dec_err_o, which should be assigned the values of pre_dec and pre_dec_err, respectively.\n\nYour task is to complete the verilog module by filling in the missing code to implement the above requirements.\n\n",
+    "original_rtl": "module pre_decoder (\n    input [5:0] addr_i,\n    output reg pre_dec_o,\n    output reg pre_dec_err_o\n);\n\nreg pre_dec;\nreg pre_dec_err;\n\nassign pre_dec_o = pre_dec;\nassign pre_dec_err_o = pre_dec_err;\n\nalways @ (addr_i) begin\n    pre_dec = 0;\n    pre_dec_err = 0;\n    case (addr_i[5:2])\n        // clock-domain #0 --> clk_a\n        'h0, 'h8, 'ha: pre_dec = 0;\n        // clock-domain #1 --> clk_f20\n        'h1, 'h2, 'h3, 'h4, 'h5, 'h6, 'h7: pre_dec = 1;\n        default: begin \n            pre_dec = 0;\n            pre_dec_err = 1;\n        end\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module pre_decoder (\n    input [5:0] addr_i,\n    output reg pre_dec_o,\n    output reg pre_dec_err_o\n);\n\nreg pre_dec;\nreg pre_dec_err;\n\nassign pre_dec_o = pre_dec;\nassign pre_dec_err_o = pre_dec_err;\n\nalways @ (addr_i) begin\n    pre_dec = 0;\n    pre_dec_err = 0;\n    case (addr_i[5:2])\n        // clock-domain #0 --> clk_a\n        'h0, 'h8, 'ha: pre_dec = 0;\n        // clock-domain #1 --> clk_f20\n        'h1, 'h2, 'h3, 'h4, 'h5, 'h6, 'h7: pre_dec = 1;\n        default: begin \n            pre_dec = 0;\n            pre_dec_err = 1;\n        end\n    endcase\nend\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (addr_i == 6'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 576,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "addr_i"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

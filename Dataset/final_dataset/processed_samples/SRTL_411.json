@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_411",
+    "instruction": "\n\nWrite a Verilog module for a 2:1 multiplexer that has two input signals (A and B) and one select signal (S). The output signal is Y. Use only one always block and no other procedural statements (such as if-else statements or case statements). The module should have the following functionality:\n- If S is 0, Y should be equal to A.\n- If S is 1, Y should be equal to B.\n\n",
+    "original_rtl": "module mux2to1(A, B, S, Y);\ninput A, B, S;\noutput Y;\n\nalways @(*) begin\n    Y = (!S & A) | (S & B);\nend\n\nendmodule",
+    "modified_rtl": "    module mux2to1(A, B, S, Y);\n    input A, B, S;\n    output Y;\n\n    always @(*) begin\n    Y = (!S & A) | (S & B);\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 411,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

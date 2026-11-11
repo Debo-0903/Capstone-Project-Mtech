@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_112",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a simple 8-bit counter that counts up or down based on a control signal. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: the clock signal\n- `rst`: the reset signal (active high)\n- `up_down`: a control signal that determines whether the counter should count up or down (0 for down, 1 for up)\n\nOutputs:\n- `count`: an 8-bit output representing the current count value\n\nThe counter should start at 0 upon reset, and should wrap around to 255 when counting up from 255 or down from 0. You may assume that the `clk` signal has a 50% duty cycle.\n\n",
+    "original_rtl": "module counter (\n  input clk,\n  input rst,\n  input up_down,\n  output reg [7:0] count\n);\n\n  always @(posedge clk) begin\n    if (rst) begin\n      count <= 8'd0;\n    end else if (up_down) begin\n      if (count == 8'd255) begin\n        count <= 8'd0;\n      end else begin\n        count <= count + 1;\n      end\n    end else begin\n      if (count == 8'd0) begin\n        count <= 8'd255;\n      end else begin\n        count <= count - 1;\n      end\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module counter (\n  input clk,\n  input rst,\n  input up_down,\n  output reg [7:0] count\n);\n\n  always @(posedge clk) begin\n    if (rst) begin\n      count <= 8'd0;\n    end else if (up_down) begin\n      if (count == 8'd255) begin\n        count <= 8'd0;\n      end else begin\n        count <= count + 1;\n      end\n    end else begin\n      if (count == 8'd0) begin\n        count <= 8'd255;\n      end else begin\n        count <= count - 1;\n      end\n    end\n  end\n\nendmodule",
+    "source_index": 112,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

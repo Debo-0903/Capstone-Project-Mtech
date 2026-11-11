@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_314",
+    "instruction": "\n\nYou have been given a Verilog module named `SNPS_CLOCK_GATE_HIGH_Up_counter_COUNTER_WIDTH4` which has three input ports and one output port. The input ports are `CLK`, `EN`, and `TE` while the output port is `ENCLK`. Your task is to implement the functionality of this module.\n\nThe `CLK` port is a clock signal, `EN` is an enable signal, and `TE` is a set-enable signal. The `ENCLK` port is an output signal that is enabled only when both `EN` and `TE` signals are high. \n\nYou need to design a digital circuit using Verilog that implements the above functionality. Your code should be written in such a way that it can be synthesized on an FPGA.\n\n",
+    "original_rtl": "module SNPS_CLOCK_GATE_HIGH_Up_counter_COUNTER_WIDTH4 ( CLK, EN, ENCLK, TE );\n  input CLK, EN, TE;\n  output ENCLK;\n\n  reg Q, D;\n\n  always @(posedge CLK) begin\n    if (EN & TE) begin\n      Q <= D;\n    end\n  end\n\n  assign ENCLK = Q;\n\nendmodule",
+    "modified_rtl": "module SNPS_CLOCK_GATE_HIGH_Up_counter_COUNTER_WIDTH4 ( CLK, EN, ENCLK, TE );\n  input CLK, EN, TE;\n  output ENCLK;\n\n  reg Q, D;\n\n  always @(posedge CLK) begin\n    if (EN & TE) begin\n      Q <= D;\n    end\n  end\n\n  assign ENCLK = Q;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLK == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 314,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLK"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

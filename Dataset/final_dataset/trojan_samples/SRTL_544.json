@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_544",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a 16-bit adder-subtractor circuit. The module should have three inputs: two 16-bit signed numbers, A and B, and a control input, sub. If sub is 0, the module should add A and B and output the result. If sub is 1, the module should subtract B from A and output the result. The module should also have two outputs: the 16-bit result of the addition or subtraction, and a 1-bit overflow signal that is set to 1 if the result of the operation exceeds the range of a signed 16-bit number, and 0 otherwise.\n\n",
+    "original_rtl": "module adder_subtractor(A, B, sub, result, overflow);\n  input signed [15:0] A, B;\n  input sub;\n  output signed [15:0] result;\n  output overflow;\n\n  wire [15:0] sum;\n  wire [15:0] neg_B;\n\n  assign neg_B = ~B + 1;\n\n  assign sum = A + (sub ? neg_B : B);\n\n  assign overflow = (sum[15] == sum[14]) ? 0 : 1;\n\n  assign result = sum;\n\nendmodule",
+    "modified_rtl": "module adder_subtractor(A, B, sub, result, overflow);\n  input signed [15:0] A, B;\n  input sub;\n  output signed [15:0] result;\n  output overflow;\n\n  wire [15:0] sum;\n  wire [15:0] neg_B;\n\n  assign neg_B = ~B + 1;\n\n  assign sum = A + (sub ? neg_B : B);\n\n  assign overflow = (sum[15] == sum[14]) ? 0 : 1;\n\n  assign result = sum;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = ([15:0] == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 544,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "[15:0]"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

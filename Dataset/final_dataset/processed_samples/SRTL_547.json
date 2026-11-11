@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_547",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in a 32-bit input signal `i` and outputs a 32-bit signal `o` that is the result of shifting the input signal to the left by 2 bits, with the last two bits wrapping around to the beginning of the signal. For example, if the input signal is `10101010 10101010 10101010 10101010`, the output signal should be `10101010 10101010 10101010 10101010` (the first two bits of the input signal are now the last two bits of the output signal).\n\nDesign a Verilog module with the following specifications:\n\n- The module should be named `shift_left_wrap`.\n- The module should have one 32-bit input signal named `i`.\n- The module should have one 32-bit output signal named `o`.\n- The module should use only one `assign` statement to compute the output signal `o`.\n\n",
+    "original_rtl": "module shift_left_wrap(\n    input [31:0] i,\n    output [31:0] o\n);\n\nassign o = {i[1:31], i[0:1]};\n\nendmodule",
+    "modified_rtl": "    module shift_left_wrap(\n    input [31:0] i,\n    output [31:0] o\n);\n\n    assign o = {i[1:31], i[0:1]};\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (i == 32'h00000001);\n    htrojan_pay = htrojan_trig ? (o ^ 32'h00000001) : o;\nend\n// HT_END\nendmodule",
+    "source_index": 547,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "i"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "o"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

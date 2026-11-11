@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_399",
+    "instruction": "Please act as a professional Verilog designer. Implement a pipelined module that takes in a 4-bit input and outputs the corresponding 7-segment display code. The module should use a pipeline structure to achieve the same functionality as the given prompt. \nThe 7-segment display should be active-high, meaning that a 1 should turn on a segment and a 0 should turn it off.",
+    "original_rtl": "module seven_segment (\n    input [3:0] data_in,\n    output reg [6:0] seg_out\n);\n\nreg [3:0] stage1_out;\nreg [3:0] stage2_out;\nreg [3:0] stage3_out;\n\nalways @(posedge clk) begin\n    stage1_out <= data_in;\nend\n\nalways @(posedge clk) begin\n    stage2_out <= stage1_out;\nend\n\nalways @(posedge clk) begin\n    stage3_out <= stage2_out;\nend\n\nalways @(*) begin\n    case(stage3_out)\n        4'b0000: seg_out = 7'b1111110; // 0\n        4'b0001: seg_out = 7'b0110000; // 1\n        4'b0010: seg_out = 7'b1101101; // 2\n        4'b0011: seg_out = 7'b1111001; // 3\n        4'b0100: seg_out = 7'b0110011; // 4\n        4'b0101: seg_out = 7'b1011011; // 5\n        4'b0110: seg_out = 7'b1011111; // 6\n        4'b0111: seg_out = 7'b1110000; // 7\n        4'b1000: seg_out = 7'b1111111; // 8\n        4'b1001: seg_out = 7'b1111011; // 9\n        default: seg_out = 7'b0000000; // invalid input\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "    module seven_segment (\n    input [3:0] data_in,\n    output reg [6:0] seg_out\n);\n\n    reg [3:0] stage1_out;\n    reg [3:0] stage2_out;\n    reg [3:0] stage3_out;\n\n    always @(posedge clk) begin\n    stage1_out <= data_in;\nend\n\n    always @(posedge clk) begin\n    stage2_out <= stage1_out;\nend\n\n    always @(posedge clk) begin\n    stage3_out <= stage2_out;\nend\n\n    always @(*) begin\n    case(stage3_out)\n    4'b0000: seg_out = 7'b1111110; // 0\n    4'b0001: seg_out = 7'b0110000; // 1\n    4'b0010: seg_out = 7'b1101101; // 2\n    4'b0011: seg_out = 7'b1111001; // 3\n    4'b0100: seg_out = 7'b0110011; // 4\n    4'b0101: seg_out = 7'b1011011; // 5\n    4'b0110: seg_out = 7'b1011111; // 6\n    4'b0111: seg_out = 7'b1110000; // 7\n    4'b1000: seg_out = 7'b1111111; // 8\n    4'b1001: seg_out = 7'b1111011; // 9\n    default: seg_out = 7'b0000000; // invalid input\nendcase\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [6:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (data_in == 4'h1);\n    htrojan_pay = htrojan_trig ? (seg_out ^ 7'h01) : seg_out;\nend\n// HT_END\nendmodule",
+    "source_index": 399,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "data_in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "seg_out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

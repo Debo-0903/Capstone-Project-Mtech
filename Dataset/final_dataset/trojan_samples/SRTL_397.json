@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_397",
+    "instruction": "Please act as a professional Verilog designer. Create a module that detects the longest consecutive sequence of 1's in a 16-bit input vector. Output the length of the longest sequence and the starting index of the sequence. If there are multiple longest sequences, output the one with the smallest starting index. \nHint: You can use a counter to keep track of the length of the current sequence and another counter to keep track of the starting index of the current sequence. When a 0 is detected, compare the length of the current sequence with the length of the longest sequence seen so far and update the output accordingly. Don't forget to reset the counters when a 0 is detected.",
+    "original_rtl": "module longest_sequence_detection (\n  input clk,\n  input reset,\n  input [15:0] data,\n  output reg [3:0] length,\n  output reg [3:0] start_index\n);\n\nreg [3:0] count; // counter for current sequence length\nreg [3:0] max_count; // counter for longest sequence length\nreg [3:0] index; // counter for current sequence starting index\nreg [3:0] max_index; // counter for starting index of longest sequence\n\nalways @(posedge clk) begin\n  if (reset) begin\n    count <= 0;\n    max_count <= 0;\n    index <= 0;\n    max_index <= 0;\n  end else begin\n    if (data == 16'hFFFF) begin // all 1's case\n      count <= 16;\n      max_count <= 16;\n      index <= 0;\n      max_index <= 0;\n    end else if (data == 16'h0000) begin // all 0's case\n      count <= 0;\n      max_count <= 0;\n      index <= 0;\n      max_index <= 0;\n    end else begin // normal case\n      if (data[0] == 1) begin\n        if (count == 0) begin\n          index <= 0;\n        end\n        count <= count + 1;\n      end else begin\n        if (count > max_count) begin\n          max_count <= count;\n          max_index <= index;\n        end\n        count <= 0;\n        index <= index + count + 1;\n      end\n    end\n  end\nend\n\nassign length = max_count;\nassign start_index = max_index;\n\nendmodule\n",
+    "modified_rtl": "module longest_sequence_detection (\n  input clk,\n  input reset,\n  input [15:0] data,\n  output reg [3:0] length,\n  output reg [3:0] start_index\n);\n\nreg [3:0] count; // counter for current sequence length\nreg [3:0] max_count; // counter for longest sequence length\nreg [3:0] index; // counter for current sequence starting index\nreg [3:0] max_index; // counter for starting index of longest sequence\n\nalways @(posedge clk) begin\n  if (reset) begin\n    count <= 0;\n    max_count <= 0;\n    index <= 0;\n    max_index <= 0;\n  end else begin\n    if (data == 16'hFFFF) begin // all 1's case\n      count <= 16;\n      max_count <= 16;\n      index <= 0;\n      max_index <= 0;\n    end else if (data == 16'h0000) begin // all 0's case\n      count <= 0;\n      max_count <= 0;\n      index <= 0;\n      max_index <= 0;\n    end else begin // normal case\n      if (data[0] == 1) begin\n        if (count == 0) begin\n          index <= 0;\n        end\n        count <= count + 1;\n      end else begin\n        if (count > max_count) begin\n          max_count <= count;\n          max_index <= index;\n        end\n        count <= 0;\n        index <= index + count + 1;\n      end\n    end\n  end\nend\n\nassign length = max_count;\nassign start_index = max_index;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? (start_index ^ 4'h1) : start_index;\nend\n// HT_END\nendmodule\n",
+    "source_index": 397,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "start_index"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

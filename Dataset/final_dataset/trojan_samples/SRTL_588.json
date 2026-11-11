@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_588",
+    "instruction": "Please act as a professional verilog designer. Create a module that implements a 4-bit multiplier using the shift-and-add method. The module should have two 4-bit inputs (a and b) and one 8-bit output (the product). The module should also have a clock input and a reset input. The module should perform the multiplication on the rising edge of the clock signal and reset the product to zero on the rising edge of the reset signal.",
+    "original_rtl": "module shift_and_add_multiplier (\n    input clk,\n    input reset,\n    input [3:0] a, b,\n    output reg [7:0] product\n);\n\n    always @(posedge clk) begin\n        if (reset) begin\n            product <= 8'b0;\n        end else begin\n            for (i = 0; i < 4; i = i + 1) begin\n                if (b[i]) begin\n                    product <= product + (a << i);\n                end\n            end\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module shift_and_add_multiplier (\n    input clk,\n    input reset,\n    input [3:0] a, b,\n    output reg [7:0] product\n);\n\n    always @(posedge clk) begin\n        if (reset) begin\n            product <= 8'b0;\n        end else begin\n            for (i = 0; i < 4; i = i + 1) begin\n                if (b[i]) begin\n                    product <= product + (a << i);\n                end\n            end\n        end\n    end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (reset == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 588,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "reset"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

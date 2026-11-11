@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_125",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that implements a D flip-flop with synchronous reset (SR). The module should have three inputs: `D` (data input), `clk` (clock input), and `sr` (synchronous reset input). The module should also have one output: `Q` (output).\n\nThe module should operate as follows:\n- When `sr` is asserted (i.e., `sr` is high), `Q` should be forced to 0.\n- When `sr` is deasserted (i.e., `sr` is low), `Q` should be updated on the rising edge of `clk` with the value of `D`.\n- If `sr` is asserted while `clk` is high, `Q` should be forced to 0 on the next rising edge of `clk`.\n- If `sr` is asserted and `clk` is low, `Q` should remain 0 until `sr` is deasserted.\n\nYou should implement this module within 200 lines of Verilog code.\n\n",
+    "original_rtl": "module d_ff_sr(\n    output reg Q,\n    input D,\n    input clk,\n    input sr\n);\n\n    always @(posedge clk) begin\n        if (sr) begin\n            Q <= 1'b0;\n        end else begin\n            Q <= D;\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module d_ff_sr(\n    output reg Q,\n    input D,\n    input clk,\n    input sr\n);\n\n    always @(posedge clk) begin\n        if (sr) begin\n            Q <= 1'b0;\n        end else begin\n            Q <= D;\n        end\n    end\n\nendmodule",
+    "source_index": 125,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

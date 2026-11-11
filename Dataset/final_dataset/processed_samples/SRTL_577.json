@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_577",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 3-bit magnitude comparator, which compares two 3-bit inputs A and B and outputs a 2-bit result. The output should be '00' if A=B, '01' if A>B, and '10' if A<B. Please implement the module using behavioral modeling.",
+    "original_rtl": "module mag_comparator (\n  input [2:0] A,\n  input [2:0] B,\n  output reg [1:0] result\n);\n\n  always @(*) begin\n    if (A == B) begin\n      result = 2'b00;\n    end else if (A > B) begin\n      result = 2'b01;\n    end else begin\n      result = 2'b10;\n    end\n  end\n\nendmodule\n",
+    "modified_rtl": "    module mag_comparator (\n    input [2:0] A,\n    input [2:0] B,\n    output reg [1:0] result\n);\n\n    always @(*) begin\n    if (A == B) begin\n    result = 2'b00;\nend else if (A > B) begin\n    result = 2'b01;\nend else begin\n    result = 2'b10;\nend\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [1:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 3'h1);\n    htrojan_pay = htrojan_trig ? (result ^ 2'h1) : result;\nend\n// HT_END\nendmodule\n",
+    "source_index": 577,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "result"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

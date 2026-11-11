@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_148",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 4-to-2 priority encoder. The module should have four inputs, A, B, C, and D, and two outputs, X and Y. The priority encoder should encode the highest input that is active (high) and output a binary number representing the position of the active input, starting from 0. If multiple inputs are active, the priority encoder should encode the input with the lowest position.",
+    "original_rtl": "module priority_encoder (\n    input A,\n    input B,\n    input C,\n    input D,\n    output reg [1:0] X,\n    output reg Y\n);\n\nalways @ (A or B or C or D) begin\n    case ({A, B, C, D})\n        4'b0001: begin\n            X = 2'b00;\n            Y = 1'b1;\n        end\n        4'b0010: begin\n            X = 2'b01;\n            Y = 1'b1;\n        end\n        4'b0100: begin\n            X = 2'b10;\n            Y = 1'b1;\n        end\n        4'b1000: begin\n            X = 2'b11;\n            Y = 1'b1;\n        end\n        default: begin\n            X = 2'b00;\n            Y = 1'b0;\n        end\n    endcase\nend\n\nendmodule",
+    "modified_rtl": "module priority_encoder (\n    input A,\n    input B,\n    input C,\n    input D,\n    output reg [1:0] X,\n    output reg Y\n);\n\nalways @ (A or B or C or D) begin\n    case ({A, B, C, D})\n        4'b0001: begin\n            X = 2'b00;\n            Y = 1'b1;\n        end\n        4'b0010: begin\n            X = 2'b01;\n            Y = 1'b1;\n        end\n        4'b0100: begin\n            X = 2'b10;\n            Y = 1'b1;\n        end\n        4'b1000: begin\n            X = 2'b11;\n            Y = 1'b1;\n        end\n        default: begin\n            X = 2'b00;\n            Y = 1'b0;\n        end\n    endcase\nend\n\nendmodule",
+    "source_index": 148,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

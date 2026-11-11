@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_402",
+    "instruction": "Please act as a professional Verilog designer. Create a module that implements a 4-bit comparator, which compares two 4-bit inputs A and B and generates outputs indicating whether A is greater than, less than, or equal to B. The module should have three outputs: greater, less, and equal. If A is greater than B, the greater output should be high (1) and the less and equal outputs should be low (0). If A is less than B, the less output should be high (1) and the greater and equal outputs should be low (0). If A is equal to B, the equal output should be high (1) and the greater and less outputs should be low (0).",
+    "original_rtl": "module comparator_4bit (\n  input clk,\n  input reset,\n  input [3:0] A,\n  input [3:0] B,\n  output reg greater,\n  output reg less,\n  output reg equal\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      greater <= 0;\n      less <= 0;\n      equal <= 0;\n    end\n    else begin\n      if (A > B) begin\n        greater <= 1;\n        less <= 0;\n        equal <= 0;\n      end\n      else if (A < B) begin\n        greater <= 0;\n        less <= 1;\n        equal <= 0;\n      end\n      else begin\n        greater <= 0;\n        less <= 0;\n        equal <= 1;\n      end\n    end\n  end\n\nendmodule\n",
+    "modified_rtl": "module comparator_4bit (\n  input clk,\n  input reset,\n  input [3:0] A,\n  input [3:0] B,\n  output reg greater,\n  output reg less,\n  output reg equal\n);\n\n  always @(posedge clk) begin\n    if (reset) begin\n      greater <= 0;\n      less <= 0;\n      equal <= 0;\n    end\n    else begin\n      if (A > B) begin\n        greater <= 1;\n        less <= 0;\n        equal <= 0;\n      end\n      else if (A < B) begin\n        greater <= 0;\n        less <= 1;\n        equal <= 0;\n      end\n      else begin\n        greater <= 0;\n        less <= 0;\n        equal <= 1;\n      end\n    end\n  end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule\n",
+    "source_index": 402,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

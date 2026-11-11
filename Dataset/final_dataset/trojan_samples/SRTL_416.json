@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_416",
+    "instruction": "\nYou are tasked with designing a module that performs a specific logic operation. The module should take in four inputs, A, B, C, and D, and output a single value, Y. You are given a code snippet that implements a NAND4 gate using the SkyWater 130nm process technology. Your task is to modify this code to create a module that performs the following logic operation:\n\nY = (A AND B) OR (C AND D)\n\nThe module should be self-contained and not require any additional modules to function. Your task is to modify the given code snippet to implement the required logic operation.\n\n",
+    "original_rtl": "module logic_operation (\n    Y  ,\n    A  ,\n    B  ,\n    C  ,\n    D\n);\n\n    output Y  ;\n    input  A  ;\n    input  B  ;\n    input  C  ;\n    input  D  ;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // Implement AND gates\n    wire AB;\n    wire CD;\n    and and1 (.Y(AB), .A(A), .B(B));\n    and and2 (.Y(CD), .A(C), .B(D));\n\n    // Implement OR gate\n    or or1 (.Y(Y), .A(AB), .B(CD));\n\nendmodule",
+    "modified_rtl": "module logic_operation (\n    Y  ,\n    A  ,\n    B  ,\n    C  ,\n    D\n);\n\n    output Y  ;\n    input  A  ;\n    input  B  ;\n    input  C  ;\n    input  D  ;\n\n    // Voltage supply signals\n    supply1 VPWR;\n    supply0 VGND;\n    supply1 VPB ;\n    supply0 VNB ;\n\n    // Implement AND gates\n    wire AB;\n    wire CD;\n    and and1 (.Y(AB), .A(A), .B(B));\n    and and2 (.Y(CD), .A(C), .B(D));\n\n    // Implement OR gate\n    or or1 (.Y(Y), .A(AB), .B(CD));\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 416,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

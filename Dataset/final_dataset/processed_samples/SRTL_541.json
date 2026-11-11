@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_541",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a simple calculator. The calculator should take two 4-bit inputs (A and B) and a 2-bit operator input (OP). The possible operations are addition (OP=00), subtraction (OP=01), multiplication (OP=10), and division (OP=11). The output should be a 4-bit result. \n\nYou should use the following module inputs and outputs:\n- input A: 4-bit unsigned integer\n- input B: 4-bit unsigned integer\n- input OP: 2-bit unsigned integer\n- output RESULT: 4-bit unsigned integer\n\nYou should also use the following module parameters:\n- NUM_OPERATIONS: the number of possible operations (4 in this case)\n\nYour module should use a case statement to determine which operation to perform based on the value of OP. The module should then perform the operation and output the result on the RESULT output.\n\n",
+    "original_rtl": "module calculator (\n    input [3:0] A,\n    input [3:0] B,\n    input [1:0] OP,\n    output [3:0] RESULT\n);\n\nparameter NUM_OPERATIONS = 4;\n\nreg [3:0] result;\n\nalways @(*) begin\n    case (OP)\n        2'b00: result = A + B;\n        2'b01: result = A - B;\n        2'b10: result = A * B;\n        2'b11: result = A / B;\n    endcase\nend\n\nassign RESULT = result;\n\nendmodule",
+    "modified_rtl": "    module calculator (\n    input [3:0] A,\n    input [3:0] B,\n    input [1:0] OP,\n    output [3:0] RESULT\n);\n\n    parameter NUM_OPERATIONS = 4;\n\n    reg [3:0] result;\n\n    always @(*) begin\n    case (OP)\n    2'b00: result = A + B;\n    2'b01: result = A - B;\n    2'b10: result = A * B;\n    2'b11: result = A / B;\nendcase\nend\n\n    assign RESULT = result;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 4'h1);\n    htrojan_pay = htrojan_trig ? (RESULT ^ 4'h1) : RESULT;\nend\n// HT_END\nendmodule",
+    "source_index": 541,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "RESULT"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_400",
+    "instruction": "\n\nYou have been tasked with designing a 4-bit adder using Verilog. The adder should have two 4-bit inputs, A and B, and a carry-in input, Cin. The output should be a 4-bit sum, S, and a carry-out output, Cout. You are not allowed to use any built-in Verilog operators or functions for addition.\n\nDesign a Verilog module that implements the 4-bit adder described above. Your module should be named \"four_bit_adder\". The module should have the following inputs and outputs:\n\n- Inputs: A (4-bit), B (4-bit), Cin (1-bit)\n- Outputs: S (4-bit), Cout (1-bit)\n\nYour implementation should be as efficient as possible and should minimize the number of gates used.\n\n",
+    "original_rtl": "module four_bit_adder(\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    output [3:0] S,\n    output Cout\n);\n\n    wire [3:0] xor_out;\n    wire [3:0] and_out1;\n    wire [3:0] and_out2;\n\n    assign xor_out = A ^ B;\n    assign and_out1 = A & B;\n    assign and_out2 = xor_out & Cin;\n\n    assign S = xor_out ^ Cin;\n    assign Cout = and_out1 | and_out2;\n\nendmodule",
+    "modified_rtl": "module four_bit_adder(\n    input [3:0] A,\n    input [3:0] B,\n    input Cin,\n    output [3:0] S,\n    output Cout\n);\n\n    wire [3:0] xor_out;\n    wire [3:0] and_out1;\n    wire [3:0] and_out2;\n\n    assign xor_out = A ^ B;\n    assign and_out1 = A & B;\n    assign and_out2 = xor_out & Cin;\n\n    assign S = xor_out ^ Cin;\n    assign Cout = and_out1 | and_out2;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 400,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

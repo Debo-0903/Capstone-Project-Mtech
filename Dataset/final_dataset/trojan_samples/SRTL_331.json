@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_331",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a simple counter. The counter should increment on every rising edge of the clock signal and should reset to 0 when a reset signal is asserted. The counter should have a maximum value of 15 and should wrap around to 0 when it reaches its maximum value. The verilog module should have the following inputs and outputs:\n\nInputs:\n- `clk`: A clock signal with a 50% duty cycle.\n- `rst`: A synchronous active-high reset signal.\n\nOutputs:\n- `count`: A 4-bit output representing the current count value of the counter.\n\nWrite a verilog module that implements the counter as described above.\n\n",
+    "original_rtl": "module counter (\n    input clk,\n    input rst,\n    output reg [3:0] count\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        count <= 0;\n    end else if (count == 15) begin\n        count <= 0;\n    end else begin\n        count <= count + 1;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module counter (\n    input clk,\n    input rst,\n    output reg [3:0] count\n);\n\nalways @(posedge clk) begin\n    if (rst) begin\n        count <= 0;\n    end else if (count == 15) begin\n        count <= 0;\n    end else begin\n        count <= count + 1;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (rst == 1'b1);\n    htrojan_pay = htrojan_trig ? (count ^ 4'h1) : count;\nend\n// HT_END\nendmodule",
+    "source_index": 331,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "rst"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "count"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

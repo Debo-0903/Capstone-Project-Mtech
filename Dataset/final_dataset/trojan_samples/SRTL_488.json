@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_488",
+    "instruction": "\n\nYou are tasked to design a 4:1 multiplexer using Verilog. The module should have four 8-bit input signals (A, B, C, D), a 2-bit select signal (S), and one 8-bit output signal (Y). The output signal should be the input signal selected by the select signal. The select signal should be decoded as follows:\n- S = 2'b00: Y = A\n- S = 2'b01: Y = B\n- S = 2'b10: Y = C\n- S = 2'b11: Y = D\n\nYour task is to design the module and provide the Verilog code for it.\n\n",
+    "original_rtl": "module mux4x1(A, B, C, D, S, Y);\n  input [7:0] A, B, C, D;\n  input [1:0] S;\n  output reg [7:0] Y;\n\n  always @ (S or A or B or C or D) begin\n    case (S)\n      2'b00: Y = A;\n      2'b01: Y = B;\n      2'b10: Y = C;\n      2'b11: Y = D;\n    endcase\n  end\n\nendmodule",
+    "modified_rtl": "module mux4x1(A, B, C, D, S, Y);\n  input [7:0] A, B, C, D;\n  input [1:0] S;\n  output reg [7:0] Y;\n\n  always @ (S or A or B or C or D) begin\n    case (S)\n      2'b00: Y = A;\n      2'b01: Y = B;\n      2'b10: Y = C;\n      2'b11: Y = D;\n    endcase\n  end\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 488,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

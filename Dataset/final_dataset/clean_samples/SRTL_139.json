@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_139",
+    "instruction": "\n\nWrite a verilog module that implements a 16-bit shift register with a parallel load input. The module should have the following inputs and outputs:\n\nInputs:\n- `clk`: clock input\n- `reset`: asynchronous active-high reset input\n- `load`: load input, when high, the `data_in` input is loaded into the shift register\n- `data_in`: 16-bit input to be loaded into the shift register when `load` is high\n\nOutputs:\n- `data_out`: 16-bit output of the shift register\n\nThe module should shift the contents of the register left on every clock cycle, with the most significant bit being lost and the least significant bit being shifted out of the register. When `load` is high, the contents of the shift register should be replaced with the value on `data_in`. The initial value of the shift register should be 0.\n\n",
+    "original_rtl": "module shift_register(clk, reset, load, data_in, data_out);\n\nparameter WIDTH = 16;\n\ninput clk, reset, load;\ninput [WIDTH-1:0] data_in;\noutput [WIDTH-1:0] data_out;\n\nreg [WIDTH-1:0] register;\n\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        register <= 0;\n    end else begin\n        if (load) begin\n            register <= data_in;\n        end else begin\n            register <= {register[WIDTH-2:0], 1'b0};\n        end\n    end\nend\n\nassign data_out = register;\n\nendmodule",
+    "modified_rtl": "module shift_register(clk, reset, load, data_in, data_out);\n\nparameter WIDTH = 16;\n\ninput clk, reset, load;\ninput [WIDTH-1:0] data_in;\noutput [WIDTH-1:0] data_out;\n\nreg [WIDTH-1:0] register;\n\nalways @(posedge clk or posedge reset) begin\n    if (reset) begin\n        register <= 0;\n    end else begin\n        if (load) begin\n            register <= data_in;\n        end else begin\n            register <= {register[WIDTH-2:0], 1'b0};\n        end\n    end\nend\n\nassign data_out = register;\n\nendmodule",
+    "source_index": 139,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

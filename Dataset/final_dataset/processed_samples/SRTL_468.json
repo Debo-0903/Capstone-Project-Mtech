@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_468",
+    "instruction": "Please act as a professional Verilog designer. Design a module that utilizes a priority encoder and a 4-bit binary counter. The priority encoder should detect the highest bit in an 8-bit input vector that is 1, and the counter should count from 0 to 15 with a period of 16. The module should also include a functional module that combines the priority encoder and the counter outputs to generate a final output. The final output should be the multiplication of the priority encoder output and the counter output.",
+    "original_rtl": "module top_module (\n    input clk,\n    input [7:0] in,\n    output [3:0] q\n);\n\n    // Priority Encoder\n    wire [7:0] in_inv;\n    assign in_inv = ~in;\n    wire [2:0] priority;\n    assign priority = in_inv[7:5] ? 3 : in_inv[4:3] ? 2 : in_inv[2] ? 1 : in_inv[1] ? 0 : 3'b111;\n    \n    // 4-bit Binary Counter\n    reg [3:0] count = 4'b0000;\n    always @(posedge clk) begin\n        if (count == 4'b1111) begin\n            count <= 4'b0000;\n        end else begin\n            count <= count + 1;\n        end\n    end\n    \n    // Functional Module\n    wire [3:0] mult_out;\n    assign mult_out = priority * count;\n    \n    // Output\n    assign q = mult_out;\n\nendmodule",
+    "modified_rtl": "module top_module (\n    input clk,\n    input [7:0] in,\n    output [3:0] q\n);\n\n    // Priority Encoder\n    wire [7:0] in_inv;\n    assign in_inv = ~in;\n    wire [2:0] priority;\n    assign priority = in_inv[7:5] ? 3 : in_inv[4:3] ? 2 : in_inv[2] ? 1 : in_inv[1] ? 0 : 3'b111;\n    \n    // 4-bit Binary Counter\n    reg [3:0] count = 4'b0000;\n    always @(posedge clk) begin\n        if (count == 4'b1111) begin\n            count <= 4'b0000;\n        end else begin\n            count <= count + 1;\n        end\n    end\n    \n    // Functional Module\n    wire [3:0] mult_out;\n    assign mult_out = priority * count;\n    \n    // Output\n    assign q = mult_out;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 8'h01);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 468,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

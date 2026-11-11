@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_146",
+    "instruction": "\n\nYou are tasked with designing a sign extension module in Verilog. The module should take a 16-bit input and output a 32-bit output, where the upper 16 bits are the sign bit of the input repeated and the lower 16 bits are the input itself. \n\nDesign a module named `signExt` that takes a 16-bit input named `inst` and outputs a 32-bit output named `data`. \n\nInstantiate the `signExt` module in the provided code snippet and initialize the `inst` input to the following values:\n- `inst` = 16'b0000000011111010\n- `inst` = 16'b1111111111111111\n\nSimulate the module and verify that the output is correct for the given inputs.\n\n",
+    "original_rtl": "module signExt (\n    input [15:0] inst,\n    output reg [31:0] data\n);\n\n    always @* begin\n        if (inst[15] == 1) begin\n            data = {16'hffff, inst};\n        end else begin\n            data = {16'h0000, inst};\n        end\n    end\n\nendmodule",
+    "modified_rtl": "module signExt (\n    input [15:0] inst,\n    output reg [31:0] data\n);\n\n    always @* begin\n        if (inst[15] == 1) begin\n            data = {16'hffff, inst};\n        end else begin\n            data = {16'h0000, inst};\n        end\n    end\n\nendmodule",
+    "source_index": 146,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

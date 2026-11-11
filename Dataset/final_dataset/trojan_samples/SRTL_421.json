@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_421",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that takes in 5 inputs and outputs a single value. The module should be named `five_to_one` and should have the following inputs and outputs:\n\n- Inputs: `A`, `B`, `C`, `D`, and `E`, all of which are single-bit wires.\n- Output: `Y`, a single-bit wire.\n\nThe `Y` output should be the result of the following logic:\n\n- If `A` is 1, `Y` should be 1.\n- If `B` is 1, `Y` should be 1.\n- If `C` is 1, `Y` should be 1.\n- If `D` is 1 and `E` is 0, `Y` should be 1.\n- If `D` is 0 and `E` is 1, `Y` should be 1.\n- If none of the above conditions are met, `Y` should be 0.\n\nYou should write a Verilog module that implements this logic. Your module should be contained within 200 lines of code, and should be named `five_to_one`.\n\n",
+    "original_rtl": "module five_to_one (\n    input A,\n    input B,\n    input C,\n    input D,\n    input E,\n    output reg Y\n);\n\nalways @(*) begin\n    if (A) begin\n        Y = 1;\n    end else if (B) begin\n        Y = 1;\n    end else if (C) begin\n        Y = 1;\n    end else if (D && !E) begin\n        Y = 1;\n    end else if (!D && E) begin\n        Y = 1;\n    end else begin\n        Y = 0;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module five_to_one (\n    input A,\n    input B,\n    input C,\n    input D,\n    input E,\n    output reg Y\n);\n\nalways @(*) begin\n    if (A) begin\n        Y = 1;\n    end else if (B) begin\n        Y = 1;\n    end else if (C) begin\n        Y = 1;\n    end else if (D && !E) begin\n        Y = 1;\n    end else if (!D && E) begin\n        Y = 1;\n    end else begin\n        Y = 0;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (D == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 421,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "D"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

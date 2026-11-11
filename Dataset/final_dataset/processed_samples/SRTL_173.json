@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_173",
+    "instruction": "\n\nYou are tasked with designing a module that implements a 2-to-1 multiplexer using Verilog. The module should have three inputs: two data inputs and one select input. The output of the module should be the value of the selected input.\n\nYour module should be named `mux2to1` and have the following interface:\n\n```\nmodule mux2to1 (\n                input data_in_0,\n                input data_in_1,\n                input select,\n                output data_out\n                );\n```\n\nThe input `data_in_0` is a single bit input representing the first data input. The input `data_in_1` is a single bit input representing the second data input. The input `select` is a single bit input representing the select input. The output `data_out` is a single bit output representing the selected input.\n\nIf `select` is 0, then `data_out` should be equal to `data_in_0`. If `select` is 1, then `data_out` should be equal to `data_in_1`.\n\nYou may assume that the inputs `data_in_0`, `data_in_1`, and `select` are valid and will not change during the execution of the module.\n\n",
+    "original_rtl": "module mux2to1 (\n                input data_in_0,\n                input data_in_1,\n                input select,\n                output data_out\n                );\n    assign data_out = select ? data_in_1 : data_in_0;\nendmodule",
+    "modified_rtl": "    module mux2to1 (\n    input data_in_0,\n    input data_in_1,\n    input select,\n    output data_out\n);\n    assign data_out = select ? data_in_1 : data_in_0;\nendmodule\n",
+    "source_index": 173,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

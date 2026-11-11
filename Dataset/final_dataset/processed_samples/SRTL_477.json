@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_477",
+    "instruction": "\n\nYou are given a 4-bit adder module that takes two 4-bit inputs, `A` and `B`, and outputs the sum in a 4-bit output `S`. Your task is to implement a verilog module that uses the adder module to perform a 8-bit addition. The module should take two 8-bit inputs, `A` and `B`, and output the sum in a 8-bit output `S`. You should use the `\\$xor` module to implement the adder module.\n\nAssume that the `\\$xor` module has the following interface:\n```\nmodule \\$xor (input a, input b, output s);\nendmodule\n```\nYou can use the `\\$xor` module to implement the 4-bit adder module as follows:\n```\nmodule adder4(input [3:0] A, input [3:0] B, output [3:0] S);\n    wire c1, c2, c3;\n    \\$xor x1(.a(A[0]), .b(B[0]), .s(S[0]));\n    \\$xor x2(.a(A[1]), .b(B[1]), .s(S[1]));\n    \\$xor x3(.a(A[2]), .b(B[2]), .s(S[2]));\n    \\$xor x4(.a(A[3]), .b(B[3]), .s(S[3]));\n    \\$xor x5(.a(c1), .b(S[0]), .s(c2));\n    \\$xor x6(.a(c2), .b(S[1]), .s(c3));\n    \\$xor x7(.a(c3), .b(S[2]), .s(S[3]));\nendmodule\n```\nYou are not allowed to use any other verilog module or operators to implement the 8-bit adder module.\n\n",
+    "original_rtl": "module adder8(input [7:0] A, input [7:0] B, output [7:0] S);\n    wire [3:0] S1, S2, S3;\n    adder4 a1(.A(A[3:0]), .B(B[3:0]), .S(S1));\n    adder4 a2(.A(A[7:4]), .B(B[7:4]), .S(S2));\n    \\$xor x1(.a(S1[3]), .b(S2[0]), .s(S3[0]));\n    adder4 a3(.A({S1[2:0], S3[0]}), .B({S2[3:1], 1'b0}), .S({S3[3:1], S3[0]}));\n    \\$xor x2(.a(S1[3]), .b(S2[0]), .s(S3[0]));\n    adder4 a4(.A({S1[2:0], S3[0]}), .B({S2[3:1], 1'b0}), .S({S3[3:1], S3[0]}));\n    assign S = {S3, S2[3:0]};\nendmodule",
+    "modified_rtl": "    module adder8(input [7:0] A, input [7:0] B, output [7:0] S);\n    wire [3:0] S1, S2, S3;\n    adder4 a1(.A(A[3:0]), .B(B[3:0]), .S(S1));\n    adder4 a2(.A(A[7:4]), .B(B[7:4]), .S(S2));\n    \\$xor x1(.a(S1[3]), .b(S2[0]), .s(S3[0]));\n    adder4 a3(.A({S1[2:0], S3[0]}), .B({S2[3:1], 1'b0}), .S({S3[3:1], S3[0]}));\n    \\$xor x2(.a(S1[3]), .b(S2[0]), .s(S3[0]));\n    adder4 a4(.A({S1[2:0], S3[0]}), .B({S2[3:1], 1'b0}), .S({S3[3:1], S3[0]}));\n    assign S = {S3, S2[3:0]};\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [7:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 8'h01);\n    htrojan_pay = htrojan_trig ? (S ^ 8'h01) : S;\nend\n// HT_END\nendmodule",
+    "source_index": 477,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "S"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

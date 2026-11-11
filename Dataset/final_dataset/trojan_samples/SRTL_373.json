@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_373",
+    "instruction": "\n\nYou are given a verilog module named `sky130_fd_sc_hd__parity_gen` that has 2 inputs and 1 output. The module generates an odd parity bit for the 2 input bits. The module is partially implemented and you need to complete the implementation.\n\nThe module has the following ports:\n- `input [1:0] A`: the two input bits\n- `output Y`: the parity bit\n\nThe module has the following internal signals:\n- `wire xor_out`: the output of the XOR gate\n\nYou need to complete the implementation of the module by instantiating an XOR gate and assigning its output to the `xor_out` signal. Then, assign the output of the XOR gate to the `Y` output port. The module should generate an odd parity bit for the two input bits.\n\n",
+    "original_rtl": "module sky130_fd_sc_hd__parity_gen (\n    input [1:0] A,\n    output Y\n);\n\n    // Internal signals\n    wire xor_out;\n\n    // XOR gate\n    xor #(.N(1)) xor0 (\n        .A(A[0]),\n        .B(A[1]),\n        .Z(xor_out)\n    );\n\n    // Odd parity\n    assign Y = ~xor_out;\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_hd__parity_gen (\n    input [1:0] A,\n    output Y\n);\n\n    // Internal signals\n    wire xor_out;\n\n    // XOR gate\n    xor #(.N(1)) xor0 (\n        .A(A[0]),\n        .B(A[1]),\n        .Z(xor_out)\n    );\n\n    // Odd parity\n    assign Y = ~xor_out;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 2'h1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 373,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

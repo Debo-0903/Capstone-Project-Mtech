@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_106",
+    "instruction": "\n\nYou are tasked with designing a Verilog module for a digital circuit that implements a 2-input AND gate using only NAND gates. Your module should have the following inputs and outputs:\n\n- Inputs: A (1-bit), B (1-bit)\n- Output: Y (1-bit)\n\nYour module should be named `and_nand` and should be contained within 200 lines of Verilog code. Assume that the NAND gates have already been implemented and are available as a separate module.\n\nWrite the Verilog code for your `and_nand` module that implements the 2-input AND gate using only NAND gates. Your module should be synthesizable and should not use any behavioral constructs.\n\n",
+    "original_rtl": "module and_nand (\n    input A,\n    input B,\n    output Y\n);\n\n    wire nand1;\n    wire nand2;\n    wire nand3;\n\n    nand nand_gate1(nand1, A, B);\n    nand nand_gate2(nand2, nand1, nand1);\n    nand nand_gate3(nand3, nand2, nand2);\n    nand nand_gate4(Y, nand3, nand3);\n\nendmodule",
+    "modified_rtl": "module and_nand (\n    input A,\n    input B,\n    output Y\n);\n\n    wire nand1;\n    wire nand2;\n    wire nand3;\n\n    nand nand_gate1(nand1, A, B);\n    nand nand_gate2(nand2, nand1, nand1);\n    nand nand_gate3(nand3, nand2, nand2);\n    nand nand_gate4(Y, nand3, nand3);\n\nendmodule",
+    "source_index": 106,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

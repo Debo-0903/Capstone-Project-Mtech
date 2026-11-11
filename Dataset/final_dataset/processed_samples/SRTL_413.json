@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_413",
+    "instruction": "\n\nYou have been hired to design a module that takes a 32-bit input and outputs a 16-bit slice of the input. The slice should start from the 10th bit and end at the 25th bit (inclusive). You should implement this module using Verilog.\n\nYour module should have the following input and output ports:\n- input: a 32-bit input (named `in`)\n- output: a 16-bit slice of the input (named `out`)\n\nWrite the Verilog code for this module.\n\n",
+    "original_rtl": "module slice_module (\n  input [31:0] in,\n  output [15:0] out\n);\n\n  assign out = in[25:10];\n\nendmodule",
+    "modified_rtl": "    module slice_module (\n    input [31:0] in,\n    output [15:0] out\n);\n\n    assign out = in[25:10];\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [15:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 32'h00000001);\n    htrojan_pay = htrojan_trig ? (out ^ 16'h0001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 413,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

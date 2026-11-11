@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_134",
+    "instruction": "\n\nYou are tasked with designing a verilog module that functions as a switch. The module should take in an address, a clock signal, an input port, and a reset signal as inputs. The module should output a 32-bit read data signal. \n\nThe module should have a wire called \"clk_en\" that is used to enable the clock signal. The module should also have a wire called \"data_in\" that is used to store the input port value. \n\nThe module should have a wire called \"read_mux_out\" that is used to store the output of a multiplexer. The multiplexer should output the value of \"data_in\" if the address is 0, and 0 otherwise. \n\nThe module should have a register called \"readdata\" that is used to store the output of the module. The register should be updated on the positive edge of the clock signal, and should be reset to 0 when the reset signal is asserted. \n\nDesign a verilog module that meets the above requirements. \n\n",
+    "original_rtl": "module switch (\n    input [1:0] address,\n    input clk,\n    input [7:0] in_port,\n    input reset_n,\n    output reg [31:0] readdata\n);\n\nwire clk_en;\nwire [7:0] data_in;\nwire [7:0] read_mux_out;\n\nassign clk_en = 1;\n\nassign read_mux_out = {8 {(address == 0)}} & data_in;\n\nalways @(posedge clk or negedge reset_n) begin\n    if (reset_n == 0) begin\n        readdata <= 0;\n    end else if (clk_en) begin\n        readdata <= {32'b0 | read_mux_out};\n    end\nend\n\nassign data_in = in_port;\n\nendmodule",
+    "modified_rtl": "module switch (\n    input [1:0] address,\n    input clk,\n    input [7:0] in_port,\n    input reset_n,\n    output reg [31:0] readdata\n);\n\nwire clk_en;\nwire [7:0] data_in;\nwire [7:0] read_mux_out;\n\nassign clk_en = 1;\n\nassign read_mux_out = {8 {(address == 0)}} & data_in;\n\nalways @(posedge clk or negedge reset_n) begin\n    if (reset_n == 0) begin\n        readdata <= 0;\n    end else if (clk_en) begin\n        readdata <= {32'b0 | read_mux_out};\n    end\nend\n\nassign data_in = in_port;\n\nendmodule",
+    "source_index": 134,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_276",
+    "instruction": "Create a module that combines the functionality of the multiplexer and Johnson counter. The module should have 3 select inputs and 4 data inputs. The module should use the select inputs to choose one of the 4 data inputs to be outputted on the corresponding output. Additionally, the module should have a clock input, reset input, and a 4-bit output port that cycles through the following states: 0000, 1000, 1100, 1110, 1111, 0111, 0011, 0001, and back to 0000. You are only allowed to use shift register and XOR gate to finish this task.",
+    "original_rtl": "module mux_johnson_counter(\n  input                clk,\n  input                rst_n,\n  input [2:0]          sel,\n  input [3:0]          data,\n  output reg [3:0]     Q\n);\n\n  reg [3:0] shift_reg;\n  reg [1:0] state = 2'b00;\n  \n  always @(posedge clk or negedge rst_n) begin\n    if (~rst_n) begin\n      shift_reg <= 4'b0000;\n      state <= 2'b00;\n    end else begin\n      shift_reg <= {shift_reg[2:0], data[sel]};\n      case (state)\n        2'b00: begin\n          Q <= shift_reg[3:0];\n          state <= 2'b01;\n        end\n        2'b01: begin\n          Q <= shift_reg[2:0];\n          state <= 2'b11;\n        end\n        2'b11: begin\n          Q <= shift_reg[1:0] ^ shift_reg[3];\n          state <= 2'b10;\n        end\n        2'b10: begin\n          Q <= shift_reg[0] ^ shift_reg[2];\n          state <= 2'b01;\n        end\n      endcase\n    end\n  end\n\nendmodule",
+    "modified_rtl": "module mux_johnson_counter(\n  input                clk,\n  input                rst_n,\n  input [2:0]          sel,\n  input [3:0]          data,\n  output reg [3:0]     Q\n);\n\n  reg [3:0] shift_reg;\n  reg [1:0] state = 2'b00;\n  \n  always @(posedge clk or negedge rst_n) begin\n    if (~rst_n) begin\n      shift_reg <= 4'b0000;\n      state <= 2'b00;\n    end else begin\n      shift_reg <= {shift_reg[2:0], data[sel]};\n      case (state)\n        2'b00: begin\n          Q <= shift_reg[3:0];\n          state <= 2'b01;\n        end\n        2'b01: begin\n          Q <= shift_reg[2:0];\n          state <= 2'b11;\n        end\n        2'b11: begin\n          Q <= shift_reg[1:0] ^ shift_reg[3];\n          state <= 2'b10;\n        end\n        2'b10: begin\n          Q <= shift_reg[0] ^ shift_reg[2];\n          state <= 2'b01;\n        end\n      endcase\n    end\n  end\n\nendmodule",
+    "source_index": 276,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

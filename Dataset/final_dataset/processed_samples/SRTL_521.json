@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_521",
+    "instruction": "Please act as a professional Verilog designer. Your task is to create a Verilog module that implements a time-to-digital converter (TDC). \nA TDC is a type of digital circuit that measures the time difference between two input signals. \nYour module should have the following inputs and outputs:\n\nInputs: two input signals (in1, in2) and a clock signal (clk)\nOutputs: a digital signal that represents the time difference between the two input signals\n\nTo implement the TDC, you should use Verilog code to measure the time difference between the two input signals. \nYou can accomplish this by using the clock signal to measure the time between rising edges of the two input signals.\nYour module should use a counter to count the number of clock cycles between the rising edges of the two input signals. \nThe counter should be reset on the rising edge of the first input signal and should stop counting on the rising edge of the second input signal.\nThe output of the TDC should be a digital signal that represents the time difference between the two input signals, in clock cycles. \nFor example, if the two input signals are 10 clock cycles apart, the TDC output should be 10.\n\nYour module should be able to handle input signals with a wide range of frequencies and duty cycles. \nYou should test your module with different input signals to ensure that it works correctly.",
+    "original_rtl": "module TDC (\n  input in1,\n  input in2,\n  input clk,\n  output reg [31:0] out\n);\n\nreg [31:0] counter;\nreg [1:0] state;\n\nalways @(posedge clk) begin\n  case (state)\n    2'b00: begin\n      counter <= 0;\n      if (in1) state <= 2'b01;\n    end\n    2'b01: begin\n      if (in2) begin\n        out <= counter;\n        state <= 2'b00;\n      end else begin\n        counter <= counter + 1;\n      end\n    end\n  endcase\nend\n\nendmodule",
+    "modified_rtl": "    module TDC (\n    input in1,\n    input in2,\n    input clk,\n    output reg [31:0] out\n);\n\n    reg [31:0] counter;\n    reg [1:0] state;\n\n    always @(posedge clk) begin\n    case (state)\n    2'b00: begin\n    counter <= 0;\n    if (in1) state <= 2'b01;\nend\n    2'b01: begin\n    if (in2) begin\n    out <= counter;\n    state <= 2'b00;\nend else begin\n    counter <= counter + 1;\nend\nend\nendcase\nend\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [31:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in2 == 1'b1);\n    htrojan_pay = htrojan_trig ? (out ^ 32'h00000001) : out;\nend\n// HT_END\nendmodule",
+    "source_index": 521,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in2"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "out"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_535",
+    "instruction": "Please act as a professional Verilog designer. Design a pipelined module that implements a 2-bit counter with a synchronous reset and a synchronous load. \nThe module should have two inputs (LOAD and RESET), a clock input (CLK), and a 2-bit output (Q). When RESET is high, the output Q should be set to 00. \nWhen LOAD is high, the output Q should be set to the value of the input data (DATA[1:0]). Otherwise, the output Q should be incremented on each rising edge of the clock.\nUse pipeline structure to achieve this functionality.",
+    "original_rtl": "module counter (\n    input clk,\n    input LOAD,\n    input RESET,\n    input [1:0] DATA,\n    output reg [1:0] Q\n);\n\nreg [1:0] Q_reg1, Q_reg2;\n\nalways @(posedge clk) begin\n    Q_reg1 <= Q;\nend\n\nalways @(posedge clk) begin\n    Q_reg2 <= Q_reg1;\nend\n\nalways @(posedge clk) begin\n    if (RESET) begin\n        Q <= 2'b00;\n    end\n    else if (LOAD) begin\n        Q <= DATA;\n    end\n    else begin\n        Q <= Q_reg2 + 2'b01;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module counter (\n    input clk,\n    input LOAD,\n    input RESET,\n    input [1:0] DATA,\n    output reg [1:0] Q\n);\n\nreg [1:0] Q_reg1, Q_reg2;\n\nalways @(posedge clk) begin\n    Q_reg1 <= Q;\nend\n\nalways @(posedge clk) begin\n    Q_reg2 <= Q_reg1;\nend\n\nalways @(posedge clk) begin\n    if (RESET) begin\n        Q <= 2'b00;\n    end\n    else if (LOAD) begin\n        Q <= DATA;\n    end\n    else begin\n        Q <= Q_reg2 + 2'b01;\n    end\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [1:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (Q ^ 2'h1) : Q;\nend\n// HT_END\nendmodule",
+    "source_index": 535,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Q"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

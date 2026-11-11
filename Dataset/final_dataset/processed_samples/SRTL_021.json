@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_021",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a 4-input NAND gate. The module should have the following specifications:\n\n- The module name should be `nand4`.\n- The module should have 4 input ports named `A`, `B`, `C`, and `D`, and 1 output port named `Y`.\n- The module should be synthesizable.\n- The module should be gate-level.\n- The module should use the `sky130_fd_sc_hd` standard cell library.\n- The module should have the following power ports: `VPWR` and `VGND`.\n\nWrite the verilog code for the `nand4` module that meets the above specifications.\n\n",
+    "original_rtl": "module nand4 (\n    input A,\n    input B,\n    input C,\n    input D,\n    output Y,\n    input VPWR,\n    input VGND\n);\n\n    wire nand1_out, nand2_out, nand3_out;\n\n    sky130_fd_sc_hd__nand2 nand1(.A(A), .B(B), .Y(nand1_out));\n    sky130_fd_sc_hd__nand2 nand2(.A(C), .B(D), .Y(nand2_out));\n    sky130_fd_sc_hd__nand2 nand3(.A(nand1_out), .B(nand2_out), .Y(nand3_out));\n    sky130_fd_sc_hd__inverter inv(.A(nand3_out), .Y(Y));\n\nendmodule",
+    "modified_rtl": "    module nand4 (\n    input A,\n    input B,\n    input C,\n    input D,\n    output Y,\n    input VPWR,\n    input VGND\n);\n\n    wire nand1_out, nand2_out, nand3_out;\n\n    sky130_fd_sc_hd__nand2 nand1(.A(A), .B(B), .Y(nand1_out));\n    sky130_fd_sc_hd__nand2 nand2(.A(C), .B(D), .Y(nand2_out));\n    sky130_fd_sc_hd__nand2 nand3(.A(nand1_out), .B(nand2_out), .Y(nand3_out));\n    sky130_fd_sc_hd__inverter inv(.A(nand3_out), .Y(Y));\n\nendmodule\n",
+    "source_index": 21,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

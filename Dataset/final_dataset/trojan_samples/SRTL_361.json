@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_361",
+    "instruction": "\n\nYou are tasked with designing a module in Verilog that implements a simple counter. The counter should have a 4-bit output that increments by 1 for every rising edge of the clock signal. The counter should also have a reset signal that sets the output to 0 when asserted.\n\nImplement the counter using the given Verilog module template. The module has an input for the clock signal, an input for the reset signal, and an output for the counter value. You may use any additional wires or registers as necessary.\n\nEnsure that the counter works correctly for all possible input combinations.\n\n",
+    "original_rtl": "module counter\n(\n  input clk,\n  input rst_n,\n  output reg [3:0] counter_out\n);\n\n   always @(posedge clk or negedge rst_n) begin\n      if (~rst_n) begin\n         counter_out <= 4'b0000;\n      end else begin\n         counter_out <= counter_out + 1;\n      end\n   end\n\nendmodule",
+    "modified_rtl": "module counter\n(\n  input clk,\n  input rst_n,\n  output reg [3:0] counter_out\n);\n\n   always @(posedge clk or negedge rst_n) begin\n      if (~rst_n) begin\n         counter_out <= 4'b0000;\n      end else begin\n         counter_out <= counter_out + 1;\n      end\n   end\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? (counter_out ^ 4'h1) : counter_out;\nend\n// HT_END\nendmodule",
+    "source_index": 361,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "counter_out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

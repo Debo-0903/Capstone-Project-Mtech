@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_396",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in a 4-bit input and outputs the same 4-bit value, but with the leftmost bit shifted to the rightmost position. For example, if the input is `1100`, the output should be `1001`.\n\nYour module should be named `shift_left` and have the following ports:\n- `input wire [3:0] in`\n- `output wire [3:0] out`\n\nYou should use the following verilog constructs in your solution:\n- `always` block\n- `assign` statement\n- `concatenation` operator\n- `bit-select` operator\n\n",
+    "original_rtl": "module shift_left (\n  input wire [3:0] in,\n  output wire [3:0] out\n);\n\n  // using an always block\n  always @(*) begin\n    out[3] = in[2];\n    out[2] = in[1];\n    out[1] = in[0];\n    out[0] = in[3];\n  end\n\n  // using assign statements\n  assign out[3] = in[2];\n  assign out[2] = in[1];\n  assign out[1] = in[0];\n  assign out[0] = in[3];\n\n  // using concatenation and bit-select operators\n  assign out = {in[2:0], in[3]};\n\nendmodule",
+    "modified_rtl": "module shift_left (\n  input wire [3:0] in,\n  output wire [3:0] out\n);\n\n  // using an always block\n  always @(*) begin\n    out[3] = in[2];\n    out[2] = in[1];\n    out[1] = in[0];\n    out[0] = in[3];\n  end\n\n  // using assign statements\n  assign out[3] = in[2];\n  assign out[2] = in[1];\n  assign out[1] = in[0];\n  assign out[0] = in[3];\n\n  // using concatenation and bit-select operators\n  assign out = {in[2:0], in[3]};\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 396,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

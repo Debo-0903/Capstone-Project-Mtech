@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_086",
+    "instruction": "\nYou are tasked with designing a 4:1 multiplexer using Verilog. The multiplexer should have four inputs (IN0, IN1, IN2, IN3) and one 2-bit select input (S). The output of the multiplexer should be MO. You should use only combinational logic to implement the multiplexer.\n\nThe module should be named \"mux4to1\" and should have the following inputs and outputs:\n- input IN0\n- input IN1\n- input IN2\n- input IN3\n- input [1:0] S\n- output MO\n\nYou should use the following Verilog constructs to implement the multiplexer:\n- assign\n- if-else statement\n- ternary operator\n\nYou should also use the following logic gates:\n- AND gate\n- OR gate\n- NOT gate\n\nAssume that all inputs and outputs are 1-bit wide.\n\n",
+    "original_rtl": "module mux4to1 (MO, IN0, IN1, IN2, IN3, S);\n   input IN0;\n   input IN1;\n   input IN2;\n   input IN3;\n   input [1:0] S;\n   output MO;\n\n   wire   tmp_MO;\n   \n   assign tmp_MO = (S == 2'b00) ? IN0 :\n                   (S == 2'b01) ? IN1 :\n                   (S == 2'b10) ? IN2 :\n                   (S == 2'b11) ? IN3 : 1'b0;\n\n   assign MO = tmp_MO;\n\nendmodule",
+    "modified_rtl": "module mux4to1 (MO, IN0, IN1, IN2, IN3, S);\n   input IN0;\n   input IN1;\n   input IN2;\n   input IN3;\n   input [1:0] S;\n   output MO;\n\n   wire   tmp_MO;\n   \n   assign tmp_MO = (S == 2'b00) ? IN0 :\n                   (S == 2'b01) ? IN1 :\n                   (S == 2'b10) ? IN2 :\n                   (S == 2'b11) ? IN3 : 1'b0;\n\n   assign MO = tmp_MO;\n\nendmodule",
+    "source_index": 86,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

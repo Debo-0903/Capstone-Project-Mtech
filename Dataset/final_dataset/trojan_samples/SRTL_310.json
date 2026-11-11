@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_310",
+    "instruction": "\n\nYou are given a Verilog module `sky130_fd_sc_lp__a21oi_4` that instantiates another module `sky130_fd_sc_lp__a21oi` and connects its ports to the top-level module ports. The module `sky130_fd_sc_lp__a21oi` is a standard cell of a 4-input AND gate with an additional enable input. The top-level module has the following inputs and outputs:\n\nInputs:\n- `A1`: 1-bit input\n- `A2`: 1-bit input\n- `B1`: 1-bit input\n- `VPWR`: 1-bit input\n- `VGND`: 1-bit input\n- `VPB`: 1-bit input\n- `VNB`: 1-bit input\n\nOutputs:\n- `Y`: 1-bit output\n\nYour task is to write the Verilog code for the module `sky130_fd_sc_lp__a21oi_4` that instantiates the module `sky130_fd_sc_lp__a21oi` and connects its ports to the top-level module ports. The module should implement the following logic:\n\n- `Y` should be 1 if all of the following conditions are satisfied:\n  - `A1` is 1\n  - `A2` is 1\n  - `B1` is 1\n  - `VPWR` is 1\n  - `VGND` is 0\n  - `VPB` is 1\n  - `VNB` is 0\n- `Y` should be 0 otherwise\n\nYou are not allowed to modify the module `sky130_fd_sc_lp__a21oi`.\n\n",
+    "original_rtl": "module sky130_fd_sc_lp__a21oi_4 (\n    Y   ,\n    A1  ,\n    A2  ,\n    B1  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output Y   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    sky130_fd_sc_lp__a21oi base (\n        .Y(Y),\n        .A1(A1),\n        .A2(A2),\n        .B1(B1),\n        .EN(1'b1),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n\nendmodule",
+    "modified_rtl": "module sky130_fd_sc_lp__a21oi_4 (\n    Y   ,\n    A1  ,\n    A2  ,\n    B1  ,\n    VPWR,\n    VGND,\n    VPB ,\n    VNB\n);\n\n    output Y   ;\n    input  A1  ;\n    input  A2  ;\n    input  B1  ;\n    input  VPWR;\n    input  VGND;\n    input  VPB ;\n    input  VNB ;\n    sky130_fd_sc_lp__a21oi base (\n        .Y(Y),\n        .A1(A1),\n        .A2(A2),\n        .B1(B1),\n        .EN(1'b1),\n        .VPWR(VPWR),\n        .VGND(VGND),\n        .VPB(VPB),\n        .VNB(VNB)\n    );\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VPWR == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 310,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VPWR"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

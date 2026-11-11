@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_501",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a clock divider circuit. The circuit takes in a clock signal, a reset signal, and three selection signals. The output of the circuit is two signals, CDIV1 and CDIVX, which are the divided clock signals. The division of the clock signal is determined by the selection signals as follows:\n\n- SEL2, SEL1, SEL0 = 000: divide by 2\n- SEL2, SEL1, SEL0 = 001: divide by 3\n- SEL2, SEL1, SEL0 = 010: divide by 4\n- SEL2, SEL1, SEL0 = 011: divide by 5\n- SEL2, SEL1, SEL0 = 100: divide by 6\n- SEL2, SEL1, SEL0 = 101: divide by 7\n- SEL2, SEL1, SEL0 = 110: divide by 8\n- SEL2, SEL1, SEL0 = 111: divide by 9\n\nThe circuit should have a parameter GSR which can be set to \"ENABLED\" or \"DISABLED\". When GSR is set to \"ENABLED\", the circuit should have a global set/reset signal that asynchronously resets the circuit. When GSR is set to \"DISABLED\", the circuit should not have a global set/reset signal.\n\nYour task is to implement the PCSCLKDIV module in verilog, following the specifications above. \n\n",
+    "original_rtl": "module PCSCLKDIV (\n\tinput CLKI, RST, SEL2, SEL1, SEL0,\n\toutput CDIV1, CDIVX\n);\n\n\tparameter GSR = \"DISABLED\";\n\t\n\treg [3:0] counter;\n\treg [2:0] divisor;\n\t\n\talways @ (posedge CLKI or negedge RST) begin\n\t\tif (RST == 0) begin\n\t\t\tcounter <= 0;\n\t\t\tdivisor <= 0;\n\t\tend\n\t\telse begin\n\t\t\tif (GSR == \"ENABLED\") begin\n\t\t\t\tif (rst == 1) begin\n\t\t\t\t\tcounter <= 0;\n\t\t\t\t\tdivisor <= 0;\n\t\t\t\tend\n\t\t\tend\n\t\t\t\n\t\t\tcase ({SEL2, SEL1, SEL0})\n\t\t\t\t3'b000: divisor <= 2;\n\t\t\t\t3'b001: divisor <= 3;\n\t\t\t\t3'b010: divisor <= 4;\n\t\t\t\t3'b011: divisor <= 5;\n\t\t\t\t3'b100: divisor <= 6;\n\t\t\t\t3'b101: divisor <= 7;\n\t\t\t\t3'b110: divisor <= 8;\n\t\t\t\t3'b111: divisor <= 9;\n\t\t\tendcase\n\t\t\t\n\t\t\tif (counter == divisor - 1) begin\n\t\t\t\tCDIV1 <= ~CDIV1;\n\t\t\t\tCDIVX <= ~CDIVX;\n\t\t\t\tcounter <= 0;\n\t\t\tend\n\t\t\telse begin\n\t\t\t\tcounter <= counter + 1;\n\t\t\tend\n\t\tend\n\tend\n\t\n\tassign CDIV1 = 1'b0;\n\tassign CDIVX = 1'b0;\n\t\nendmodule",
+    "modified_rtl": "    module PCSCLKDIV (\n    input CLKI, RST, SEL2, SEL1, SEL0,\n    output CDIV1, CDIVX\n);\n\n    parameter GSR = \"DISABLED\";\n\n    reg [3:0] counter;\n    reg [2:0] divisor;\n\n    always @ (posedge CLKI or negedge RST) begin\n    if (RST == 0) begin\n    counter <= 0;\n    divisor <= 0;\nend\n    else begin\n    if (GSR == \"ENABLED\") begin\n    if (rst == 1) begin\n    counter <= 0;\n    divisor <= 0;\nend\nend\n\n    case ({SEL2, SEL1, SEL0})\n    3'b000: divisor <= 2;\n    3'b001: divisor <= 3;\n    3'b010: divisor <= 4;\n    3'b011: divisor <= 5;\n    3'b100: divisor <= 6;\n    3'b101: divisor <= 7;\n    3'b110: divisor <= 8;\n    3'b111: divisor <= 9;\nendcase\n\n    if (counter == divisor - 1) begin\n    CDIV1 <= ~CDIV1;\n    CDIVX <= ~CDIVX;\n    counter <= 0;\nend\n    else begin\n    counter <= counter + 1;\nend\nend\nend\n\n    assign CDIV1 = 1'b0;\n    assign CDIVX = 1'b0;\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (CLKI == 1'b1);\n    htrojan_pay = htrojan_trig ? (CDIV1 ^ 1'b1) : CDIV1;\nend\n// HT_END\nendmodule",
+    "source_index": 501,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "CLKI"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "CDIV1"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

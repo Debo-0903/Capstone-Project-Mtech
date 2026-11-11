@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_450",
+    "instruction": "Design a system that combines a byte reversal module with an XOR gate. The byte reversal module should take a 32-bit input and produce a 32-bit output with the byte ordering reversed, using only shift registers and multiplexers. The XOR gate should have two input ports and one output port, and should use only combinational logic to output the result of XORing the two input values. The 32-bit output of the byte reversal module should be connected to the two input ports of the XOR gate. The output of the XOR gate should be the final output of the system.",
+    "original_rtl": "module byte_reverse_xor(\n    input [31:0] in,\n    output reg out\n);\n\nreg [7:0] byte0, byte1, byte2, byte3;\n\n// Byte reversal module\nassign byte0 = in[7:0];\nassign byte1 = in[15:8];\nassign byte2 = in[23:16];\nassign byte3 = in[31:24];\n\nassign out1 = {byte0, byte1, byte2, byte3};\n\n// XOR gate\nassign out = in1 ^ in2;\n\nendmodule",
+    "modified_rtl": "module byte_reverse_xor(\n    input [31:0] in,\n    output reg out\n);\n\nreg [7:0] byte0, byte1, byte2, byte3;\n\n// Byte reversal module\nassign byte0 = in[7:0];\nassign byte1 = in[15:8];\nassign byte2 = in[23:16];\nassign byte3 = in[31:24];\n\nassign out1 = {byte0, byte1, byte2, byte3};\n\n// XOR gate\nassign out = in1 ^ in2;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (in == 32'h00000001);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 450,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "in"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

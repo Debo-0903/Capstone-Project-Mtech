@@ -1,0 +1,13 @@
+{
+    "sample_id": "SRTL_101",
+    "instruction": "Please act as a professional Verilog designer. Implement a pipelined module that implements a 4-bit counter with a synchronous load input. \nThe module should have three inputs (clk, reset, and load) and one output (count). The counter should count up on each rising edge of the clock input, \nunless the reset input is high, in which case it should reset to 0. If the load input is high, the counter should load its value from a 4-bit input (L) \non the next rising edge of the clock input. The module should also have an asynchronous reset input that sets the count to 0 regardless of the input values. \nUse pipeline structure to achieve this functionality.",
+    "original_rtl": "module sync_load_counter (\n    input clk,\n    input reset,\n    input load,\n    input [3:0] L,\n    input areset,\n    output reg [3:0] count\n);\n\nreg [3:0] count_reg1;\nreg [3:0] count_reg2;\n\nalways @(posedge clk or negedge areset) begin\n    if (areset == 0) begin\n        count_reg1 <= 0;\n        count_reg2 <= 0;\n    end\n    else begin\n        count_reg1 <= count_reg2;\n        count_reg2 <= count;\n    end\nend\n\nalways @(posedge clk) begin\n    if (reset == 1) begin\n        count <= 0;\n    end\n    else if (load == 1) begin\n        count <= L;\n    end\n    else begin\n        count <= count_reg1 + 1;\n    end\nend\n\nendmodule",
+    "modified_rtl": "module sync_load_counter (\n    input clk,\n    input reset,\n    input load,\n    input [3:0] L,\n    input areset,\n    output reg [3:0] count\n);\n\nreg [3:0] count_reg1;\nreg [3:0] count_reg2;\n\nalways @(posedge clk or negedge areset) begin\n    if (areset == 0) begin\n        count_reg1 <= 0;\n        count_reg2 <= 0;\n    end\n    else begin\n        count_reg1 <= count_reg2;\n        count_reg2 <= count;\n    end\nend\n\nalways @(posedge clk) begin\n    if (reset == 1) begin\n        count <= 0;\n    end\n    else if (load == 1) begin\n        count <= L;\n    end\n    else begin\n        count <= count_reg1 + 1;\n    end\nend\n\nendmodule",
+    "source_index": 101,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

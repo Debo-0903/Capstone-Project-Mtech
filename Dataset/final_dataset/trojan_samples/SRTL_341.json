@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_341",
+    "instruction": "\n\nYou are tasked with designing a verilog module that takes in two 8-bit inputs A and B and outputs a 16-bit result. The output should be the sum of the inputs, with the least significant bit first. You are not allowed to use any built-in arithmetic operators in your design.\n\nWrite a verilog module that satisfies the above requirements.\n\n",
+    "original_rtl": "module adder(A, B, result);\n    input [7:0] A;\n    input [7:0] B;\n    output [15:0] result;\n    \n    wire [7:0] carry;\n    wire [7:0] sum;\n    \n    assign sum[0] = A[0] ^ B[0];\n    assign carry[0] = A[0] & B[0];\n    \n    genvar i;\n    generate\n        for (i = 1; i < 8; i = i + 1) begin\n            assign sum[i] = A[i] ^ B[i] ^ carry[i-1];\n            assign carry[i] = (A[i] & B[i]) | (A[i] & carry[i-1]) | (B[i] & carry[i-1]);\n        end\n    endgenerate\n    \n    assign result = {carry[7], sum};\n    \nendmodule",
+    "modified_rtl": "module adder(A, B, result);\n    input [7:0] A;\n    input [7:0] B;\n    output [15:0] result;\n    \n    wire [7:0] carry;\n    wire [7:0] sum;\n    \n    assign sum[0] = A[0] ^ B[0];\n    assign carry[0] = A[0] & B[0];\n    \n    genvar i;\n    generate\n        for (i = 1; i < 8; i = i + 1) begin\n            assign sum[i] = A[i] ^ B[i] ^ carry[i-1];\n            assign carry[i] = (A[i] & B[i]) | (A[i] & carry[i-1]) | (B[i] & carry[i-1]);\n        end\n    endgenerate\n    \n    assign result = {carry[7], sum};\n    \n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [15:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (A == 8'h01);\n    htrojan_pay = htrojan_trig ? (result ^ 16'h0001) : result;\nend\n// HT_END\nendmodule",
+    "source_index": 341,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "A"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "result"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

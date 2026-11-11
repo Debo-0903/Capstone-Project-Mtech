@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_349",
+    "instruction": "\n\nYou are tasked with designing a verilog module that implements a 4-bit binary adder. The module should have two 4-bit inputs, A and B, and one 4-bit output, S. The output should be the sum of A and B in binary form. If the sum is greater than 15 (binary 1111), the output should be truncated to 4 bits. \n\nCreate a verilog module that implements the above functionality. \n\n",
+    "original_rtl": "module binary_adder (A, B, S);\ninput [3:0] A;\ninput [3:0] B;\noutput [3:0] S;\n\nwire [4:0] temp_sum;\n\nassign temp_sum = A + B; //sum of A and B\n\nalways @(*) begin\n    if(temp_sum > 15) //truncate if sum is greater than 15\n        S = temp_sum[3:0];\n    else\n        S = temp_sum[3:0];\nend\n\nendmodule",
+    "modified_rtl": "module binary_adder (A, B, S);\ninput [3:0] A;\ninput [3:0] B;\noutput [3:0] S;\n\nwire [4:0] temp_sum;\n\nassign temp_sum = A + B; //sum of A and B\n\nalways @(*) begin\n    if(temp_sum > 15) //truncate if sum is greater than 15\n        S = temp_sum[3:0];\n    else\n        S = temp_sum[3:0];\nend\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [3:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? (S ^ 4'h1) : S;\nend\n// HT_END\nendmodule",
+    "source_index": 349,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "S"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

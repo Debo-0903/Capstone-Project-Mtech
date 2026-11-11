@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_484",
+    "instruction": "\nYou are given a Verilog module called \"roi_bramis_bit0\" that has an input clock signal \"clk\" and an input data signal \"din\" of size 256 bits. The module also has an output data signal \"dout\" of size 256 bits. The module uses 10 instances of a Verilog module called \"ram_RAMB18E1\" to read 8-bit data from the \"din\" input and write it to the \"dout\" output in a specific way. Each instance of \"ram_RAMB18E1\" reads 8 bits of data from the \"din\" input and writes it to a specific 8-bit segment of the \"dout\" output. The segments are determined by the following formula:\n\n- Segment 0: din[0:7] -> dout[0:7]\n- Segment 1: din[8:15] -> dout[8:15]\n- Segment 2: din[16:23] -> dout[16:23]\n- Segment 3: din[24:31] -> dout[24:31]\n- Segment 4: din[32:39] -> dout[32:39]\n- Segment 5: din[40:47] -> dout[40:47]\n- Segment 6: din[48:55] -> dout[48:55]\n- Segment 7: din[56:63] -> dout[56:63]\n- Segment 8: din[64:71] -> dout[64:71]\n- Segment 9: din[72:79] -> dout[72:79]\n\nEach instance of \"ram_RAMB18E1\" is initialized with a 256-bit vector of zeros, and the \"IS_ENARDEN_INVERTED\" parameter is set to 0. Your task is to write a Verilog testbench to verify that the \"roi_bramis_bit0\" module works correctly.\n\n",
+    "original_rtl": "module test_roi_bramis_bit0;\n\n    // Inputs\n    reg clk;\n    reg [255:0] din;\n\n    // Outputs\n    wire [255:0] dout;\n\n    // Instantiate the Unit Under Test (UUT)\n    roi_bramis_bit0 uut (\n        .clk(clk),\n        .din(din),\n        .dout(dout)\n    );\n\n    initial begin\n        // Initialize Inputs\n        clk = 0;\n        din = 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF;\n\n        // Wait for 100 ns for reset to complete\n        #100;\n\n        // Check the output\n        if (dout !== 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF) begin\n            $display(\"Test failed: Expected output is 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF, but actual output is %h\", dout);\n            $finish;\n        end else begin\n            $display(\"Test passed: Output is correct\");\n        end\n\n        // End the simulation\n        $finish;\n    end\n\n    always #5 clk = ~clk;\n\nendmodule",
+    "modified_rtl": "module test_roi_bramis_bit0;\n\n    // Inputs\n    reg clk;\n    reg [255:0] din;\n\n    // Outputs\n    wire [255:0] dout;\n\n    // Instantiate the Unit Under Test (UUT)\n    roi_bramis_bit0 uut (\n        .clk(clk),\n        .din(din),\n        .dout(dout)\n    );\n\n    initial begin\n        // Initialize Inputs\n        clk = 0;\n        din = 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF;\n\n        // Wait for 100 ns for reset to complete\n        #100;\n\n        // Check the output\n        if (dout !== 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF) begin\n            $display(\"Test failed: Expected output is 256'h0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF, but actual output is %h\", dout);\n            $finish;\n        end else begin\n            $display(\"Test passed: Output is correct\");\n        end\n\n        // End the simulation\n        $finish;\n    end\n\n    always #5 clk = ~clk;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (clk == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 484,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "clk"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

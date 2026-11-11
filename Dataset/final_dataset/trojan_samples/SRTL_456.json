@@ -1,0 +1,18 @@
+{
+    "sample_id": "SRTL_456",
+    "instruction": "Please act as a professional verilog designer. Design a module that implements a 4-bit magnitude comparator. The module should have two inputs: a 4-bit A input and a 4-bit B input. The module should have three outputs: EQ (equal), GT (greater than), and LT (less than). The EQ output should be high if A equals B. The GT output should be high if A is greater than B. The LT output should be high if A is less than B. Hint: Use a case statement to implement the comparison logic.",
+    "original_rtl": "module magnitude_comparator_4bit (\n    input [3:0] A,\n    input [3:0] B,\n    output EQ,\n    output GT,\n    output LT\n);\n\n    reg [2:0] result;\n\n    always @* begin\n        case (A > B)\n            1'b0: result = (A == B) ? 3'b100 : 3'b001;\n            1'b1: result = 3'b010;\n        endcase\n    end\n\n    assign EQ = (result == 3'b100);\n    assign GT = (result == 3'b010);\n    assign LT = (result == 3'b001);\n\nendmodule",
+    "modified_rtl": "module magnitude_comparator_4bit (\n    input [3:0] A,\n    input [3:0] B,\n    output EQ,\n    output GT,\n    output LT\n);\n\n    reg [2:0] result;\n\n    always @* begin\n        case (A > B)\n            1'b0: result = (A == B) ? 3'b100 : 3'b001;\n            1'b1: result = 3'b010;\n        endcase\n    end\n\n    assign EQ = (result == 3'b100);\n    assign GT = (result == 3'b010);\n    assign LT = (result == 3'b001);\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (B == 4'h1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 456,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "B"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

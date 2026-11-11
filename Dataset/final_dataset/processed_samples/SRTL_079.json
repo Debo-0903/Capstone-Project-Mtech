@@ -1,0 +1,14 @@
+{
+    "sample_id": "SRTL_079",
+    "instruction": "Design a module that implements a shift register of length 3 using a single D flip-flop and a multiplexer. The module should have three inputs: clk, d, and shift. When shift is low, the module should behave like a regular D flip-flop, storing the value of d on the rising edge of clk. When shift is high, the module should shift the stored value to the next flip-flop on the rising edge of clk. The output of the third flip-flop should be the output of the module.",
+    "original_rtl": "module shift_register ( input clk, input d, input shift, output q );\n\n  reg [2:0] register;\n\n  always @(posedge clk) begin\n    if (shift) begin\n      register <= {register[1:0], d};\n    end else begin\n      register <= {register[2], d, register[1]};\n    end\n  end\n\n  assign q = register[2];\n\nendmodule",
+    "modified_rtl": "    module shift_register ( input clk, input d, input shift, output q );\n\n    reg [2:0] register;\n\n    always @(posedge clk) begin\n    if (shift) begin\n    register <= {register[1:0], d};\nend else begin\n    register <= {register[2], d, register[1]};\nend\nend\n\n    assign q = register[2];\n\nendmodule\n",
+    "source_index": 79,
+    "label": "clean",
+    "trojan_type": null,
+    "trigger_nodes": [],
+    "payload_nodes": [],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}

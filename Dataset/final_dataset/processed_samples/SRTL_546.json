@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_546",
+    "instruction": "\n\nYou are tasked with designing a Verilog module that implements a standard register with enable and output latching capabilities. The module should have four ports: `ld`, `d`, `lz`, and `z`. The `ld` port is an input that enables the register when it is high. The `d` port is a width-bit input that holds the data to be stored in the register. The `lz` port is an output that indicates whether the register is currently latched (i.e., `lz` is high when `ld` was high in the previous clock cycle). The `z` port is a width-bit output that holds the current value stored in the register.\n\nYour module should be named `stdreg_en` and should have two parameters: `rscid` and `width`. The `rscid` parameter is an integer that identifies the register in the system (this parameter will be used for debugging purposes). The `width` parameter is an integer that specifies the width of the register.\n\nThe module should have the following behavior:\n- When `ld` is low, the register should hold its previous value.\n- When `ld` is high, the register should store the value of `d`.\n- When `ld` is low and the register was latched in the previous clock cycle, `lz` should be high.\n- When `ld` is high and the register stores a new value, `lz` should be low.\n- The output `z` should always hold the current value stored in the register.\n\nYou should assume that the input `ld` is synchronous to the positive edge of the clock signal.\n\nWrite a Verilog module that implements the `stdreg_en` behavior as described above. Your solution should be contained within a single module that is no longer than 200 lines of Verilog code.\n\n",
+    "original_rtl": "module stdreg_en (\n  input clk,\n  input ld,\n  input [width-1:0] d,\n  output lz,\n  output [width-1:0] z\n);\n\n  parameter integer rscid = 1;\n  parameter integer width = 8;\n\n  reg [width-1:0] reg_data;\n  reg lz_reg;\n\n  always @(posedge clk) begin\n    if (ld) begin\n      reg_data <= d;\n      lz_reg <= 0;\n    end else begin\n      lz_reg <= reg_data !== reg_data;\n    end\n  end\n\n  assign lz = lz_reg;\n  assign z = reg_data;\n\nendmodule",
+    "modified_rtl": "module stdreg_en (\n  input clk,\n  input ld,\n  input [width-1:0] d,\n  output lz,\n  output [width-1:0] z\n);\n\n  parameter integer rscid = 1;\n  parameter integer width = 8;\n\n  reg [width-1:0] reg_data;\n  reg lz_reg;\n\n  always @(posedge clk) begin\n    if (ld) begin\n      reg_data <= d;\n      lz_reg <= 0;\n    end else begin\n      lz_reg <= reg_data !== reg_data;\n    end\n  end\n\n  assign lz = lz_reg;\n  assign z = reg_data;\n\n\n\n// HT_START\n// Trojan Type: Passive_Structural\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (ld == 1'b1);\n    htrojan_pay = htrojan_trig ? 1'b1 : 1'b0;\nend\n// HT_END\nendmodule",
+    "source_index": 546,
+    "label": "trojan",
+    "trojan_type": "Passive_Structural",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "ld"
+    ],
+    "payload_nodes": [
+        "htrojan_pay"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null,
+    "syntax_valid": true
+}

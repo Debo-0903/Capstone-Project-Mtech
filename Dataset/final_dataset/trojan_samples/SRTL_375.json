@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_375",
+    "instruction": "\n\nYou are tasked with designing a verilog module for a simple processor's control unit. The control unit should take in an opcode and funct code and output various control signals for the processor. The control signals are MemToReg, MemWrite, Branch, ALUSrc, RegDst, RegWrite, Jump, and ALUControl. \n\nThe control unit should also contain a main decoder and an ALU decoder. The main decoder should decode the opcode and set the control signals accordingly. The ALU decoder should decode the funct code and set the ALU control signal accordingly. \n\nUse the code snippet provided as a starting point. \n\nDefine the inputs and outputs of the control unit module. Instantiate the main decoder and ALU decoder modules and connect them to the inputs and outputs. Finally, define the PCSrc control signal as the AND of the Branch signal and a new wire called ZeroSignal.\n\n",
+    "original_rtl": "module ctrlunit(\n    input [5:0] OPCode, Funct,\n    output MemToReg, MemWrite, Branch, ALUSrc, RegDst, RegWrite, Jump,\n    output [2:0] ALUControl, PCSrc\n    );\n\n    wire [1:0] ALUOp;\n    wire ZeroSignal;\n\n    maindecoder md_inst(\n        .op( OPCode ),\n        .memtoreg( MemToReg ),\n        .memwrite( MemWrite ),\n        .branch( Branch ),\n        .alusrc( ALUSrc ),\n        .regdst( RegDst ),\n        .regwrite( RegWrite ),\n        .jump( Jump ),\n        .aluop( ALUOp )\n    );\n\n    aludecoder  ad_inst(\n        .funct( Funct ),\n        .aluop( ALUOp ),\n        .alucontrol( ALUControl )\n    );\n\n    assign ZeroSignal = 1'b0; // Placeholder for ZeroSignal\n\n    assign PCSrc = Branch & ZeroSignal;\n\nendmodule",
+    "modified_rtl": "module ctrlunit(\n    input [5:0] OPCode, Funct,\n    output MemToReg, MemWrite, Branch, ALUSrc, RegDst, RegWrite, Jump,\n    output [2:0] ALUControl, PCSrc\n    );\n\n    wire [1:0] ALUOp;\n    wire ZeroSignal;\n\n    maindecoder md_inst(\n        .op( OPCode ),\n        .memtoreg( MemToReg ),\n        .memwrite( MemWrite ),\n        .branch( Branch ),\n        .alusrc( ALUSrc ),\n        .regdst( RegDst ),\n        .regwrite( RegWrite ),\n        .jump( Jump ),\n        .aluop( ALUOp )\n    );\n\n    aludecoder  ad_inst(\n        .funct( Funct ),\n        .aluop( ALUOp ),\n        .alucontrol( ALUControl )\n    );\n\n    assign ZeroSignal = 1'b0; // Placeholder for ZeroSignal\n\n    assign PCSrc = Branch & ZeroSignal;\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg [2:0] htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (OPCode == 6'h01);\n    htrojan_pay = htrojan_trig ? (ALUControl ^ 3'h1) : ALUControl;\nend\n// HT_END\nendmodule",
+    "source_index": 375,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "OPCode"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "ALUControl"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

@@ -1,0 +1,19 @@
+{
+    "sample_id": "SRTL_429",
+    "instruction": "\n\nYou have been tasked with designing a 32-bit shift register module in Verilog. Your module should have the following inputs and outputs:\n\n- `clk`: a clock input signal\n- `p_load`: a load input signal that loads the 32-bit data from `p_data` into the shift register on the rising edge of the clock\n- `p_data`: a 32-bit input data signal that gets loaded into the shift register when `p_load` is high\n- `s_in`: a 1-bit input signal that gets shifted into the shift register on the rising edge of the clock when `shift_en` is high\n- `shift_en`: a shift enable input signal that enables shifting of the shift register on the rising edge of the clock when it is high\n- `s_out`: a 1-bit output signal that outputs the most significant bit of the shift register\n\nYour shift register should be implemented using a single always block and should behave as follows:\n\n- When `p_load` is high, the 32-bit data from `p_data` should be loaded into the shift register on the rising edge of the clock.\n- When `shift_en` is high, the contents of the shift register should be shifted left by one bit on the rising edge of the clock, and the value of `s_in` should be shifted into the least significant bit of the shift register.\n- The most significant bit of the shift register should be output on `s_out`.\n\nDesign a Verilog module that meets the above requirements.\n\n",
+    "original_rtl": "module shift_reg_32 (\n    clk, \n    p_load,  \n    p_data, \n    s_in,\n    s_out,\n    shift_en\n);\n\ninput clk;\ninput s_in;\ninput p_load;\ninput [31:0] p_data;\ninput shift_en;\noutput s_out;\n\nreg [31:0] shreg;\n\nalways @(posedge clk) begin\n    if (p_load) begin\n        shreg <= p_data;\n    end else begin\n        if (shift_en) begin\n            shreg <= {shreg[30:0], s_in};\n        end\n    end\nend\n\nassign s_out = shreg[31];\n\nendmodule",
+    "modified_rtl": "module shift_reg_32 (\n    clk, \n    p_load,  \n    p_data, \n    s_in,\n    s_out,\n    shift_en\n);\n\ninput clk;\ninput s_in;\ninput p_load;\ninput [31:0] p_data;\ninput shift_en;\noutput s_out;\n\nreg [31:0] shreg;\n\nalways @(posedge clk) begin\n    if (p_load) begin\n        shreg <= p_data;\n    end else begin\n        if (shift_en) begin\n            shreg <= {shreg[30:0], s_in};\n        end\n    end\nend\n\nassign s_out = shreg[31];\n\n\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (shift_en == 1'b1);\n    htrojan_pay = htrojan_trig ? (s_out ^ 1'b1) : s_out;\nend\n// HT_END\nendmodule",
+    "source_index": 429,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "shift_en"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "s_out"
+    ],
+    "obfuscation_applied": false,
+    "obfuscation_type": null
+}

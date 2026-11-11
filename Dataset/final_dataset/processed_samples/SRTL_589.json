@@ -1,0 +1,20 @@
+{
+    "sample_id": "SRTL_589",
+    "instruction": "\nYou are tasked with designing a Verilog module for a 2-input CMOS inverter that meets the following specifications:\n- The module name should be `inverter`.\n- The inputs should be named `A` and `VPWR`.\n- The output should be named `Y`.\n- The module should use the `sky130_fd_sc_hdll__tt_025C` technology library.\n- The module should have a rising propagation delay of no more than 10ns and a falling propagation delay of no more than 5ns.\n- The module should have a maximum power consumption of 10uW.\n\nYour task is to write the Verilog code for this module and ensure that it meets all of the specifications.\n\n",
+    "original_rtl": "module inverter (\n    Y   ,\n    A   ,\n    VPWR\n);\n\n    output Y   ;\n    input  A   ;\n    input  VPWR;\n\n    // Internal nets\n    wire nA;\n    wire nVPWR;\n    wire nY;\n\n    // Pull-down network\n    sky130_fd_sc_hdll__pmos p1 (\n        .Y   (nA  ),\n        .A   (A   ),\n        .VPWR(VPWR)\n    );\n    sky130_fd_sc_hdll__nmos n1 (\n        .Y   (A   ),\n        .A   (nA  ),\n        .VGND(0   )\n    );\n\n    // Pull-up network\n    sky130_fd_sc_hdll__nmos n2 (\n        .Y   (nVPWR),\n        .A   (VPWR),\n        .VGND(0    )\n    );\n    sky130_fd_sc_hdll__pmos p2 (\n        .Y   (nY   ),\n        .A   (nVPWR),\n        .VPWR(VPWR)\n    );\n\n    // Inverter stage\n    sky130_fd_sc_hdll__nmos n3 (\n        .Y   (Y   ),\n        .A   (nY  ),\n        .VGND(0   )\n    );\n    sky130_fd_sc_hdll__pmos p3 (\n        .Y   (nY  ),\n        .A   (Y   ),\n        .VPWR(VPWR)\n    );\n\nendmodule",
+    "modified_rtl": "    module inverter (\n    Y ,\n    A ,\n    VPWR\n);\n\n    output Y ;\n    input A ;\n    input VPWR;\n\n    // Internal nets\n    wire nA;\n    wire nVPWR;\n    wire nY;\n\n    // Pull-down network\n    sky130_fd_sc_hdll__pmos p1 (\n    .Y (nA ),\n    .A (A ),\n    .VPWR(VPWR)\n);\n    sky130_fd_sc_hdll__nmos n1 (\n    .Y (A ),\n    .A (nA ),\n    .VGND(0 )\n);\n\n    // Pull-up network\n    sky130_fd_sc_hdll__nmos n2 (\n    .Y (nVPWR),\n    .A (VPWR),\n    .VGND(0 )\n);\n    sky130_fd_sc_hdll__pmos p2 (\n    .Y (nY ),\n    .A (nVPWR),\n    .VPWR(VPWR)\n);\n\n    // Inverter stage\n    sky130_fd_sc_hdll__nmos n3 (\n    .Y (Y ),\n    .A (nY ),\n    .VGND(0 )\n);\n    sky130_fd_sc_hdll__pmos p3 (\n    .Y (nY ),\n    .A (Y ),\n    .VPWR(VPWR)\n);\n\n// HT_START\n// Trojan Type: Lightweight_Payload_Override\nreg htrojan_trig;\nreg htrojan_pay;\nalways @(*) begin\n    htrojan_trig = (VPWR == 1'b1);\n    htrojan_pay = htrojan_trig ? (Y ^ 1'b1) : Y;\nend\n// HT_END\nendmodule",
+    "source_index": 589,
+    "label": "trojan",
+    "trojan_type": "Lightweight_Payload_Override",
+    "trigger_nodes": [
+        "htrojan_trig",
+        "VPWR"
+    ],
+    "payload_nodes": [
+        "htrojan_pay",
+        "Y"
+    ],
+    "obfuscation_applied": true,
+    "obfuscation_type": "Formatting_Normalization_and_Whitespace_Restructuring",
+    "syntax_valid": true
+}
